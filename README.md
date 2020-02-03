@@ -4,6 +4,6 @@ This is a game we're making for our Serious Games class at UNC. Our client is Mo
 
 ### Reticle colors:
   * Hunter - 
-  * Mary - 
+  * Mary - Blue
   * Music - 
   * Uzorma - 
