@@ -6,4 +6,4 @@ This is a game we're making for our Serious Games class at UNC. Our client is Mo
   * Hunter - Purple
   * Mary - Blue
   * Music - 
-  * Uzorma - 
+  * Uzorma - Pink
