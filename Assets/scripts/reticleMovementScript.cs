@@ -9,10 +9,10 @@ public class reticleMovementScript : MonoBehaviour
     public Camera camera;
     public GameObject backgroundImage;
 
-    public bool hitUp = false;
-    public bool hitDown = false;
-    public bool hitLeft = false;
-    public bool hitRight = false;
+    private bool hitUp = false;
+    private bool hitDown = false;
+    private bool hitLeft = false;
+    private bool hitRight = false;
     void Start()
     {
 
@@ -60,7 +60,7 @@ public class reticleMovementScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // 
+        // turns on movement directions
         Debug.Log("Entered: " + other.gameObject.name);
         switch (other.gameObject.name)
         {
@@ -81,6 +81,7 @@ public class reticleMovementScript : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
+        // turns off movement directions
         Debug.Log("Exited: " + other.gameObject.name);
         switch (other.gameObject.name)
         {
