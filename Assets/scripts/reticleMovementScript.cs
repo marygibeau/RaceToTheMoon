@@ -6,13 +6,13 @@ public class reticleMovementScript : MonoBehaviour
 {
     // Start is called before the first frame update
     public float offset = 0.1f;
-    public Camera camera;
+    public cameraMovement camera;
     public GameObject backgroundImage;
 
-    private bool hitUp = false;
-    private bool hitDown = false;
-    private bool hitLeft = false;
-    private bool hitRight = false;
+    private bool reticleUp = false;
+    private bool reticleDown = false;
+    private bool reticleLeft = false;
+    private bool reticleRight = false;
     void Start()
     {
 
@@ -22,42 +22,43 @@ public class reticleMovementScript : MonoBehaviour
     void Update()
     {
         // reticle movement
-        if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !hitUp)
+        if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
         {
             this.transform.Translate(Vector2.up * offset);
         }
-        if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !hitDown)
+        if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
         {
             this.transform.Translate(Vector2.down * offset);
         }
-        if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !hitLeft)
+        if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
         {
             this.transform.Translate(Vector2.left * offset);
         }
-        if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !hitRight)
+        if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
         {
             this.transform.Translate(Vector2.right * offset);
         }
 
         // camera movement
-        if (hitUp)
+        if (reticleUp)
         {
-            camera.transform.Translate(Vector2.up * offset);
+            camera.moveUp();
         }
-        if (hitDown)
+        if (reticleDown)
         {
-            camera.transform.Translate(Vector2.down * offset);
+            camera.moveDown();
         }
-        if (hitLeft)
+        if (reticleLeft)
         {
-            camera.transform.Translate(Vector2.left * offset);
+            camera.moveLeft();
         }
-        if (hitRight)
+        if (reticleRight)
         {
-            camera.transform.Translate(Vector2.right * offset);
+            camera.moveRight();
         }
     }
 
+    // checks if reticle has reached edge
     void OnTriggerEnter2D(Collider2D other)
     {
         // turns on movement directions
@@ -65,20 +66,22 @@ public class reticleMovementScript : MonoBehaviour
         switch (other.gameObject.name)
         {
             case "right":
-                hitRight = true;
+                reticleRight = true;
                 break;
             case "left":
-                hitLeft = true;
+                reticleLeft = true;
                 break;
             case "up":
-                hitUp = true;
+                reticleUp = true;
                 break;
             case "down":
-                hitDown = true;
+                reticleDown = true;
                 break;
+            
         }
     }
 
+    // checks if reticle is no longer touching the edge
     void OnTriggerExit2D(Collider2D other)
     {
         // turns off movement directions
@@ -86,17 +89,18 @@ public class reticleMovementScript : MonoBehaviour
         switch (other.gameObject.name)
         {
             case "right":
-                hitRight = false;
+                reticleRight = false;
                 break;
             case "left":
-                hitLeft = false;
+                reticleLeft = false;
                 break;
             case "up":
-                hitUp = false;
+                reticleUp = false;
                 break;
             case "down":
-                hitDown = false;
+                reticleDown = false;
                 break;
+            
         }
     }
 
