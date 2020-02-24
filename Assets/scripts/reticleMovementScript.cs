@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class reticleMovementScript : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class reticleMovementScript : MonoBehaviour
     public float offset = 0.1f;
     public cameraMovement camera;
     public GameObject backgroundImage;
+    public Text scoreUI;
+
+    private int currentScore = 0;
 
     private bool reticleUp = false;
     private bool reticleDown = false;
@@ -15,7 +19,6 @@ public class reticleMovementScript : MonoBehaviour
     private bool reticleRight = false;
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -55,6 +58,11 @@ public class reticleMovementScript : MonoBehaviour
         if (reticleRight)
         {
             camera.moveRight();
+        }
+
+        //testing increaseScore
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            increaseScore(1000);
         }
     }
 
@@ -102,6 +110,17 @@ public class reticleMovementScript : MonoBehaviour
                 break;
             
         }
+    }
+
+
+    // increases the score shown by an amount passed
+    private void increaseScore(int amount) {
+        currentScore += amount;
+        // if score is 4 digits, keeps the leading zero, else just show the 5 digit score
+        if(currentScore < 10000) 
+        {
+            scoreUI.text = ("0" + currentScore);
+        } else scoreUI.text = currentScore.ToString();
     }
 
 }
