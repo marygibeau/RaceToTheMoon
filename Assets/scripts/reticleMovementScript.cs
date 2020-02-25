@@ -9,7 +9,10 @@ public class reticleMovementScript : MonoBehaviour
     public float offset = 0.1f;
     public cameraMovement camera;
     public GameObject backgroundImage;
-    public Text scoreUI;
+    Text scoreUI;
+    Text starText;
+    GameObject blackBox;
+    GameObject textBox;
 
     private int currentScore = 0;
 
@@ -20,6 +23,12 @@ public class reticleMovementScript : MonoBehaviour
 
     void Start()
     {
+        scoreUI = GameObject.Find("ScoreText").GetComponent<Text>();
+        scoreUI.text = "Score: 00000";
+        blackBox = this.transform.GetChild(0).gameObject;
+        starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
+        textBox = this.transform.GetChild(2).gameObject;
+        hideBox();
     }
 
     // Update is called once per frame
@@ -62,7 +71,8 @@ public class reticleMovementScript : MonoBehaviour
         }
 
         //testing increaseScore
-        if (Input.GetKeyDown(KeyCode.Q)) {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
             increaseScore(1000);
         }
     }
@@ -86,7 +96,9 @@ public class reticleMovementScript : MonoBehaviour
             case "down":
                 reticleDown = true;
                 break;
-            
+            default:
+                showBox(other.gameObject.name);
+                break;
         }
     }
 
@@ -109,19 +121,39 @@ public class reticleMovementScript : MonoBehaviour
             case "down":
                 reticleDown = false;
                 break;
-            
+            default:
+                hideBox();
+                break;
         }
     }
 
+    public void showBox(string star)
+    {
+        if (star != "Main Camera")
+        {
+            textBox.gameObject.SetActive(true);
+            blackBox.gameObject.SetActive(true);
+            starText.text = star;
+        }
+    }
+
+    public void hideBox()
+    {
+            textBox.gameObject.SetActive(false);
+            blackBox.gameObject.SetActive(false);
+            starText.text = "";
+    }
 
     // increases the score shown by an amount passed
-    public void increaseScore(int amount) {
+    public void increaseScore(int amount)
+    {
         currentScore += amount;
         // if score is 4 digits, keeps the leading zero, else just show the 5 digit score
-        if(currentScore < 10000) 
+        if (currentScore < 10000)
         {
-            scoreUI.text = ("0" + currentScore);
-        } else scoreUI.text = currentScore.ToString();
+            scoreUI.text = "Score: " + ("0" + currentScore);
+        }
+        else scoreUI.text = "Score: " + currentScore.ToString();
     }
 
 }
