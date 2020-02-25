@@ -6,20 +6,32 @@ using UnityEngine.UI;
 public class reticleMovementScript : MonoBehaviour
 {
     // Start is called before the first frame update
-    public float offset = 0.1f;
+
+    // for target star logic, maintain list of stars that have been selected and stars that can be selected 
+    // make sure new targetStar is in not found array before assigning
+
+    // movement variables
+    public float movementOffset = 0.1f;
     public cameraMovement camera;
     public GameObject backgroundImage;
-    Text scoreUI;
-    Text starText;
-    GameObject blackBox;
-    GameObject textBox;
-
-    private int currentScore = 0;
-
     private bool reticleUp = false;
     private bool reticleDown = false;
     private bool reticleLeft = false;
     private bool reticleRight = false;
+
+    // UI variables
+    Text scoreUI;
+    Text starText;
+    GameObject blackBox;
+    GameObject textBox;
+    private int currentScore = 0;
+    public int scoreIncrement = 1000;
+
+    // star clicking variables
+    bool canClick = true;
+    public float coolDown = 1.0f;
+
+
 
     void Start()
     {
@@ -37,19 +49,19 @@ public class reticleMovementScript : MonoBehaviour
         // reticle movement
         if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
         {
-            this.transform.Translate(Vector2.up * offset);
+            this.transform.Translate(Vector2.up * movementOffset);
         }
         if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
         {
-            this.transform.Translate(Vector2.down * offset);
+            this.transform.Translate(Vector2.down * movementOffset);
         }
         if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
         {
-            this.transform.Translate(Vector2.left * offset);
+            this.transform.Translate(Vector2.left * movementOffset);
         }
         if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
         {
-            this.transform.Translate(Vector2.right * offset);
+            this.transform.Translate(Vector2.right * movementOffset);
         }
 
         // camera movement
@@ -70,10 +82,20 @@ public class reticleMovementScript : MonoBehaviour
             camera.moveRight();
         }
 
+        // for target star logic, change <starText.text != ""> to <starText.text == targetStarName>
+        // logic for star being clicked
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != "")
+        {
+            // for target star logic, maintain list of stars that have been selected and stars that can be selected, make sure starName is not contained in found stars array before incrementing score
+            canClick = false;
+            increaseScore(scoreIncrement);
+            Invoke("CooledDown", coolDown);
+        }
+
         //testing increaseScore
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            increaseScore(1000);
+            increaseScore(scoreIncrement);
         }
     }
 
@@ -139,9 +161,9 @@ public class reticleMovementScript : MonoBehaviour
 
     public void hideBox()
     {
-            textBox.gameObject.SetActive(false);
-            blackBox.gameObject.SetActive(false);
-            starText.text = "";
+        textBox.gameObject.SetActive(false);
+        blackBox.gameObject.SetActive(false);
+        starText.text = "";
     }
 
     // increases the score shown by an amount passed
@@ -154,6 +176,11 @@ public class reticleMovementScript : MonoBehaviour
             scoreUI.text = "Score: " + ("0" + currentScore);
         }
         else scoreUI.text = "Score: " + currentScore.ToString();
+    }
+
+    void CooledDown()
+    {
+        canClick = true;
     }
 
 }
