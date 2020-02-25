@@ -8,6 +8,7 @@ public class StarClickScript : MonoBehaviour {
     public string starName = null;
     bool canClick = true;
     public float coolDown = 1.0f;
+    public reticleMovementScript reticle;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +29,7 @@ public class StarClickScript : MonoBehaviour {
             {
                 print(starName + " clicked");
                 canClick = false;
+                reticle.increaseScore(1000);
                 Invoke("CooledDown", coolDown);
             } else
             {

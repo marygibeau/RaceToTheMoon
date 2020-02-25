@@ -17,6 +17,7 @@ public class reticleMovementScript : MonoBehaviour
     private bool reticleDown = false;
     private bool reticleLeft = false;
     private bool reticleRight = false;
+
     void Start()
     {
     }
@@ -114,7 +115,7 @@ public class reticleMovementScript : MonoBehaviour
 
 
     // increases the score shown by an amount passed
-    private void increaseScore(int amount) {
+    public void increaseScore(int amount) {
         currentScore += amount;
         // if score is 4 digits, keeps the leading zero, else just show the 5 digit score
         if(currentScore < 10000) 
