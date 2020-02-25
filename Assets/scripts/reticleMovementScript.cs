@@ -31,7 +31,8 @@ public class reticleMovementScript : MonoBehaviour
     bool canClick = true;
     public float coolDown = 1.0f;
 
-
+    // level management variables
+    LevelManager lvlr;
 
     void Start()
     {
@@ -40,6 +41,7 @@ public class reticleMovementScript : MonoBehaviour
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
+        lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         hideBox();
     }
 
@@ -97,9 +99,15 @@ public class reticleMovementScript : MonoBehaviour
         {
             increaseScore(scoreIncrement);
         }
+
+        // testing load with final score
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            lvlr.LoadNextLevelWithScore(currentScore);
+        }
     }
 
-    // checks if reticle has reached edge
+    // checks if reticle has collided with a trigger
     void OnTriggerEnter2D(Collider2D other)
     {
         // turns on movement directions
@@ -124,7 +132,7 @@ public class reticleMovementScript : MonoBehaviour
         }
     }
 
-    // checks if reticle is no longer touching the edge
+    // checks if reticle is no longer colliding with a trigger
     void OnTriggerExit2D(Collider2D other)
     {
         // turns off movement directions
@@ -171,6 +179,10 @@ public class reticleMovementScript : MonoBehaviour
     {
         currentScore += amount;
         // if score is 4 digits, keeps the leading zero, else just show the 5 digit score
+        updateScoreText(currentScore);
+    }
+
+    public void updateScoreText(int score) {
         if (currentScore < 10000)
         {
             scoreUI.text = "Score: " + ("0" + currentScore);
