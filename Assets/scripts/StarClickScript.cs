@@ -8,11 +8,12 @@ public class StarClickScript : MonoBehaviour {
     public string starName = null;
     bool canClick = true;
     public float coolDown = 1.0f;
-    public reticleMovementScript reticle;
+    public int scoreIncrement = 1000;
+    reticleMovementScript reticle;
     // Start is called before the first frame update
     void Start()
     {
-       
+       reticle = GameObject.Find("reticle").GetComponent<reticleMovementScript>();
     }
 
     // Update is called once per frame
@@ -29,13 +30,13 @@ public class StarClickScript : MonoBehaviour {
             {
                 print(starName + " clicked");
                 canClick = false;
-                reticle.increaseScore(1000);
+                reticle.increaseScore(scoreIncrement);
                 Invoke("CooledDown", coolDown);
             } else
             {
                 print("NO STAR CLICKED");
                 canClick = false;
-                Invoke("CooledDown", coolDown);
+                // Invoke("CooledDown", coolDown);
             }
         }
     }
