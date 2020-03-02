@@ -16,13 +16,13 @@ public class FinalScoreTextScript : MonoBehaviour
     {
         int currentScore = PlayerPrefs.GetInt("finalScore");
         if(currentScore == 0) {
-            return "Score: 00000";
+            return "You Scored 00000 Points";
         }
         if (currentScore < 10000)
         {
-            return "Score: " + ("0" + currentScore);
+            return "You Scored " + ("0" + currentScore) + "Points";
         }
-        else return "Score: " + currentScore.ToString();
+        else return "You Scored " + currentScore.ToString() + "Points";
     }
 
 }
