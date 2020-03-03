@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
+
+
 
 public class LevelManager : MonoBehaviour
 {
@@ -19,8 +22,8 @@ public class LevelManager : MonoBehaviour
 		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 	}
 
-    public void LoadNextLevelWithScore(int score) {
+    public void LoadNextLevelWithScore(int score)
+    {
         PlayerPrefs.SetInt("finalScore", score);
         LoadNextLevel();
     }
-}
