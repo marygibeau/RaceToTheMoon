@@ -8,22 +8,25 @@ using UnityEngine.Video;
 
 public class LevelManager : MonoBehaviour
 {
-    public void LoadLevel(string name){
-		Debug.Log("Level load requested for " + name);
-		SceneManager.LoadScene(name);
-	}
-	
-	public void QuitRequest(){
-		Debug.Log("quit");
-		Application.Quit();
-	}
-	
-	public void LoadNextLevel(){
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-	}
+    // This method loads the scene with the name you pass in
+    public void LoadLevel(string name)
+    {
+        Debug.Log("Level load requested for " + name);
+        SceneManager.LoadScene(name);
+    }
 
-    public void LoadNextLevelWithScore(int score)
+    // This loads the next level in the build settings
+    // make sure all scenes are in the build settings and in order	
+    public void LoadNextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    // This just to pass the score to the final menu
+    public void LoadNextLevelWithScoreandStars(int score, int stars)
     {
         PlayerPrefs.SetInt("finalScore", score);
+        PlayerPrefs.SetInt("starsFound", stars);
         LoadNextLevel();
     }
+}

@@ -15,10 +15,8 @@ public class StarNumberTextScript : MonoBehaviour
     public string generateStarNoText()
     {
         int stars = PlayerPrefs.GetInt("starsFound");
-        if(stars == 0)
-        {
-            return "And Found 0 Stars";
-        } else if (stars == 1)
+        Debug.Log("Stars found = " + stars);
+        if (stars == 1)
         {
             return "And Found 1 Star";
         } else

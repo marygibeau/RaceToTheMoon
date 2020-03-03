@@ -30,6 +30,7 @@ public class reticleMovementScript : MonoBehaviour
     // star clicking variables
     bool canClick = true;
     public float coolDown = 1.0f;
+    int starsFound;
 
     // level management variables
     LevelManager lvlr;
@@ -42,6 +43,7 @@ public class reticleMovementScript : MonoBehaviour
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        starsFound = 0;
         hideBox();
     }
 
@@ -91,6 +93,7 @@ public class reticleMovementScript : MonoBehaviour
             // for target star logic, maintain list of stars that have been selected and stars that can be selected, make sure starName is not contained in found stars array before incrementing score
             canClick = false;
             increaseScore(scoreIncrement);
+            starsFound++;
             Invoke("CooledDown", coolDown);
         }
 
@@ -103,7 +106,7 @@ public class reticleMovementScript : MonoBehaviour
         // testing load with final score
         if (Input.GetKeyDown(KeyCode.E))
         {
-            lvlr.LoadNextLevelWithScore(currentScore);
+            lvlr.LoadNextLevelWithScoreandStars(currentScore, starsFound);
         }
     }
 
@@ -193,6 +196,14 @@ public class reticleMovementScript : MonoBehaviour
     void CooledDown()
     {
         canClick = true;
+    }
+
+    public int getScore() {
+        return currentScore;
+    }
+
+    public int getStars() {
+        return starsFound;
     }
 
 }
