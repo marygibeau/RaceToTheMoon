@@ -197,7 +197,6 @@ GameObject:
   - component: {fileID: 469741620}
   - component: {fileID: 469741623}
   - component: {fileID: 469741622}
-  - component: {fileID: 469741621}
   - component: {fileID: 469741624}
   m_Layer: 5
   m_Name: StarNumberText
@@ -225,18 +224,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 53}
   m_SizeDelta: {x: 402.5, y: 73.5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &469741621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 469741619}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8b9315cc71843547a05c9d23bcede57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &469741622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +291,7 @@ PrefabInstance:
     - target: {fileID: 1039063692450869017, guid: 25ac9c85cc73ff64eaf7226095f09f48,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -45
+      value: -59
       objectReference: {fileID: 0}
     - target: {fileID: 1039063692450869017, guid: 25ac9c85cc73ff64eaf7226095f09f48,
         type: 3}
@@ -376,7 +363,6 @@ GameObject:
   - component: {fileID: 835975240}
   - component: {fileID: 835975243}
   - component: {fileID: 835975242}
-  - component: {fileID: 835975241}
   - component: {fileID: 835975244}
   m_Layer: 5
   m_Name: WellDoneText
@@ -404,18 +390,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 161}
   m_SizeDelta: {x: 402.5, y: 73.5}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &835975241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 835975239}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8b9315cc71843547a05c9d23bcede57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &835975242
 MonoBehaviour:
   m_ObjectHideFlags: 0
