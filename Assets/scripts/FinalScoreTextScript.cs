@@ -20,9 +20,9 @@ public class FinalScoreTextScript : MonoBehaviour
         }
         if (currentScore < 10000)
         {
-            return "You Scored " + ("0" + currentScore) + "Points";
+            return "You Scored " + ("0" + currentScore) + " Points";
         }
-        else return "You Scored " + currentScore.ToString() + "Points";
+        else return "You Scored " + currentScore.ToString() + " Points";
     }
 
 }
