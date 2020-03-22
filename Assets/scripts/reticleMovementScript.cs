@@ -94,6 +94,8 @@ public class reticleMovementScript : MonoBehaviour
             canClick = false;
             increaseScore(scoreIncrement);
             starsFound++;
+            PlayerPrefs.SetString("Star_" + starsFound.ToString(), starText.text);
+            Debug.Log("Star_" + starsFound.ToString() + ", "+ PlayerPrefs.GetString("Star_" + starsFound.ToString()));
             Invoke("CooledDown", coolDown);
         }
 
