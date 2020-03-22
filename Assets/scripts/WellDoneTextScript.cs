@@ -24,9 +24,12 @@ public class WellDoneTextScript : MonoBehaviour
         } else if (currentScore >= 6000 && currentScore < 9000)
         {
             return "Well Done Super Space Trooper";
+        } else if (currentScore >= 9000 && currentScore < 12000)
+        {
+            return "Well Done Ultimate Jedi Master";
         } else
         {
-            return "Ultimate Jedi Master";
+            return "Well Done Star Commander";
         }
     }
 
