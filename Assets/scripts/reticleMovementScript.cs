@@ -30,7 +30,7 @@ public class reticleMovementScript : MonoBehaviour
     // star clicking variables
     bool canClick = true;
     public float coolDown = 1.0f;
-    int starsFound;
+    TargetStar targetScript;
 
     // audio variables
     AudioSource selectionSound;
@@ -46,6 +46,7 @@ public class reticleMovementScript : MonoBehaviour
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
         selectionSound = gameObject.GetComponent<AudioSource>();
         starsFound = 0;
         hideBox();
@@ -92,15 +93,13 @@ public class reticleMovementScript : MonoBehaviour
 
         // for target star logic, change <starText.text != ""> to <starText.text == targetStarName>
         // logic for star being clicked
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != "")
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == targetScript.GetTarget())
         {
             // for target star logic, maintain list of stars that have been selected and stars that can be selected, make sure starName is not contained in found stars array before incrementing score
             canClick = false;
             increaseScore(scoreIncrement);
-            starsFound++;
-            PlayerPrefs.SetString("Star_" + starsFound.ToString(), starText.text);
-            Debug.Log("Star_" + starsFound.ToString() + ", "+ PlayerPrefs.GetString("Star_" + starsFound.ToString()));
             Invoke("CooledDown", coolDown);
+            UpdateTargetStarDebug();
         }
 
         //testing increaseScore
@@ -112,7 +111,13 @@ public class reticleMovementScript : MonoBehaviour
         // testing load with final score
         if (Input.GetKeyDown(KeyCode.E))
         {
-            lvlr.LoadNextLevelWithScoreandStars(currentScore, starsFound);
+            lvlr.LoadNextLevelWithScoreandStars(currentScore, targetScript.GetNumberOfStarsFound());
+        }
+
+        // cycle target star
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            UpdateTargetStarDebug();
         }
     }
 
@@ -193,7 +198,8 @@ public class reticleMovementScript : MonoBehaviour
         selectionSound.Play();
     }
 
-    public void updateScoreText(int score) {
+    public void updateScoreText(int score)
+    {
         if (currentScore < 10000)
         {
             scoreUI.text = "Score: " + ("0" + currentScore);
@@ -206,12 +212,30 @@ public class reticleMovementScript : MonoBehaviour
         canClick = true;
     }
 
-    public int getScore() {
+    public int getScore()
+    {
         return currentScore;
     }
 
-    public int getStars() {
-        return starsFound;
+    public int getStars()
+    {
+        return targetScript.GetNumberOfStarsFound();
+    }
+
+    void UpdateTargetStarDebug()
+    {
+        UpdateTargetStar();
+        Debug.Log("New target star = " + targetScript.GetTarget());
+        Debug.Log("Found stars include: ");
+        foreach (string star in targetScript.GetNamesOfStarsFound())
+        {
+            Debug.Log("  - " + star);
+        }
+    }
+
+    void UpdateTargetStar()
+    {
+        targetScript.UpdateTarget();
     }
 
 }
