@@ -48,7 +48,6 @@ public class reticleMovementScript : MonoBehaviour
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
         selectionSound = gameObject.GetComponent<AudioSource>();
-        starsFound = 0;
         hideBox();
     }
 
