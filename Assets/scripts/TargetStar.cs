@@ -39,6 +39,9 @@ public class TargetStar : MonoBehaviour
 
     public void UpdateTarget()
     {
+        if(starsToFind.Count == 0) {
+            target = "done";
+        }
         if (starsFound.Count == 0)
         {
             starsFound.Add(target);

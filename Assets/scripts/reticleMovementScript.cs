@@ -217,7 +217,7 @@ public class reticleMovementScript : MonoBehaviour
 
     void UpdateTargetStarDebug()
     {
-        targetScript.UpdateTarget();
+        UpdateTargetStar();
         Debug.Log("New target star = " + targetScript.GetTarget());
         Debug.Log("Found stars include: ");
         foreach (string star in targetScript.GetNamesOfStarsFound())

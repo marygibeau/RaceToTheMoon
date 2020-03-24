@@ -22,6 +22,6 @@ public class targetTextScript : MonoBehaviour
     }
 
     void GenerateTargetText() {
-        textObject.text = "Target: " + targetStar.GetTarget();
+        textObject.text = "Target: " + targetStar.GetTarget() + " ";
     }
 }
