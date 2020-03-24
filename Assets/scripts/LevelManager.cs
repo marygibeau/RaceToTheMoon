@@ -29,4 +29,18 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("starsFound", stars);
         LoadNextLevel();
     }
+
+    public void LoadNextLevelWithStarListAndTimeLeft(List<string> starsFound, int secondsLeft)
+    {
+        int i = 0;
+        foreach(string star in starsFound) {
+            PlayerPrefs.SetString("star" + i, star);
+            i++;
+        }
+        PlayerPrefs.SetInt("SecondsLeft", secondsLeft);
+        int score = starsFound.Count * 1000 + secondsLeft * 100;
+        LoadNextLevelWithScoreandStars(score, starsFound.Count);
+        // TODO: Update where load next level is used
+        // TODO: Update how the end screen takes in info
+    }
 }
