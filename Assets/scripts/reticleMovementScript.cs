@@ -114,7 +114,7 @@ public class reticleMovementScript : MonoBehaviour
         }
 
         // cycle target star
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.N))
         {
             UpdateTargetStarDebug();
         }
