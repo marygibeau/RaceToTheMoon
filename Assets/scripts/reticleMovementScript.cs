@@ -32,6 +32,9 @@ public class reticleMovementScript : MonoBehaviour
     public float coolDown = 1.0f;
     TargetStar targetScript;
 
+    // audio variables
+    AudioSource selectionSound;
+
     // level management variables
     LevelManager lvlr;
 
@@ -44,6 +47,8 @@ public class reticleMovementScript : MonoBehaviour
         textBox = this.transform.GetChild(2).gameObject;
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
+        selectionSound = gameObject.GetComponent<AudioSource>();
+        starsFound = 0;
         hideBox();
     }
 
@@ -189,6 +194,8 @@ public class reticleMovementScript : MonoBehaviour
         currentScore += amount;
         // if score is 4 digits, keeps the leading zero, else just show the 5 digit score
         updateScoreText(currentScore);
+        //play the sound effect for selecting the correct star
+        selectionSound.Play();
     }
 
     public void updateScoreText(int score)
