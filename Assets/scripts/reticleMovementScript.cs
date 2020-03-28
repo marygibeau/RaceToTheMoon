@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class reticleMovementScript : MonoBehaviour
 {
@@ -31,6 +32,7 @@ public class reticleMovementScript : MonoBehaviour
     bool canClick = true;
     public float coolDown = 1.0f;
     TargetStar targetScript;
+    public float timeSinceLastStar = 0;
 
     // audio variables
     AudioSource selectionSound;
@@ -48,13 +50,27 @@ public class reticleMovementScript : MonoBehaviour
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
         selectionSound = gameObject.GetComponent<AudioSource>();
-        starsFound = 0;
         hideBox();
     }
 
     // Update is called once per frame
     void Update()
     {
+        timeSinceLastStar += 1 * Time.deltaTime;
+
+        if (Math.Ceiling(timeSinceLastStar) % 60 == 5)
+        {
+            StartFirstHint();
+        }
+        else if (Math.Ceiling(timeSinceLastStar) % 60 == 10)
+        {
+            StartSecondHint();
+        }
+        else if (Math.Ceiling(timeSinceLastStar) % 60 == 15)
+        {
+            StartThirdHint();
+        }
+
         // reticle movement
         if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
         {
@@ -91,15 +107,15 @@ public class reticleMovementScript : MonoBehaviour
             camera.moveRight();
         }
 
-        // for target star logic, change <starText.text != ""> to <starText.text == targetStarName>
         // logic for star being clicked
         if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == targetScript.GetTarget())
         {
-            // for target star logic, maintain list of stars that have been selected and stars that can be selected, make sure starName is not contained in found stars array before incrementing score
             canClick = false;
             increaseScore(scoreIncrement);
             Invoke("CooledDown", coolDown);
-            UpdateTargetStarDebug();
+            ResetHints();
+            // UpdateTargetStarDebug();
+            UpdateTargetStar();
         }
 
         //testing increaseScore
@@ -115,7 +131,7 @@ public class reticleMovementScript : MonoBehaviour
         }
 
         // cycle target star
-        if (Input.GetKeyDown(KeyCode.T))
+        if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.N))
         {
             UpdateTargetStarDebug();
         }
@@ -125,7 +141,6 @@ public class reticleMovementScript : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         // turns on movement directions
-        Debug.Log("Entered: " + other.gameObject.name);
         switch (other.gameObject.name)
         {
             case "right":
@@ -150,7 +165,6 @@ public class reticleMovementScript : MonoBehaviour
     void OnTriggerExit2D(Collider2D other)
     {
         // turns off movement directions
-        Debug.Log("Exited: " + other.gameObject.name);
         switch (other.gameObject.name)
         {
             case "right":
@@ -236,6 +250,44 @@ public class reticleMovementScript : MonoBehaviour
     void UpdateTargetStar()
     {
         targetScript.UpdateTarget();
+    }
+
+    void StartFirstHint()
+    {
+        Debug.Log("first hint started");
+    }
+
+    void StopFirstHint()
+    {
+        Debug.Log("first hint ended");
+    }
+
+    void StartSecondHint()
+    {
+        Debug.Log("second hint started");
+    }
+
+    void StopSecondHint()
+    {
+        Debug.Log("second hint ended");
+    }
+
+    void StartThirdHint()
+    {
+        Debug.Log("third hint started");
+    }
+
+    void StopThirdHint()
+    {
+        Debug.Log("third hint ended");
+    }
+
+    void ResetHints()
+    {
+        StopFirstHint();
+        StopSecondHint();
+        StopThirdHint();
+        timeSinceLastStar = 0;
     }
 
 }
