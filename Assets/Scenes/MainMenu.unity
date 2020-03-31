@@ -993,5 +993,25 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794871, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.81020737
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794871, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 49.60367
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794871, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794871, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 158.22287
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d81def70e71204343ac8d62b440babfe, type: 3}
