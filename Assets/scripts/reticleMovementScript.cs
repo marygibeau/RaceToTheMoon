@@ -49,6 +49,10 @@ public class reticleMovementScript : MonoBehaviour
     // hint variables
     Boolean isAudioHint;
 
+    private GameObject blinkStar;
+    private Vector3 scaleChange = new Vector3(-0.01f, -0.01f, -0.01f);
+    private bool firstHintCalled = false;
+
     void Start()
     {
         scoreUI = GameObject.Find("ScoreText").GetComponent<Text>();
@@ -166,7 +170,19 @@ public class reticleMovementScript : MonoBehaviour
             //Debug.Log(distanceToTarget);
         
         }
+
+        // first hint (star blinking)
+        if(firstHintCalled)
+        {
+            blinkStar.transform.localScale += scaleChange;
+
+            if (blinkStar.transform.localScale.x < 1.8f || blinkStar.transform.localScale.x > 2.4f)
+            {
+                scaleChange = -scaleChange;
+            }
+        }
     }
+    
 
     // checks if reticle has collided with a trigger
     void OnTriggerEnter2D(Collider2D other)
@@ -286,11 +302,16 @@ public class reticleMovementScript : MonoBehaviour
     void StartFirstHint()
     {
         Debug.Log("first hint started");
+
+        firstHintCalled = true;
+        blinkStar = GameObject.Find(targetScript.GetTarget());
     }
 
     void StopFirstHint()
     {
         Debug.Log("first hint ended");
+
+        firstHintCalled = false;
     }
 
     void StartSecondHint()
