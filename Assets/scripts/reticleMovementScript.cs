@@ -13,7 +13,8 @@ public class reticleMovementScript : MonoBehaviour
 
     // movement variables
     public float movementOffset = 0.1f;
-    public cameraMovement camera;
+    public cameraMovement cameraMovementScript;
+    public Camera mainCamera;
     public GameObject backgroundImage;
     private bool reticleUp = false;
     private bool reticleDown = false;
@@ -32,6 +33,7 @@ public class reticleMovementScript : MonoBehaviour
     bool canClick = true;
     public float coolDown = 1.0f;
     TargetStar targetScript;
+    GameObject targetStar;
     public float timeSinceLastStar = 0;
 
     // audio variables
@@ -48,6 +50,11 @@ public class reticleMovementScript : MonoBehaviour
 
     // hint variables
     Boolean isAudioHint;
+    Boolean isArrowHint;
+    public GameObject upArrow;
+    public GameObject downArrow;
+    public GameObject leftArrow;
+    public GameObject rightArrow;
 
     void Start()
     {
@@ -58,6 +65,7 @@ public class reticleMovementScript : MonoBehaviour
         textBox = this.transform.GetChild(2).gameObject;
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
+        initializeArrows();
         selectionSound = gameObject.GetComponents<AudioSource>()[1];
         hintSound = gameObject.GetComponents<AudioSource>()[0];
         closeSound = (AudioClip)Resources.Load("sounds/boopClose");
@@ -106,19 +114,19 @@ public class reticleMovementScript : MonoBehaviour
         // camera movement
         if (reticleUp)
         {
-            camera.moveUp();
+            cameraMovementScript.moveUp();
         }
         if (reticleDown)
         {
-            camera.moveDown();
+            cameraMovementScript.moveDown();
         }
         if (reticleLeft)
         {
-            camera.moveLeft();
+            cameraMovementScript.moveLeft();
         }
         if (reticleRight)
         {
-            camera.moveRight();
+            cameraMovementScript.moveRight();
         }
 
         // logic for star being clicked
@@ -165,6 +173,11 @@ public class reticleMovementScript : MonoBehaviour
             if (prevSound != hintSound.clip) hintSound.Play();
             //Debug.Log(distanceToTarget);
 
+        }
+
+        // arrow hint
+        if(isArrowHint) {
+            UpdateArrows();
         }
     }
 
@@ -281,6 +294,7 @@ public class reticleMovementScript : MonoBehaviour
     void UpdateTargetStar()
     {
         targetScript.UpdateTarget();
+        targetStar = GameObject.Find(targetScript.GetTarget());
     }
 
     void StartFirstHint()
@@ -317,13 +331,11 @@ public class reticleMovementScript : MonoBehaviour
     {
         Debug.Log("first hint started");
         targetStar = GameObject.Find(targetScript.GetTarget());
-        InvokeRepeating("UpdateArrows", 0.1f, 0.1f);
+        isArrowHint = true;
     }
 
     void UpdateArrows()
     {
-        float deltax = this.transform.position.x - targetStar.transform.position.x;
-        float deltay = this.transform.position.y - targetStar.transform.position.y;
         if (targetStar.GetComponent<Renderer>().isVisible)
         {
             rightArrow.gameObject.SetActive(false);
@@ -333,32 +345,63 @@ public class reticleMovementScript : MonoBehaviour
         }
         else
         {
-            if (deltax < 0)
+            Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1.0f, 1.0f, 1.0f));
+            Vector3 bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0.0f, 0.0f, 1.0f));
+            
+            float targetX = targetStar.transform.position.x;
+            float targetY = targetStar.transform.position.y;
+            // turn on right arrow
+            if (targetX > topRight.x)
             {
                 rightArrow.gameObject.SetActive(true);
                 leftArrow.gameObject.SetActive(false);
             }
-            if (deltax > 0)
+            // turn on left arrow
+            if (targetX < bottomLeft.x)
             {
                 rightArrow.gameObject.SetActive(false);
                 leftArrow.gameObject.SetActive(true);
             }
-            if (deltay < 0)
+            // turn off horizontal arrows
+            if(targetX > bottomLeft.x && targetX < topRight.x) {
+                rightArrow.gameObject.SetActive(false);
+                leftArrow.gameObject.SetActive(false);
+            }
+            // turn on up arrow
+            if (targetY > topRight.y)
             {
                 upArrow.gameObject.SetActive(true);
                 downArrow.gameObject.SetActive(false);
             }
-            if (deltay > 0)
+            // turn on down arrow
+            if (targetY < bottomLeft.y)
             {
                 upArrow.gameObject.SetActive(false);
                 downArrow.gameObject.SetActive(true);
+            }
+            // turn of verticle arrows
+            if(targetY > bottomLeft.y && targetY < topRight.y) {
+                upArrow.gameObject.SetActive(false);
+                downArrow.gameObject.SetActive(false);
             }
         }
     }
 
     void StopThirdHint()
     {
-        CancelInvoke("UpdateArrows");
+        isArrowHint = false;
+    }
+
+    void initializeArrows()
+    {
+        upArrow = GameObject.Find("up arrow");
+        downArrow = GameObject.Find("down arrow");
+        leftArrow = GameObject.Find("left arrow");
+        rightArrow = GameObject.Find("right arrow");
+        upArrow.gameObject.SetActive(false);
+        downArrow.gameObject.SetActive(false);
+        leftArrow.gameObject.SetActive(false);
+        rightArrow.gameObject.SetActive(false);
     }
 
     void ResetHints()
