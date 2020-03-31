@@ -26,12 +26,17 @@ public class MenuReticleMovement : MonoBehaviour
     // level management variables
     LevelManager lvlr;
 
+    // Cinematic variables
+  //  public GameObject videoPlayer;
+  //  public int timeToStop;
+
     // Start is called before the first frame update
     void Start()
     {
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
+       // videoPlayer.SetActive(false);
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         showBox(initialHint);
     }
@@ -73,7 +78,10 @@ public class MenuReticleMovement : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.Return) && starText.text == PlayButtonHint)
         {
-            lvlr.LoadNextLevel();
+            print("Cinematic 1 to play here.");
+
+           // lvlr.LoadNextLevel();
+            lvlr.LoadLevel("Cinematic_1");
         }
 
         if (Input.GetKeyUp(KeyCode.Return) && starText.text == RestartButtonHint)

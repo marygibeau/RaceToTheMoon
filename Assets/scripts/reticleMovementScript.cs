@@ -36,9 +36,18 @@ public class reticleMovementScript : MonoBehaviour
 
     // audio variables
     AudioSource selectionSound;
+    AudioSource hintSound;
+    AudioClip farSound;
+    AudioClip midSound;
+    AudioClip closeSound;
+    AudioClip rapidSound;
+    
 
     // level management variables
     LevelManager lvlr;
+
+    // hint variables
+    Boolean isAudioHint;
 
     void Start()
     {
@@ -49,7 +58,12 @@ public class reticleMovementScript : MonoBehaviour
         textBox = this.transform.GetChild(2).gameObject;
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
-        selectionSound = gameObject.GetComponent<AudioSource>();
+        selectionSound = gameObject.GetComponents<AudioSource>()[1];
+        hintSound = gameObject.GetComponents<AudioSource>()[0];
+        closeSound = (AudioClip) Resources.Load("sounds/boopClose");
+        midSound = (AudioClip) Resources.Load("sounds/boopMid");    
+        farSound = (AudioClip) Resources.Load("sounds/boopFar");
+        rapidSound = (AudioClip) Resources.Load("sounds/boopRapid");
         hideBox();
     }
 
@@ -134,6 +148,23 @@ public class reticleMovementScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.N))
         {
             UpdateTargetStarDebug();
+        }
+
+        // audio hint
+        if(isAudioHint)
+        {
+            // gets distance from reticle to target star
+            double distanceToTarget = (Vector2.Distance(gameObject.transform.position, GameObject.Find(targetScript.GetTarget()).transform.position));
+            // need to keep track to see if the sound actually changed so we can call Play on the Audio Source
+            AudioClip prevSound = hintSound.clip;
+            if(distanceToTarget > 15)
+                hintSound.clip = farSound;
+            else if(distanceToTarget > 7) hintSound.clip = midSound;              
+            else if(distanceToTarget > 2)hintSound.clip = closeSound;
+            else hintSound.clip = rapidSound;
+            if(prevSound != hintSound.clip) hintSound.Play();
+            //Debug.Log(distanceToTarget);
+        
         }
     }
 
@@ -265,11 +296,21 @@ public class reticleMovementScript : MonoBehaviour
     void StartSecondHint()
     {
         Debug.Log("second hint started");
+        
+        double distanceToTarget = (Vector2.Distance(gameObject.transform.position, GameObject.Find(targetScript.GetTarget()).transform.position));
+        if(distanceToTarget > 15) hintSound.clip = farSound;
+        else if(distanceToTarget > 7) hintSound.clip = midSound;
+        else if(distanceToTarget > 2) hintSound.clip = closeSound;
+        else hintSound.clip = rapidSound;
+        if(!isAudioHint) hintSound.Play();
+        isAudioHint = true;
     }
 
     void StopSecondHint()
     {
         Debug.Log("second hint ended");
+        isAudioHint = false;
+        hintSound.Stop();
     }
 
     void StartThirdHint()
