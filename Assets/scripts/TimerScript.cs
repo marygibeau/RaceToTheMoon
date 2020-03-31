@@ -73,6 +73,7 @@ public class TimerScript : MonoBehaviour
     {
         // get reticle to show launch button
         reticleMovementScript reticle = GameObject.Find("reticle").GetComponent<reticleMovementScript>();
-        reticle.showLaunchInfo();
+        reticle.gameOverActivate();
+        
     }
 }

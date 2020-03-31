@@ -491,6 +491,7 @@ public class reticleMovementScript : MonoBehaviour
     {
         gameOver = true;
         timer.stopTimer();
+        hideBox();
         showLaunchInfo();
     }
 
