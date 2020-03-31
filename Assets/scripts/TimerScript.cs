@@ -24,9 +24,12 @@ public class TimerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentTime -= 1 * Time.deltaTime;
+        if (!gameOver)
+        {
+            currentTime -= 1 * Time.deltaTime;
+        }
         //changes color to red when time is below 10 seconds
-        if (currentTime <= 10)
+        if (currentTime <= 10 && currentTime > 0)
         {
             timerText.color = Color.red;
         }
@@ -47,6 +50,7 @@ public class TimerScript : MonoBehaviour
             if (!gameOver)
             {
                 LoadEndScreen();
+                gameOver = true;
             }
         }
         //ensuring the timer doesn't go into the negatives
@@ -57,10 +61,18 @@ public class TimerScript : MonoBehaviour
 
     }
 
+    public void stopTimer() {
+        gameOver = true;
+    }
+
+    public int GetTimeLeft() {
+        return (int) Math.Ceiling(currentTime);
+    }
+
     public void LoadEndScreen()
     {
-        // get score and stars from reticle
+        // get reticle to show launch button
         reticleMovementScript reticle = GameObject.Find("reticle").GetComponent<reticleMovementScript>();
-        lvlr.LoadNextLevelWithScoreandStars(reticle.getScore(), reticle.getStars());
+        reticle.showLaunchInfo();
     }
 }
