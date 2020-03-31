@@ -9,8 +9,14 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 8a7bf8d8ba7c28b4099ed31c67bd5858
   - enabled: 1
+    path: Assets/Scenes/Cinematic_1.unity
+    guid: c6e4d879f402b1946a44143360a64932
+  - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/Cinematic_2.unity
+    guid: 86b5b34d24c5df94aaf55d820fed093c
   - enabled: 1
     path: Assets/Scenes/EndScene.unity
     guid: 095b0824e46f9854496e62678024bfad

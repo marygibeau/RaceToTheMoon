@@ -30,6 +30,13 @@ public class LevelManager : MonoBehaviour
         LoadNextLevel();
     }
 
+    public void LoadCinematic2WithScoreandStars(int score, int stars)
+    {
+        PlayerPrefs.SetInt("finalScore", score);
+        PlayerPrefs.SetInt("starsFound", stars);
+        LoadLevel("Cinematic_2");
+    }
+
     public void LoadNextLevelWithStarListAndTimeLeft(List<string> starsFound, int secondsLeft)
     {
         int i = 0;
