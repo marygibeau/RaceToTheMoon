@@ -140,8 +140,9 @@ public class reticleMovementScript : MonoBehaviour
             increaseScore(scoreIncrement);
             Invoke("CooledDown", coolDown);
             ResetHints();
-            // UpdateTargetStarDebug();
-            UpdateTargetStar();
+            ChangeTargetStarColor();
+            UpdateTargetStarDebug();
+            // UpdateTargetStar();
         }
 
         //testing increaseScore
@@ -294,6 +295,12 @@ public class reticleMovementScript : MonoBehaviour
     public int getStars()
     {
         return targetScript.GetNumberOfStarsFound();
+    }
+
+    void ChangeTargetStarColor() {
+        GameObject targetStarRing = GameObject.Find(targetScript.GetTarget()).transform.GetChild(0).gameObject;
+        Debug.Log("targetStarRing name: " + targetStarRing.name);
+        targetStarRing.GetComponent<SpriteRenderer>().color = new Color( 0.1727581f, 0.945098f, 0.1215686f, 1 );
     }
 
     void UpdateTargetStarDebug()
