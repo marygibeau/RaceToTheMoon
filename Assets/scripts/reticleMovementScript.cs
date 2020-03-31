@@ -41,7 +41,7 @@ public class reticleMovementScript : MonoBehaviour
     AudioClip midSound;
     AudioClip closeSound;
     AudioClip rapidSound;
-    
+
 
     // level management variables
     LevelManager lvlr;
@@ -60,10 +60,10 @@ public class reticleMovementScript : MonoBehaviour
         targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
         selectionSound = gameObject.GetComponents<AudioSource>()[1];
         hintSound = gameObject.GetComponents<AudioSource>()[0];
-        closeSound = (AudioClip) Resources.Load("sounds/boopClose");
-        midSound = (AudioClip) Resources.Load("sounds/boopMid");    
-        farSound = (AudioClip) Resources.Load("sounds/boopFar");
-        rapidSound = (AudioClip) Resources.Load("sounds/boopRapid");
+        closeSound = (AudioClip)Resources.Load("sounds/boopClose");
+        midSound = (AudioClip)Resources.Load("sounds/boopMid");
+        farSound = (AudioClip)Resources.Load("sounds/boopFar");
+        rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
         hideBox();
     }
 
@@ -151,20 +151,20 @@ public class reticleMovementScript : MonoBehaviour
         }
 
         // audio hint
-        if(isAudioHint)
+        if (isAudioHint)
         {
             // gets distance from reticle to target star
             double distanceToTarget = (Vector2.Distance(gameObject.transform.position, GameObject.Find(targetScript.GetTarget()).transform.position));
             // need to keep track to see if the sound actually changed so we can call Play on the Audio Source
             AudioClip prevSound = hintSound.clip;
-            if(distanceToTarget > 15)
+            if (distanceToTarget > 15)
                 hintSound.clip = farSound;
-            else if(distanceToTarget > 7) hintSound.clip = midSound;              
-            else if(distanceToTarget > 2)hintSound.clip = closeSound;
+            else if (distanceToTarget > 7) hintSound.clip = midSound;
+            else if (distanceToTarget > 2) hintSound.clip = closeSound;
             else hintSound.clip = rapidSound;
-            if(prevSound != hintSound.clip) hintSound.Play();
+            if (prevSound != hintSound.clip) hintSound.Play();
             //Debug.Log(distanceToTarget);
-        
+
         }
     }
 
@@ -296,13 +296,13 @@ public class reticleMovementScript : MonoBehaviour
     void StartSecondHint()
     {
         Debug.Log("second hint started");
-        
+
         double distanceToTarget = (Vector2.Distance(gameObject.transform.position, GameObject.Find(targetScript.GetTarget()).transform.position));
-        if(distanceToTarget > 15) hintSound.clip = farSound;
-        else if(distanceToTarget > 7) hintSound.clip = midSound;
-        else if(distanceToTarget > 2) hintSound.clip = closeSound;
+        if (distanceToTarget > 15) hintSound.clip = farSound;
+        else if (distanceToTarget > 7) hintSound.clip = midSound;
+        else if (distanceToTarget > 2) hintSound.clip = closeSound;
         else hintSound.clip = rapidSound;
-        if(!isAudioHint) hintSound.Play();
+        if (!isAudioHint) hintSound.Play();
         isAudioHint = true;
     }
 
@@ -315,12 +315,50 @@ public class reticleMovementScript : MonoBehaviour
 
     void StartThirdHint()
     {
-        Debug.Log("third hint started");
+        Debug.Log("first hint started");
+        targetStar = GameObject.Find(targetScript.GetTarget());
+        InvokeRepeating("UpdateArrows", 0.1f, 0.1f);
+    }
+
+    void UpdateArrows()
+    {
+        float deltax = this.transform.position.x - targetStar.transform.position.x;
+        float deltay = this.transform.position.y - targetStar.transform.position.y;
+        if (targetStar.GetComponent<Renderer>().isVisible)
+        {
+            rightArrow.gameObject.SetActive(false);
+            leftArrow.gameObject.SetActive(false);
+            upArrow.gameObject.SetActive(false);
+            downArrow.gameObject.SetActive(false);
+        }
+        else
+        {
+            if (deltax < 0)
+            {
+                rightArrow.gameObject.SetActive(true);
+                leftArrow.gameObject.SetActive(false);
+            }
+            if (deltax > 0)
+            {
+                rightArrow.gameObject.SetActive(false);
+                leftArrow.gameObject.SetActive(true);
+            }
+            if (deltay < 0)
+            {
+                upArrow.gameObject.SetActive(true);
+                downArrow.gameObject.SetActive(false);
+            }
+            if (deltay > 0)
+            {
+                upArrow.gameObject.SetActive(false);
+                downArrow.gameObject.SetActive(true);
+            }
+        }
     }
 
     void StopThirdHint()
     {
-        Debug.Log("third hint ended");
+        CancelInvoke("UpdateArrows");
     }
 
     void ResetHints()
