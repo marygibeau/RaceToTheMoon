@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using  UnityEngine.UI;
+using UnityEngine.UI;
 
 public class targetTextScript : MonoBehaviour
 {
@@ -21,7 +21,15 @@ public class targetTextScript : MonoBehaviour
         GenerateTargetText();
     }
 
-    void GenerateTargetText() {
-        textObject.text = "Target: " + targetStar.GetTarget() + " ";
+    void GenerateTargetText()
+    {
+        if (targetStar.GetTarget() == "done")
+        {
+            textObject.text = "Target: ";
+        }
+        else
+        {
+            textObject.text = "Target: " + targetStar.GetTarget() + " ";
+        }
     }
 }

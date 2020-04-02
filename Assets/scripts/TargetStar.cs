@@ -39,24 +39,27 @@ public class TargetStar : MonoBehaviour
 
     public void UpdateTarget()
     {
-        if(starsToFind.Count == 0) {
-            target = "done";
-        }
-        if (starsFound.Count == 0)
+        if (starsToFind.Count == 0)
         {
-            starsFound.Add(target);
-            starsToFind.Remove(target);
-            target = starsToFind[0];
+            target = "done";
         }
         else
         {
-            starsFound.Add(target);
-            starsToFind.Remove(target);
-            randomIndex = random.Next(starsToFind.Count);
-            target = starsToFind[randomIndex];
+            if (starsFound.Count == 0)
+            {
+                starsFound.Add(target);
+                starsToFind.Remove(target);
+                target = starsToFind[0];
+            }
+            else
+            {
+                starsFound.Add(target);
+                starsToFind.Remove(target);
+                randomIndex = random.Next(starsToFind.Count);
+                target = starsToFind[randomIndex];
+            }
         }
     }
-
     public int GetNumberOfStarsFound()
     {
         return starsFound.Count;

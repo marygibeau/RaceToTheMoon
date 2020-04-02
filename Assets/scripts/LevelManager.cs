@@ -39,9 +39,11 @@ public class LevelManager : MonoBehaviour
 
     public void LoadNextLevelWithStarListAndTimeLeft(List<string> starsFound, int secondsLeft)
     {
+        Debug.Log("load with star list and time activated");
+        Debug.Log("time = " + secondsLeft);
         int i = 0;
         foreach(string star in starsFound) {
-            PlayerPrefs.SetString("star" + i, star);
+            PlayerPrefs.SetString("Star_" + i, star);
             i++;
         }
         PlayerPrefs.SetInt("SecondsLeft", secondsLeft);

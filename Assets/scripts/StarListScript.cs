@@ -20,7 +20,7 @@ public class StarListScript : MonoBehaviour
         int starsFound = PlayerPrefs.GetInt("starsFound");
         for (int x = 0; x < starsFound; x++)
         {
-            string getString = "Star_" + (x + 1).ToString();
+            string getString = "Star_" + (x).ToString();
             starsFoundText += PlayerPrefs.GetString(getString);
             starsFoundText += '\n';
 
