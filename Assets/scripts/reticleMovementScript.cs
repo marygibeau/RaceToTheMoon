@@ -38,6 +38,7 @@ public class reticleMovementScript : MonoBehaviour
 
     // audio variables
     AudioSource selectionSound;
+    AudioSource incorrectSound;
     AudioSource hintSound;
     AudioClip farSound;
     AudioClip midSound;
@@ -77,6 +78,7 @@ public class reticleMovementScript : MonoBehaviour
         initializeArrows();
         selectionSound = gameObject.GetComponents<AudioSource>()[1];
         hintSound = gameObject.GetComponents<AudioSource>()[0];
+        incorrectSound = gameObject.GetComponents<AudioSource>()[2];
         closeSound = (AudioClip)Resources.Load("sounds/boopClose");
         midSound = (AudioClip)Resources.Load("sounds/boopMid");
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
@@ -155,6 +157,15 @@ public class reticleMovementScript : MonoBehaviour
             // UpdateTargetStar();
         }
 
+        //logic for clicking a star that is not the target to play sound effect
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget() 
+        && starText.text != "" && !gameOver)
+        {
+            canClick = false;
+            Invoke("CooledDown", coolDown);
+            incorrectSound.Play();
+        }
+
         if (Input.GetKeyUp(KeyCode.Return) && launchButtonHovered)
         {
             lvlr.LoadNextLevelWithStarListAndTimeLeft(getStarsCollectedList(), timer.GetTimeLeft());
@@ -188,7 +199,7 @@ public class reticleMovementScript : MonoBehaviour
             if (distanceToTarget > 15)
                 hintSound.clip = farSound;
             else if (distanceToTarget > 7) hintSound.clip = midSound;
-            else if (distanceToTarget > 2) hintSound.clip = closeSound;
+            else if (distanceToTarget > 1.5) hintSound.clip = closeSound;
             else hintSound.clip = rapidSound;
             if (prevSound != hintSound.clip) hintSound.Play();
             //Debug.Log(distanceToTarget);
@@ -380,7 +391,7 @@ public class reticleMovementScript : MonoBehaviour
         double distanceToTarget = (Vector2.Distance(gameObject.transform.position, GameObject.Find(targetScript.GetTarget()).transform.position));
         if (distanceToTarget > 15) hintSound.clip = farSound;
         else if (distanceToTarget > 7) hintSound.clip = midSound;
-        else if (distanceToTarget > 2) hintSound.clip = closeSound;
+        else if (distanceToTarget > 1.5) hintSound.clip = closeSound;
         else hintSound.clip = rapidSound;
         if (!isAudioHint) hintSound.Play();
         isAudioHint = true;
