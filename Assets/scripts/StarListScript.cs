@@ -10,7 +10,8 @@ public class StarListScript : MonoBehaviour
     private Text starList;
     private Vector3 startPosition;
     private float scrollSpeed = 0.05f;
-    private float scrollPosition;
+    private float scrollPosition = 0.0f;
+    private float height = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -19,25 +20,23 @@ public class StarListScript : MonoBehaviour
         starList = this.GetComponent<Text>();
         startPosition = starList.transform.position;
 
+        if(PlayerPrefs.GetInt("starsFound") < 7){
+            scrollSpeed = 0.0f;
+        } else {
+            scrollSpeed = 0.05f;
+        }
+        
+        scrollPosition = 0.0f;
+        float height = starList.preferredHeight;
+        
+        Debug.Log(height);
+
         Debug.Log(startPosition);
         Debug.Log(starList.transform.localPosition);
 
         Debug.Log("Initial Y (position): " + starList.transform.position.y);
         Debug.Log("Initial Y (localPosition): " + starList.transform.localPosition.y);
     }
-
-    // Update is called once per frame
-    void Update(){
-        float height = starList.preferredHeight - 6.0f;
-        scrollPosition = 0.0f + startPosition.y;
-        Debug.Log("Text Height: " + height);
-
-        starList.transform.position = new Vector3(startPosition.x, scrollPosition % height, startPosition.z);
-
-        scrollPosition += scrollSpeed * 20 * Time.deltaTime;
-
-    }
-
 
     public string generateStarList()
     {
@@ -52,5 +51,17 @@ public class StarListScript : MonoBehaviour
         }
 
         return starsFoundText;
+    }
+     // Update is called once per frame
+    void Update()
+    {
+
+        float boundary = 8.0f;
+        starList.transform.position = new Vector3(startPosition.x, (scrollPosition % boundary) - 1.0f, startPosition.z);
+
+        Debug.Log(scrollPosition);
+
+        scrollPosition += scrollSpeed * 20 * Time.deltaTime;
+
     }
 }
