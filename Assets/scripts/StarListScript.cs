@@ -11,7 +11,6 @@ public class StarListScript : MonoBehaviour
     private Vector3 startPosition;
     private float scrollSpeed = 0.05f;
     private float scrollPosition = 0.0f;
-    private float height = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -55,13 +54,16 @@ public class StarListScript : MonoBehaviour
      // Update is called once per frame
     void Update()
     {
+        if(PlayerPrefs.GetInt("starsFound") < 7){
+             starList.transform.position = new Vector3(startPosition.x, startPosition.y + 2.98f, startPosition.z);
+        } else {
+            float boundary = 8.0f;
+            starList.transform.position = new Vector3(startPosition.x, (scrollPosition % boundary) - 1.0f, startPosition.z);
 
-        float boundary = 8.0f;
-        starList.transform.position = new Vector3(startPosition.x, (scrollPosition % boundary) - 1.0f, startPosition.z);
+            Debug.Log(scrollPosition);
 
-        Debug.Log(scrollPosition);
-
-        scrollPosition += scrollSpeed * 20 * Time.deltaTime;
+            scrollPosition += scrollSpeed * 20 * Time.deltaTime;
+        }
 
     }
 }
