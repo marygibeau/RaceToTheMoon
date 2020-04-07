@@ -129,7 +129,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 12150571}
-  - component: {fileID: 12150572}
   m_Layer: 5
   m_Name: StarListContainer
   m_TagString: Untagged
@@ -152,30 +151,11 @@ RectTransform:
   m_Father: {fileID: 506425005}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 218, y: 39.8}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -100.4}
+  m_SizeDelta: {x: 218, y: 200.8403}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &12150572
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 12150570}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c911a70fa24d34fc283c334f2e9010e5, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &370945591
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,8 +348,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 262, y: 132}
-  m_SizeDelta: {x: 218, y: 39.8}
+  m_AnchoredPosition: {x: 263.3, y: 73.82999}
+  m_SizeDelta: {x: 218, y: 172.52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &506425006
 MonoBehaviour:
@@ -383,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ShowMaskGraphic: 1
+  m_ShowMaskGraphic: 0
 --- !u!114 &506425007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1088,6 +1068,7 @@ GameObject:
   - component: {fileID: 1865930161}
   - component: {fileID: 1865930160}
   - component: {fileID: 1865930159}
+  - component: {fileID: 1865930162}
   m_Layer: 5
   m_Name: StarListText
   m_TagString: Untagged
@@ -1109,10 +1090,10 @@ RectTransform:
   m_Father: {fileID: 12150571}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 218, y: 39.8}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -192.6}
+  m_SizeDelta: {x: 218, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1865930159
 MonoBehaviour:
@@ -1146,10 +1127,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 4c24b5e8a9de70a4c8afa070e0d8ad57, type: 3}
-    m_FontSize: 10
+    m_FontSize: 25
     m_FontStyle: 0
-    m_BestFit: 1
-    m_MinSize: 10
+    m_BestFit: 0
+    m_MinSize: 2
     m_MaxSize: 25
     m_Alignment: 1
     m_AlignByGeometry: 0
@@ -1158,6 +1139,18 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1.2
   m_Text: 'New Text
+
+    New Text
+
+    New Text
+
+    New Text
+
+    New Text
+
+    New Text
+
+    New Text
 
     New Text
 
@@ -1178,6 +1171,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1865930157}
   m_CullTransparentMesh: 0
+--- !u!114 &1865930162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1865930157}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &1922229095 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1039063692450869018, guid: 25ac9c85cc73ff64eaf7226095f09f48,
