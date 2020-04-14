@@ -12,7 +12,7 @@ public class reticleMovementScript : MonoBehaviour
     // make sure new targetStar is in not found array before assigning
 
     // movement variables
-    public float movementOffset = 0.1f;
+    public float movementOffset = 0.01f;
     public cameraMovement cameraMovementScript;
     public Camera mainCamera;
     public GameObject backgroundImage;

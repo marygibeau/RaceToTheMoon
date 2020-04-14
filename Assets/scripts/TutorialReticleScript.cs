@@ -29,9 +29,6 @@ public class TutorialReticleScript : MonoBehaviour
     // star clicking variables
     bool canClick = true;
     public float coolDown = 1.0f;
-    TargetStar targetScript;
-    GameObject targetStar;
-    public float timeSinceLastStar = 0;
 
     // audio variables
     AudioSource selectionSound;
@@ -48,22 +45,13 @@ public class TutorialReticleScript : MonoBehaviour
     bool gameOver;
     TimerScript timer;
 
-    // hint variables
-    bool isAudioHint;
-    bool isArrowHint;
-    public GameObject upArrow;
-    public GameObject downArrow;
-    public GameObject leftArrow;
-    public GameObject rightArrow;
-    private GameObject blinkStar;
-    private Vector3 scaleChange = new Vector3(-0.01f, -0.01f, -0.01f);
-    private bool firstHintCalled = false;
-
     // tutorial variables
     int tutorialStage;
     GameObject TargetStarText;
     int movements = 0;
     public VideoPlayer video;
+    GameObject alpheratz;
+    GameObject navi;
     string[] instructions = {"Move the reticle using wasd or arrow keys.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
                              "Move the reticle over a star to see its name.",
@@ -86,8 +74,6 @@ public class TutorialReticleScript : MonoBehaviour
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-        targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
-        initializeArrows();
         selectionSound = gameObject.GetComponents<AudioSource>()[1];
         hintSound = gameObject.GetComponents<AudioSource>()[0];
         incorrectSound = gameObject.GetComponents<AudioSource>()[2];
@@ -95,31 +81,35 @@ public class TutorialReticleScript : MonoBehaviour
         midSound = (AudioClip)Resources.Load("sounds/boopMid");
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
-        video = GameObject.Find("VideoPlayer").GetComponent<VideoPlayer>();
+        video = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
         tutorialStage = 0;
-        // instructions = "";
-        // Debug.Log("instructions: " + instructions[tutorialStage]);
         tutorialPanelText = GameObject.Find("TutorialText").GetComponent<Text>();
         tutorialPanelText.text = instructions[tutorialStage];
         gameOver = false;
         timer = GameObject.Find("Timer").GetComponent<TimerScript>();
         timer.gameObject.SetActive(false);
         TargetStarText = GameObject.Find("TargetText");
-        hideBox();
-
+        TargetStarText.GetComponent<Text>().text = "Target: Alpheratz";
         TargetStarText.GetComponent<Text>().enabled = false;
 
-        blackBox.GetComponent<Image>().enabled = false;
-        starText.GetComponent<Text>().enabled = false;
-        textBox.GetComponent<Renderer>().enabled = false;
+        alpheratz = GameObject.Find("Alpheratz");
+        navi = GameObject.Find("Navi");
 
+        alpheratz.GetComponent<Renderer>().enabled = false;
+        navi.GetComponent<Renderer>().enabled = false;
+
+        alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
+        navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
+
+        hideBox();
     }
 
     // Update is called once per frame
     void Update()
     {
         // reticle movement
-        if(canMove) {
+        if (canMove)
+        {
             if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
             {
                 if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
@@ -141,135 +131,60 @@ public class TutorialReticleScript : MonoBehaviour
                 this.transform.Translate(Vector2.right * movementOffset);
             }
         }
+        // debugging printout for movement variable
         if (movements < 61 && movements > 0) { Debug.Log(movements); }
 
-        if (movements >= 60 && tutorialStage == 0)
+        // advance tutorial stage for 0 and 6
+        if (movements >= 60 && (tutorialStage == 0 || tutorialStage == 5))
         {
             AdvanceTutorial();
             movements = 0;
         }
 
+        // advance tutorial debug button
         if (Input.GetKeyUp(KeyCode.T))
         {
             AdvanceTutorial();
         }
 
-        if (tutorialStage == 0){
-            GameObject alpheratz = GameObject.Find("Alpheratz");
-            GameObject navi = GameObject.Find("Navi");
-            GameObject circle = GameObject.Find("white circle trnasparent background");
-
-            // alpheratz.gameObject.SetActive(false);
-            // dipdha.gameObject.SetActive(false);
-
-            alpheratz.GetComponent<Renderer>().enabled = false;
-            navi.GetComponent<Renderer>().enabled = false;
-            circle.GetComponent<Renderer>().enabled = false;
-        }
-
-        if (tutorialStage == 1){
-
-            GameObject alpheratz = GameObject.Find("Alpheratz");
-            GameObject navi = GameObject.Find("Navi");
-            GameObject circle = GameObject.Find("white circle trnasparent background");
-
-            alpheratz.GetComponent<Renderer>().enabled = true;
-            navi.GetComponent<Renderer>().enabled = true;
-            circle.GetComponent<Renderer>().enabled = true;
-            
-            Debug.Log(movements);
-        }
-
-        if (tutorialStage == 2){
-            blackBox.GetComponent<Image>().enabled = true;
-            starText.GetComponent<Text>().enabled = true;
-            textBox.GetComponent<Renderer>().enabled = true;
-        }
-
-        if (tutorialStage == 3){
-            
-            TargetStarText.GetComponent<Text>().enabled = true;
-           
-        }
-
         // camera movement
-        if (reticleUp && tutorialStage >= 5)
+        if (reticleUp && tutorialStage >= 5 && canMove)
         {
             if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveUp();
         }
-        if (reticleDown && tutorialStage >= 5)
+        if (reticleDown && tutorialStage >= 5 && canMove)
         {
             if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveDown();
         }
-        if (reticleLeft && tutorialStage >= 5)
+        if (reticleLeft && tutorialStage >= 5 && canMove)
         {
             if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveLeft();
         }
-        if (reticleRight && tutorialStage >= 5)
+        if (reticleRight && tutorialStage >= 5 && canMove)
         {
             if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveRight();
         }
 
         // logic for star being clicked
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == targetScript.GetTarget() && !gameOver && tutorialStage >= 4)
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == "Alpheratz" && !gameOver && tutorialStage >= 4)
         {
             canClick = false;
-            // increaseScore(scoreIncrement);
             Invoke("CooledDown", coolDown);
-            ResetHints();
             ChangeTargetStarColor();
-            TargetStarText.GetComponent<Text>().text = "Target: Well Done!";
             if (tutorialStage == 4) { AdvanceTutorial(); }
         }
+
         //logic for clicking a star that is not the target to play sound effect
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget() && starText.text != "" && !gameOver)
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != "Alpheratz" && starText.text != "" && !gameOver)
         {
             canClick = false;
             Invoke("CooledDown", coolDown);
             incorrectSound.Play();
         }
-
-        // audio hint
-        if (isAudioHint && !gameOver)
-        {
-            // gets distance from reticle to target star
-            double distanceToTarget = (Vector2.Distance(gameObject.transform.position, GameObject.Find(targetScript.GetTarget()).transform.position));
-            // need to keep track to see if the sound actually changed so we can call Play on the Audio Source
-            AudioClip prevSound = hintSound.clip;
-            if (distanceToTarget > 15)
-                hintSound.clip = farSound;
-            else if (distanceToTarget > 7) hintSound.clip = midSound;
-            else if (distanceToTarget > 1.5) hintSound.clip = closeSound;
-            else hintSound.clip = rapidSound;
-            if (prevSound != hintSound.clip) hintSound.Play();
-            //Debug.Log(distanceToTarget);
-
-        }
-
-        // arrow hint
-        if (isArrowHint && !gameOver)
-        {
-            UpdateArrows();
-        }
-
-        // first hint (star blinking)
-        if (firstHintCalled && !gameOver)
-        {
-            blinkStar.transform.localScale += scaleChange;
-
-            if (blinkStar.transform.localScale.x < 1.8f || blinkStar.transform.localScale.x > 2.4f)
-            {
-                scaleChange = -scaleChange;
-            }
-        }
-
-        
-
-
 
     }
 
@@ -315,18 +230,13 @@ public class TutorialReticleScript : MonoBehaviour
             case "down":
                 reticleDown = false;
                 break;
-            case "Alpheratz":
-                if(tutorialStage == 2){
-                    AdvanceTutorial();
-                }
-                hideBox();
-                break;
             default:
                 hideBox();
                 break;
         }
     }
 
+    // shows box by reticle star box
     public void showBox(string star)
     {
         // Debug.Log(star);
@@ -336,8 +246,13 @@ public class TutorialReticleScript : MonoBehaviour
             blackBox.gameObject.SetActive(true);
             starText.text = star;
         }
+        if (tutorialStage == 2)
+        {
+            AdvanceTutorial();
+        }
     }
 
+    // hides box by reticle
     public void hideBox()
     {
         textBox.gameObject.SetActive(false);
@@ -345,180 +260,85 @@ public class TutorialReticleScript : MonoBehaviour
         starText.text = "";
     }
 
+    // helper function for star click
     void CooledDown()
     {
         canClick = true;
     }
 
+    // changes color of target star ring to green
     void ChangeTargetStarColor()
     {
-        GameObject targetStarRing = GameObject.Find(targetScript.GetTarget()).transform.GetChild(0).gameObject;
+        GameObject targetStarRing = GameObject.Find("Alpheratz").transform.GetChild(0).gameObject;
         Debug.Log("targetStarRing name: " + targetStarRing.name);
         targetStarRing.GetComponent<SpriteRenderer>().color = new Color(0.1727581f, 0.945098f, 0.1215686f, 1);
     }
 
-    void StartFirstHint()
-    {
-        Debug.Log("first hint started");
-
-        firstHintCalled = true;
-        blinkStar = GameObject.Find(targetScript.GetTarget());
-    }
-
-    void StopFirstHint()
-    {
-        Debug.Log("first hint ended");
-
-        firstHintCalled = false;
-    }
-
-    void StartSecondHint()
-    {
-        Debug.Log("second hint started");
-
-        double distanceToTarget = (Vector2.Distance(gameObject.transform.position, GameObject.Find(targetScript.GetTarget()).transform.position));
-        if (distanceToTarget > 15) hintSound.clip = farSound;
-        else if (distanceToTarget > 7) hintSound.clip = midSound;
-        else if (distanceToTarget > 1.5) hintSound.clip = closeSound;
-        else hintSound.clip = rapidSound;
-        if (!isAudioHint) hintSound.Play();
-        isAudioHint = true;
-    }
-
-    void StopSecondHint()
-    {
-        Debug.Log("second hint ended");
-        isAudioHint = false;
-        hintSound.Stop();
-    }
-
-    void StartThirdHint()
-    {
-        Debug.Log("first hint started");
-        targetStar = GameObject.Find(targetScript.GetTarget());
-        isArrowHint = true;
-    }
-
-    void UpdateArrows()
-    {
-        if (targetStar.GetComponent<Renderer>().isVisible)
-        {
-            rightArrow.gameObject.SetActive(false);
-            leftArrow.gameObject.SetActive(false);
-            upArrow.gameObject.SetActive(false);
-            downArrow.gameObject.SetActive(false);
-        }
-        else
-        {
-            Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1.0f, 1.0f, 1.0f));
-            Vector3 bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0.0f, 0.0f, 1.0f));
-
-            float targetX = targetStar.transform.position.x;
-            float targetY = targetStar.transform.position.y;
-            // turn on right arrow
-            if (targetX > topRight.x)
-            {
-                rightArrow.gameObject.SetActive(true);
-                leftArrow.gameObject.SetActive(false);
-            }
-            // turn on left arrow
-            if (targetX < bottomLeft.x)
-            {
-                rightArrow.gameObject.SetActive(false);
-                leftArrow.gameObject.SetActive(true);
-            }
-            // turn off horizontal arrows
-            if (targetX > bottomLeft.x && targetX < topRight.x)
-            {
-                rightArrow.gameObject.SetActive(false);
-                leftArrow.gameObject.SetActive(false);
-            }
-            // turn on up arrow
-            if (targetY > topRight.y)
-            {
-                upArrow.gameObject.SetActive(true);
-                downArrow.gameObject.SetActive(false);
-            }
-            // turn on down arrow
-            if (targetY < bottomLeft.y)
-            {
-                upArrow.gameObject.SetActive(false);
-                downArrow.gameObject.SetActive(true);
-            }
-            // turn of verticle arrows
-            if (targetY > bottomLeft.y && targetY < topRight.y)
-            {
-                upArrow.gameObject.SetActive(false);
-                downArrow.gameObject.SetActive(false);
-            }
-        }
-    }
-
-    void StopThirdHint()
-    {
-        isArrowHint = false;
-    }
-
-    void initializeArrows()
-    {
-        upArrow = GameObject.Find("up arrow");
-        downArrow = GameObject.Find("down arrow");
-        leftArrow = GameObject.Find("left arrow");
-        rightArrow = GameObject.Find("right arrow");
-        upArrow.gameObject.SetActive(false);
-        downArrow.gameObject.SetActive(false);
-        leftArrow.gameObject.SetActive(false);
-        rightArrow.gameObject.SetActive(false);
-    }
-
-    void ResetHints()
-    {
-        StopFirstHint();
-        StopSecondHint();
-        StopThirdHint();
-        timeSinceLastStar = 0;
-    }
-
+    // Advances the Tutorial to the next stage and implements that stage's logic
     void AdvanceTutorial()
     {
-       
+        // had to use T button on stages: 1->2, 3->4, 6+
+
         tutorialStage++;
-
-        if (tutorialStage == 10)       //This check loads the main game after the last tutorial text is displayed.
-        {
-            SceneManager.LoadScene("Game");
-        }
-
-        Debug.Log("tutorialpanel: " + tutorialPanelText);
-        Debug.Log("Tutorial Advanced to Stage: " + tutorialStage);
         tutorialPanelText.text = instructions[tutorialStage];
-        
-        if(tutorialStage == 6) 
+
+        Debug.Log("Tutorial Advanced to Stage: " + tutorialStage);
+
+        if (tutorialStage == 1) // shows stars
+        {
+            alpheratz.GetComponent<Renderer>().enabled = true;
+            navi.GetComponent<Renderer>().enabled = true;
+            alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
+            navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
+        }
+        else if (tutorialStage == 3) // shows target star
+        {
+
+            TargetStarText.GetComponent<Text>().enabled = true;
+
+        }
+        else if (tutorialStage == 5) // shows score and changes target star
+        {
+            scoreUI.gameObject.SetActive(true);
+            TargetStarText.GetComponent<Text>().text = "Target: Well Done!";
+        }
+        else if (tutorialStage == 6) // hides game components and shows first hint video
         {
             canMove = false;
+            hideBox();
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
-            GameObject.Find("ScoreText").GetComponent<Text>().enabled = false;
+            scoreUI.gameObject.SetActive(false);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
             video.clip = (VideoClip)Resources.Load("hintVideos/hint1");
             video.Play();
-        } else if(tutorialStage == 7)
+        }
+        else if (tutorialStage == 7) // shows second hint video
         {
             video.clip = (VideoClip)Resources.Load("hintVideos/hint2");
             video.Play();
         }
-         else if(tutorialStage == 8) 
-         {
+        else if (tutorialStage == 8) // shows third hint video
+        {
             video.clip = (VideoClip)Resources.Load("hintVideos/hint3");
             video.Play();
-         }
-         else if(tutorialStage == 9) 
-         {
+        }
+        else if (tutorialStage == 9) // shows game components and hides videos, timed mission
+        {
             canMove = true;
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            GameObject.Find("ScoreText").GetComponent<Text>().enabled = false;
+            scoreUI.gameObject.SetActive(false);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
             video.enabled = false;
-            
-         }
+            // TODO: show timer
+        }
+        else if (tutorialStage == 10) // show transition to game
+        {
+            // TODO
+        }
+        else if (tutorialStage >= 11) // loads game
+        {
+            // start game button
+            SceneManager.LoadScene("Game");
+        }
     }
 }
