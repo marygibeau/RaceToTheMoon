@@ -102,7 +102,12 @@ public class TutorialReticleScript : MonoBehaviour
         TargetStarText = GameObject.Find("TargetText");
         hideBox();
 
-        TargetStarText.gameObject.SetActive(false);
+        TargetStarText.GetComponent<Text>().enabled = false;
+
+        blackBox.GetComponent<Image>().enabled = false;
+        starText.GetComponent<Text>().enabled = false;
+        textBox.GetComponent<Renderer>().enabled = false;
+
     }
 
     // Update is called once per frame
@@ -111,22 +116,22 @@ public class TutorialReticleScript : MonoBehaviour
         // reticle movement
         if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
         {
-            if (movements < 61 && tutorialStage == 0) { movements++; }
+            if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
             this.transform.Translate(Vector2.up * movementOffset);
         }
         if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
         {
-            if (movements < 61 && tutorialStage == 0) { movements++; }
+            if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
             this.transform.Translate(Vector2.down * movementOffset);
         }
         if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
         {
-            if (movements < 61 && tutorialStage == 0) { movements++; }
+            if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
             this.transform.Translate(Vector2.left * movementOffset);
         }
         if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
         {
-            if (movements < 61 && tutorialStage == 0) { movements++; }
+            if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
             this.transform.Translate(Vector2.right * movementOffset);
         }
 
@@ -141,6 +146,44 @@ public class TutorialReticleScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.T))
         {
             AdvanceTutorial();
+        }
+
+        if (tutorialStage == 0){
+            GameObject alpheratz = GameObject.Find("Alpheratz");
+            GameObject navi = GameObject.Find("Navi");
+            GameObject circle = GameObject.Find("white circle trnasparent background");
+
+            // alpheratz.gameObject.SetActive(false);
+            // dipdha.gameObject.SetActive(false);
+
+            alpheratz.GetComponent<Renderer>().enabled = false;
+            navi.GetComponent<Renderer>().enabled = false;
+            circle.GetComponent<Renderer>().enabled = false;
+        }
+
+        if (tutorialStage == 1){
+
+            GameObject alpheratz = GameObject.Find("Alpheratz");
+            GameObject navi = GameObject.Find("Navi");
+            GameObject circle = GameObject.Find("white circle trnasparent background");
+
+            alpheratz.GetComponent<Renderer>().enabled = true;
+            navi.GetComponent<Renderer>().enabled = true;
+            circle.GetComponent<Renderer>().enabled = true;
+            
+            Debug.Log(movements);
+        }
+
+        if (tutorialStage == 2){
+            blackBox.GetComponent<Image>().enabled = true;
+            starText.GetComponent<Text>().enabled = true;
+            textBox.GetComponent<Renderer>().enabled = true;
+        }
+
+        if (tutorialStage == 3){
+            
+            TargetStarText.GetComponent<Text>().enabled = true;
+           
         }
 
         // camera movement
@@ -262,6 +305,12 @@ public class TutorialReticleScript : MonoBehaviour
                 break;
             case "down":
                 reticleDown = false;
+                break;
+            case "Alpheratz":
+                if(tutorialStage == 2){
+                    AdvanceTutorial();
+                }
+                hideBox();
                 break;
             default:
                 hideBox();
