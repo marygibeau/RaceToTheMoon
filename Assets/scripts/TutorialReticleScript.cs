@@ -2,15 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
-public class reticleMovementScript : MonoBehaviour
+public class TutorialReticleScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-    // for target star logic, maintain list of stars that have been selected and stars that can be selected 
-    // make sure new targetStar is in not found array before assigning
-
     // movement variables
     public float movementOffset = 0.1f;
     public cameraMovement cameraMovementScript;
@@ -45,18 +39,15 @@ public class reticleMovementScript : MonoBehaviour
     AudioClip closeSound;
     AudioClip rapidSound;
 
-
     // level management variables
     LevelManager lvlr;
-    public GameObject launchButton;
-    public GameObject launchPanel;
+    public Text tutorialPanelText;
     bool gameOver;
-    bool launchButtonHovered;
     TimerScript timer;
 
     // hint variables
-    Boolean isAudioHint;
-    Boolean isArrowHint;
+    bool isAudioHint;
+    bool isArrowHint;
     public GameObject upArrow;
     public GameObject downArrow;
     public GameObject leftArrow;
@@ -65,10 +56,28 @@ public class reticleMovementScript : MonoBehaviour
     private Vector3 scaleChange = new Vector3(-0.01f, -0.01f, -0.01f);
     private bool firstHintCalled = false;
 
+    // tutorial variables
+    int tutorialStage;
+    GameObject TargetStarText;
+    int movements = 0;
+    string[] instructions = {"Move the reticle using wasd or arrow keys.",
+                             "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
+                             "Move the reticle over a star to see its name.",
+                             "In the upper right hand corner is the name of the star you’re looking for",
+                             "If the name of the star matches the name of the target star, press enter to earn points.",
+                             "Some stars are outside of our view. To move the viewport, move your reticle in the desired direction until it collides with the box.",
+                             "If you’re having trouble finding a star, first the circle around the star will expand and shrink to draw your attention.",
+                             "Next our audio tracking system will play beeps that get faster as you get closer to the target star and a special sound will play when you hover over the correct star.",
+                             "Finally, arrows will appear to help guide you in the direction of very difficult stars.",
+                             "Because this is a critical mission, you’ll only have a certain amount of time.",
+                             "Try to find as many stars as you can within the time limit to recalibrate the navigation system."};
+
+    // Start is called before the first frame update
     void Start()
     {
         scoreUI = GameObject.Find("ScoreText").GetComponent<Text>();
-        scoreUI.text = "Score: 00000";
+        scoreUI.text = "Score: 01000";
+        scoreUI.gameObject.SetActive(false);
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
@@ -82,110 +91,97 @@ public class reticleMovementScript : MonoBehaviour
         midSound = (AudioClip)Resources.Load("sounds/boopMid");
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
-        launchButton.gameObject.SetActive(false);
-        launchPanel.gameObject.SetActive(false);
+        tutorialStage = 0;
+        // instructions = "";
+        // Debug.Log("instructions: " + instructions[tutorialStage]);
+        tutorialPanelText = GameObject.Find("tutorial panel").transform.GetChild(0).GetComponent<Text>();
+        tutorialPanelText.text = instructions[tutorialStage];
         gameOver = false;
-        launchButtonHovered = false;
         timer = GameObject.Find("Timer").GetComponent<TimerScript>();
+        timer.gameObject.SetActive(false);
+        TargetStarText = GameObject.Find("TargetText");
         hideBox();
+
+        TargetStarText.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        timeSinceLastStar += 1 * Time.deltaTime;
-
-        if (Math.Ceiling(timeSinceLastStar) % 60 == 5 && !gameOver)
-        {
-            StartFirstHint();
-        }
-        else if (Math.Ceiling(timeSinceLastStar) % 60 == 10 && !gameOver)
-        {
-            StartSecondHint();
-        }
-        else if (Math.Ceiling(timeSinceLastStar) % 60 == 15 && !gameOver)
-        {
-            StartThirdHint();
-        }
-
         // reticle movement
         if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
         {
+            if (movements < 61 && tutorialStage == 0) { movements++; }
             this.transform.Translate(Vector2.up * movementOffset);
         }
         if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
         {
+            if (movements < 61 && tutorialStage == 0) { movements++; }
             this.transform.Translate(Vector2.down * movementOffset);
         }
         if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
         {
+            if (movements < 61 && tutorialStage == 0) { movements++; }
             this.transform.Translate(Vector2.left * movementOffset);
         }
         if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
         {
+            if (movements < 61 && tutorialStage == 0) { movements++; }
             this.transform.Translate(Vector2.right * movementOffset);
         }
 
-        // camera movement
-        if (reticleUp && !gameOver)
+        if (movements < 61 && movements > 0) { Debug.Log(movements); }
+
+        if (movements >= 60)
         {
+            AdvanceTutorial();
+            movements = 0;
+        }
+
+        if (Input.GetKeyUp(KeyCode.T))
+        {
+            AdvanceTutorial();
+        }
+
+        // camera movement
+        if (reticleUp && tutorialStage >= 5)
+        {
+            if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveUp();
         }
-        if (reticleDown && !gameOver)
+        if (reticleDown && tutorialStage >= 5)
         {
+            if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveDown();
         }
-        if (reticleLeft && !gameOver)
+        if (reticleLeft && tutorialStage >= 5)
         {
+            if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveLeft();
         }
-        if (reticleRight && !gameOver)
+        if (reticleRight && tutorialStage >= 5)
         {
+            if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveRight();
         }
 
         // logic for star being clicked
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == targetScript.GetTarget() && !gameOver)
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == targetScript.GetTarget() && !gameOver && tutorialStage >= 4)
         {
             canClick = false;
-            increaseScore(scoreIncrement);
+            // increaseScore(scoreIncrement);
             Invoke("CooledDown", coolDown);
             ResetHints();
             ChangeTargetStarColor();
-            UpdateTargetStarDebug();
-            // UpdateTargetStar();
+            TargetStarText.GetComponent<Text>().text = "Target: Well Done!";
+            if (tutorialStage == 4) { AdvanceTutorial(); }
         }
-
         //logic for clicking a star that is not the target to play sound effect
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget() 
-        && starText.text != "" && !gameOver)
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget() && starText.text != "" && !gameOver)
         {
             canClick = false;
             Invoke("CooledDown", coolDown);
             incorrectSound.Play();
-        }
-
-        if (Input.GetKeyUp(KeyCode.Return) && launchButtonHovered)
-        {
-            lvlr.LoadNextLevelWithStarListAndTimeLeft(getStarsCollectedList(), timer.GetTimeLeft());
-        }
-
-        //testing increaseScore
-        if (Input.GetKeyDown(KeyCode.Q) && !gameOver)
-        {
-            increaseScore(scoreIncrement);
-        }
-
-        // testing load with final score
-        if (Input.GetKeyDown(KeyCode.E) && !gameOver)
-        {
-            lvlr.LoadNextLevelWithStarListAndTimeLeft(getStarsCollectedList(), GameObject.Find("Timer").GetComponent<TimerScript>().GetTimeLeft());
-        }
-
-        // cycle target star
-        if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.N) && !gameOver)
-        {
-            UpdateTargetStarDebug();
         }
 
         // audio hint
@@ -221,8 +217,9 @@ public class reticleMovementScript : MonoBehaviour
                 scaleChange = -scaleChange;
             }
         }
-    }
 
+
+    }
 
     // checks if reticle has collided with a trigger
     void OnTriggerEnter2D(Collider2D other)
@@ -275,11 +272,7 @@ public class reticleMovementScript : MonoBehaviour
     public void showBox(string star)
     {
         // Debug.Log(star);
-        if (star == "launch button")
-        {
-            launchButtonHovered = true;
-        }
-        else if (star != "Main Camera" && star != "Button" && !gameOver)
+        if (star != "Main Camera" && star != "Button" && !gameOver)
         {
             textBox.gameObject.SetActive(true);
             blackBox.gameObject.SetActive(true);
@@ -292,26 +285,6 @@ public class reticleMovementScript : MonoBehaviour
         textBox.gameObject.SetActive(false);
         blackBox.gameObject.SetActive(false);
         starText.text = "";
-        launchButtonHovered = false;
-    }
-
-    // increases the score shown by an amount passed
-    public void increaseScore(int amount)
-    {
-        currentScore += amount;
-        // if score is 4 digits, keeps the leading zero, else just show the 5 digit score
-        updateScoreText(currentScore);
-        //play the sound effect for selecting the correct star
-        selectionSound.Play();
-    }
-
-    public void updateScoreText(int score)
-    {
-        if (currentScore < 10000)
-        {
-            scoreUI.text = "Score: " + ("0" + currentScore);
-        }
-        else scoreUI.text = "Score: " + currentScore.ToString();
     }
 
     void CooledDown()
@@ -319,53 +292,11 @@ public class reticleMovementScript : MonoBehaviour
         canClick = true;
     }
 
-    public int getScore()
-    {
-        return currentScore;
-    }
-
-    public int getStars()
-    {
-        return targetScript.GetNumberOfStarsFound();
-    }
-
-    public List<string> getStarsCollectedList()
-    {
-        return targetScript.GetNamesOfStarsFound();
-    }
-
     void ChangeTargetStarColor()
     {
         GameObject targetStarRing = GameObject.Find(targetScript.GetTarget()).transform.GetChild(0).gameObject;
         Debug.Log("targetStarRing name: " + targetStarRing.name);
         targetStarRing.GetComponent<SpriteRenderer>().color = new Color(0.1727581f, 0.945098f, 0.1215686f, 1);
-    }
-
-    void UpdateTargetStarDebug()
-    {
-        UpdateTargetStar();
-        Debug.Log("New target star = " + targetScript.GetTarget());
-        Debug.Log("Found stars include: ");
-        foreach (string star in targetScript.GetNamesOfStarsFound())
-        {
-            Debug.Log("  - " + star);
-        }
-    }
-
-    void UpdateTargetStar()
-    {
-        if (!gameOver)
-        {
-            targetScript.UpdateTarget();
-            if (targetScript.GetTarget() == "done")
-            {
-                gameOverActivate();
-            }
-            else
-            {
-                targetStar = GameObject.Find(targetScript.GetTarget());
-            }
-        }
     }
 
     void StartFirstHint()
@@ -489,20 +420,11 @@ public class reticleMovementScript : MonoBehaviour
         StopThirdHint();
         timeSinceLastStar = 0;
     }
-    public void showLaunchInfo()
-    {
-        launchButton.gameObject.SetActive(true);
-        launchPanel.gameObject.SetActive(true);
-        GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
-        ResetHints();
-    }
 
-    public void gameOverActivate()
+    void AdvanceTutorial()
     {
-        gameOver = true;
-        timer.stopTimer();
-        hideBox();
-        showLaunchInfo();
+        tutorialStage++;
+        tutorialPanelText.text = instructions[tutorialStage];
+        Debug.Log("Tutorial Advanced to Stage: " + tutorialStage);
     }
-
 }
