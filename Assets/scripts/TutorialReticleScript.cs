@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class TutorialReticleScript : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class TutorialReticleScript : MonoBehaviour
     private bool reticleDown = false;
     private bool reticleLeft = false;
     private bool reticleRight = false;
+    private bool canMove = true;
 
     // UI variables
     Text scoreUI;
@@ -60,6 +62,7 @@ public class TutorialReticleScript : MonoBehaviour
     int tutorialStage;
     GameObject TargetStarText;
     int movements = 0;
+    public VideoPlayer video;
     string[] instructions = {"Move the reticle using wasd or arrow keys.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
                              "Move the reticle over a star to see its name.",
@@ -91,10 +94,11 @@ public class TutorialReticleScript : MonoBehaviour
         midSound = (AudioClip)Resources.Load("sounds/boopMid");
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
+        video = GameObject.Find("VideoPlayer").GetComponent<VideoPlayer>();
         tutorialStage = 0;
         // instructions = "";
         // Debug.Log("instructions: " + instructions[tutorialStage]);
-        tutorialPanelText = GameObject.Find("tutorial panel").transform.GetChild(0).GetComponent<Text>();
+        tutorialPanelText = GameObject.Find("TutorialText").GetComponent<Text>();
         tutorialPanelText.text = instructions[tutorialStage];
         gameOver = false;
         timer = GameObject.Find("Timer").GetComponent<TimerScript>();
@@ -114,30 +118,31 @@ public class TutorialReticleScript : MonoBehaviour
     void Update()
     {
         // reticle movement
-        if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
-        {
-            if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
-            this.transform.Translate(Vector2.up * movementOffset);
+        if(canMove) {
+            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
+            {
+                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
+                this.transform.Translate(Vector2.up * movementOffset);
+            }
+            if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
+            {
+                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
+                this.transform.Translate(Vector2.down * movementOffset);
+            }
+            if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
+            {
+                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
+                this.transform.Translate(Vector2.left * movementOffset);
+            }
+            if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
+            {
+                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
+                this.transform.Translate(Vector2.right * movementOffset);
+            }
         }
-        if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
-        {
-            if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
-            this.transform.Translate(Vector2.down * movementOffset);
-        }
-        if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
-        {
-            if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
-            this.transform.Translate(Vector2.left * movementOffset);
-        }
-        if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
-        {
-            if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
-            this.transform.Translate(Vector2.right * movementOffset);
-        }
-
         if (movements < 61 && movements > 0) { Debug.Log(movements); }
 
-        if (movements >= 60)
+        if (movements >= 60 && tutorialStage == 0)
         {
             AdvanceTutorial();
             movements = 0;
@@ -260,6 +265,9 @@ public class TutorialReticleScript : MonoBehaviour
                 scaleChange = -scaleChange;
             }
         }
+
+        
+
 
 
     }
@@ -473,7 +481,35 @@ public class TutorialReticleScript : MonoBehaviour
     void AdvanceTutorial()
     {
         tutorialStage++;
-        tutorialPanelText.text = instructions[tutorialStage];
+        Debug.Log("tutorialpanel: " + tutorialPanelText);
         Debug.Log("Tutorial Advanced to Stage: " + tutorialStage);
+        tutorialPanelText.text = instructions[tutorialStage];
+        
+        if(tutorialStage == 6) 
+        {
+            canMove = false;
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            GameObject.Find("ScoreText").GetComponent<Text>().enabled = false;
+            GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
+            video.clip = (VideoClip)Resources.Load("hintVideos/hint1");
+            video.Play();
+        } else if(tutorialStage == 7)
+        {
+            video.clip = (VideoClip)Resources.Load("hintVideos/hint2");
+            video.Play();
+        }
+         else if(tutorialStage == 8) 
+         {
+            video.clip = (VideoClip)Resources.Load("hintVideos/hint3");
+            video.Play();
+         }
+         else if(tutorialStage == 9) 
+         {
+            canMove = true;
+            gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            GameObject.Find("ScoreText").GetComponent<Text>().enabled = false;
+            GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
+            video.enabled = false;
+         }
     }
 }
