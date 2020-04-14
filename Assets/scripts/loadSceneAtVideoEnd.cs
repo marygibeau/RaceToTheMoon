@@ -12,8 +12,16 @@ public class loadSceneAtVideoEnd : MonoBehaviour
     {
         VideoPlayer.loopPointReached += LoadScene;
     }
+
+    private void Update()
+    {
+        if (Input.GetKeyUp(KeyCode.E))
+        {
+            SceneManager.LoadScene("Tutorial");
+        }
+    }
     void LoadScene(VideoPlayer vp)
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Tutorial");
     }
 }

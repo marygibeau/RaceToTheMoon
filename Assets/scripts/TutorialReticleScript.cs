@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+using UnityEngine.SceneManagement;
 
 public class TutorialReticleScript : MonoBehaviour
 {
@@ -480,7 +481,14 @@ public class TutorialReticleScript : MonoBehaviour
 
     void AdvanceTutorial()
     {
+       
         tutorialStage++;
+
+        if (tutorialStage == 10)       //This check loads the main game after the last tutorial text is displayed.
+        {
+            SceneManager.LoadScene("Game");
+        }
+
         Debug.Log("tutorialpanel: " + tutorialPanelText);
         Debug.Log("Tutorial Advanced to Stage: " + tutorialStage);
         tutorialPanelText.text = instructions[tutorialStage];
@@ -510,6 +518,7 @@ public class TutorialReticleScript : MonoBehaviour
             GameObject.Find("ScoreText").GetComponent<Text>().enabled = false;
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
             video.enabled = false;
+            
          }
     }
 }
