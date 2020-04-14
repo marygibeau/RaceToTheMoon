@@ -280,8 +280,16 @@ public class TutorialReticleScript : MonoBehaviour
         // had to use T button on stages: 1->2, 3->4, 6+
 
         tutorialStage++;
-        tutorialPanelText.text = instructions[tutorialStage];
-
+        if (tutorialStage >= 11) // loads game
+        {
+            // start game button
+            SceneManager.LoadScene("Game");
+        }
+        else
+        {
+            tutorialPanelText.text = instructions[tutorialStage];
+        }
+        
         Debug.Log("Tutorial Advanced to Stage: " + tutorialStage);
 
         if (tutorialStage == 1) // shows stars
@@ -334,11 +342,6 @@ public class TutorialReticleScript : MonoBehaviour
         else if (tutorialStage == 10) // show transition to game
         {
             // TODO
-        }
-        else if (tutorialStage >= 11) // loads game
-        {
-            // start game button
-            SceneManager.LoadScene("Game");
         }
     }
 }
