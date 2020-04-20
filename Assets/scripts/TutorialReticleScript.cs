@@ -58,6 +58,7 @@ public class TutorialReticleScript : MonoBehaviour
     GameObject alpheratz;
     GameObject navi;
     float enterButtonPressed;
+    bool advancingTutorial = false;
 
     string[] instructions = {"Move the reticle using wasd or arrow keys.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
@@ -129,60 +130,70 @@ public class TutorialReticleScript : MonoBehaviour
         {
             if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
             {
-                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
+                if (movements < 61 && tutorialStage == 0) { movements++; }
                 this.transform.Translate(Vector2.up * movementOffset);
             }
             if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
             {
-                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
+                if (movements < 61 && tutorialStage == 0) { movements++; }
                 this.transform.Translate(Vector2.down * movementOffset);
             }
             if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
             {
-                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
+                if (movements < 61 && tutorialStage == 0) { movements++; }
                 this.transform.Translate(Vector2.left * movementOffset);
             }
             if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
             {
-                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
+                if (movements < 61 && tutorialStage == 0) { movements++; }
                 this.transform.Translate(Vector2.right * movementOffset);
             }
         }
         // debugging printout for movement variable
-        if (movements < 61 && movements > 0) { Debug.Log(movements); }
+        // if (movements < 61 && movements > 0) {
+        Debug.Log("movements: " + movements);
+        //   }
 
         // advance tutorial stage for 0 and 6
         if (movements >= 60 && (tutorialStage == 0 || tutorialStage == 5))
         {
-            AdvanceTutorial();
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
             movements = 0;
         }
 
         // advance tutorial debug button
         if (Input.GetKeyUp(KeyCode.T))
         {
-            AdvanceTutorial();
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
         }
 
         // camera movement
         if (reticleUp && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
-            if (movements < 65 && tutorialStage == 5) { movements++; }
+            if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveUp();
         }
         if (reticleDown && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
-            if (movements < 65 && tutorialStage == 5) { movements++; }
+            if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveDown();
         }
         if (reticleLeft && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
-            if (movements < 65 && tutorialStage == 5) { movements++; }
+            if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveLeft();
         }
         if (reticleRight && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
-            if (movements < 65 && tutorialStage == 5) { movements++; }
+            if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveRight();
         }
 
@@ -192,7 +203,14 @@ public class TutorialReticleScript : MonoBehaviour
             canClick = false;
             Invoke("CooledDown", coolDown);
             ChangeTargetStarColor();
-            if (tutorialStage == 4) { AdvanceTutorial(); }
+            if (tutorialStage == 4)
+            {
+                if (!advancingTutorial)
+                {
+                    advancingTutorial = true;
+                    AdvanceTutorial();
+                }
+            }
         }
 
         //logic for clicking a star that is not the target to play sound effect
@@ -206,7 +224,11 @@ public class TutorialReticleScript : MonoBehaviour
         // logic for clicking start button at end of tutorial
         if (Input.GetKeyUp(KeyCode.Return) && canClick && tutorialStage == 10)
         {
-            AdvanceTutorial();
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Return) && tutorialStage < 0)
@@ -218,11 +240,16 @@ public class TutorialReticleScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Return) && tutorialStage < 0)
         {
             Debug.Log("time elapsed: " + (Time.time - enterButtonPressed));
-            if((Time.time - enterButtonPressed) >= 3) {
+            if ((Time.time - enterButtonPressed) >= 3)
+            {
                 tutorialStage = 11;
             }
             // StartTutorial();
-            AdvanceTutorial();
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
         }
 
     }
@@ -287,7 +314,11 @@ public class TutorialReticleScript : MonoBehaviour
         }
         if (tutorialStage == 2)
         {
-            AdvanceTutorial();
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
         }
     }
 
@@ -400,9 +431,11 @@ public class TutorialReticleScript : MonoBehaviour
         }
         else if (tutorialStage == 10) // show transition to game
         {
+            HideGameComponents();
             transitionPanel.gameObject.SetActive(true);
             transitionPanelText.text = endText;
             canMove = false;
         }
+        advancingTutorial = false;
     }
 }
