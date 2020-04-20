@@ -1,0 +1,26 @@
+fileFormatVersion: 2
+guid: 818b1a9d2a10947d09493e76df5f608f
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: GT Eesti Display
+  fontNames:
+  - GT Eesti Display
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4ff9dc04c61734b7281276d92b4c0aa5, type: 3}
+  - {fileID: 12800000, guid: 1c9f4326610eb44a4a7cc2701c532410, type: 3}
+  - {fileID: 12800000, guid: 07f56bec7a5e845cd9ac58a55547b31e, type: 3}
+  - {fileID: 12800000, guid: 27f859be97b1e4fbcbff1eb29b4dda6a, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
