@@ -41,17 +41,24 @@ public class TutorialReticleScript : MonoBehaviour
 
     // level management variables
     LevelManager lvlr;
-    public Text tutorialPanelText;
-    bool gameOver;
     TimerScript timer;
+    public GameObject transitionPanel;
+    public Text transitionPanelText;
+    string introText = "If you would like a refresher on your star tracking training press enter. If not, hold enter for 3 seconds to skip this training review.";
+    string endText = "You have successfully comlpeted your training review. Press enter to begin system calibration.";
+
 
     // tutorial variables
     int tutorialStage;
+    Text tutorialPanelText;
+    GameObject tutorialPanel;
     GameObject TargetStarText;
     int movements = 0;
     public VideoPlayer video;
     GameObject alpheratz;
     GameObject navi;
+    float enterButtonPressed;
+
     string[] instructions = {"Move the reticle using wasd or arrow keys.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
                              "Move the reticle over a star to see its name.",
@@ -67,13 +74,16 @@ public class TutorialReticleScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // set score and hide
         scoreUI = GameObject.Find("ScoreText").GetComponent<Text>();
         scoreUI.text = "Score: 01000";
-        scoreUI.gameObject.SetActive(false);
+        // get star box components and hide
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
+        // level manager
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        // sound variables initialization
         selectionSound = gameObject.GetComponents<AudioSource>()[1];
         hintSound = gameObject.GetComponents<AudioSource>()[0];
         incorrectSound = gameObject.GetComponents<AudioSource>()[2];
@@ -81,27 +91,34 @@ public class TutorialReticleScript : MonoBehaviour
         midSound = (AudioClip)Resources.Load("sounds/boopMid");
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
+        // video set up
         video = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
-        tutorialStage = 0;
+        // tutorial setup
+        tutorialStage = -1;
+        tutorialPanel = GameObject.Find("Tutorial Box");
         tutorialPanelText = GameObject.Find("TutorialText").GetComponent<Text>();
-        tutorialPanelText.text = instructions[tutorialStage];
-        gameOver = false;
+        transitionPanelText.text = introText;
+        // timer set up and hide
         timer = GameObject.Find("Timer").GetComponent<TimerScript>();
-        timer.gameObject.SetActive(false);
+        // target star set up and hide
         TargetStarText = GameObject.Find("TargetText");
         TargetStarText.GetComponent<Text>().text = "Target: Alpheratz";
-        TargetStarText.GetComponent<Text>().enabled = false;
-
+        // star set up and hide
         alpheratz = GameObject.Find("Alpheratz");
         navi = GameObject.Find("Navi");
+        // hide reticle and reticle box
+        HideGameComponents();
+    }
 
-        alpheratz.GetComponent<Renderer>().enabled = false;
-        navi.GetComponent<Renderer>().enabled = false;
-
-        alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
-        navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
-
-        hideBox();
+    void StartTutorial()
+    {
+        transitionPanel.gameObject.SetActive(false);
+        tutorialStage = 0;
+        tutorialPanel.gameObject.SetActive(true);
+        tutorialPanelText.text = instructions[tutorialStage];
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        GameObject.Find("terminalReticleSimpleGreen").GetComponent<SpriteRenderer>().enabled = true;
+        canMove = true;
     }
 
     // Update is called once per frame
@@ -148,29 +165,29 @@ public class TutorialReticleScript : MonoBehaviour
         }
 
         // camera movement
-        if (reticleUp && tutorialStage >= 5 && canMove)
+        if (reticleUp && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
             if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveUp();
         }
-        if (reticleDown && tutorialStage >= 5 && canMove)
+        if (reticleDown && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
             if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveDown();
         }
-        if (reticleLeft && tutorialStage >= 5 && canMove)
+        if (reticleLeft && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
             if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveLeft();
         }
-        if (reticleRight && tutorialStage >= 5 && canMove)
+        if (reticleRight && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
             if (movements < 65 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveRight();
         }
 
         // logic for star being clicked
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == "Alpheratz" && !gameOver && tutorialStage >= 4)
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == "Alpheratz" && tutorialStage >= 4)
         {
             canClick = false;
             Invoke("CooledDown", coolDown);
@@ -179,11 +196,33 @@ public class TutorialReticleScript : MonoBehaviour
         }
 
         //logic for clicking a star that is not the target to play sound effect
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != "Alpheratz" && starText.text != "" && !gameOver)
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != "Alpheratz" && starText.text != "")
         {
             canClick = false;
             Invoke("CooledDown", coolDown);
             incorrectSound.Play();
+        }
+
+        // logic for clicking start button at end of tutorial
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && tutorialStage == 10)
+        {
+            AdvanceTutorial();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) && tutorialStage < 0)
+        {
+            enterButtonPressed = Time.time;
+        }
+
+        // logic for starting tutorial
+        if (Input.GetKeyUp(KeyCode.Return) && tutorialStage < 0)
+        {
+            Debug.Log("time elapsed: " + (Time.time - enterButtonPressed));
+            if((Time.time - enterButtonPressed) >= 3) {
+                tutorialStage = 11;
+            }
+            // StartTutorial();
+            AdvanceTutorial();
         }
 
     }
@@ -240,7 +279,7 @@ public class TutorialReticleScript : MonoBehaviour
     public void showBox(string star)
     {
         // Debug.Log(star);
-        if (star != "Main Camera" && star != "Button" && !gameOver)
+        if (star != "Main Camera" && tutorialStage >= 2 && tutorialStage <= 5)
         {
             textBox.gameObject.SetActive(true);
             blackBox.gameObject.SetActive(true);
@@ -274,6 +313,22 @@ public class TutorialReticleScript : MonoBehaviour
         targetStarRing.GetComponent<SpriteRenderer>().color = new Color(0.1727581f, 0.945098f, 0.1215686f, 1);
     }
 
+    void HideGameComponents()
+    {
+        scoreUI.gameObject.SetActive(false);
+        hideBox();
+        timer.gameObject.SetActive(false);
+        TargetStarText.GetComponent<Text>().enabled = false;
+        tutorialPanel.gameObject.SetActive(false);
+        alpheratz.GetComponent<Renderer>().enabled = false;
+        navi.GetComponent<Renderer>().enabled = false;
+        alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
+        navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        GameObject.Find("terminalReticleSimpleGreen").GetComponent<SpriteRenderer>().enabled = false;
+        canMove = false;
+    }
+
     // Advances the Tutorial to the next stage and implements that stage's logic
     void AdvanceTutorial()
     {
@@ -282,15 +337,19 @@ public class TutorialReticleScript : MonoBehaviour
         tutorialStage++;
         if (tutorialStage >= 11) // loads game
         {
-            // start game button
             SceneManager.LoadScene("Game");
+        }
+        else if (tutorialStage == 0)
+        {
+            StartTutorial();
         }
         else
         {
             tutorialPanelText.text = instructions[tutorialStage];
         }
-        
+
         Debug.Log("Tutorial Advanced to Stage: " + tutorialStage);
+
 
         if (tutorialStage == 1) // shows stars
         {
@@ -337,11 +396,13 @@ public class TutorialReticleScript : MonoBehaviour
             scoreUI.gameObject.SetActive(false);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
             video.enabled = false;
-            // TODO: show timer
+            timer.gameObject.SetActive(true);
         }
         else if (tutorialStage == 10) // show transition to game
         {
-            // TODO
+            transitionPanel.gameObject.SetActive(true);
+            transitionPanelText.text = endText;
+            canMove = false;
         }
     }
 }
