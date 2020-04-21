@@ -3433,6 +3433,33 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1039063691900219259, guid: 25ac9c85cc73ff64eaf7226095f09f48,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 4ff9dc04c61734b7281276d92b4c0aa5,
+        type: 3}
+    - target: {fileID: 1039063692450869016, guid: 25ac9c85cc73ff64eaf7226095f09f48,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c44cda9826de0334ebb76c6d28edf3dd,
+        type: 3}
+    - target: {fileID: 1039063692450869016, guid: 25ac9c85cc73ff64eaf7226095f09f48,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039063692450869016, guid: 25ac9c85cc73ff64eaf7226095f09f48,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1039063692450869016, guid: 25ac9c85cc73ff64eaf7226095f09f48,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1039063692450869017, guid: 25ac9c85cc73ff64eaf7226095f09f48,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3523,6 +3550,26 @@ PrefabInstance:
       propertyPath: launchPanel
       value: 
       objectReference: {fileID: 181458017}
+    - target: {fileID: 1039063692450869019, guid: 25ac9c85cc73ff64eaf7226095f09f48,
+        type: 3}
+      propertyPath: movementOffset
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942532080838833882, guid: 25ac9c85cc73ff64eaf7226095f09f48,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.65882355
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942532080838833882, guid: 25ac9c85cc73ff64eaf7226095f09f48,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.6156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942532080838833882, guid: 25ac9c85cc73ff64eaf7226095f09f48,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.5803922
+      objectReference: {fileID: 0}
     - target: {fileID: 1039063692450869019, guid: 25ac9c85cc73ff64eaf7226095f09f48,
         type: 3}
       propertyPath: movementOffset

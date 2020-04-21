@@ -64,8 +64,8 @@ public class TutorialReticleScript : MonoBehaviour
 
     string[] instructions = {"Move the reticle using wasd or arrow keys.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
-                             "Move the reticle over a star to see its name.",
                              "In the upper right hand corner is the name of the star you’re looking for",
+                             "Move the reticle over a star to see its name.",
                              "If the name of the star matches the name of the target star, press enter to earn points.",
                              "Some stars are outside of our view. To move the viewport, move your reticle in the desired direction until it collides with the box.",
                              "If you’re having trouble finding a star, first the circle around the star will expand and shrink to draw your attention.",
@@ -309,14 +309,15 @@ public class TutorialReticleScript : MonoBehaviour
     public void showBox(string star)
     {
         // Debug.Log(star);
-        if (star != "Main Camera" && tutorialStage >= 2 && tutorialStage <= 5)
+
+        if (star != "Main Camera" && tutorialStage >= 3 && tutorialStage <= 5)
         {
             textBox.gameObject.SetActive(true);
             
             blackBox.gameObject.SetActive(true);
             starText.text = star;
         }
-        if (tutorialStage == 2)
+        if (tutorialStage == 3)
         {
             if (!advancingTutorial)
             {
@@ -395,7 +396,7 @@ public class TutorialReticleScript : MonoBehaviour
             alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
             navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
         }
-        else if (tutorialStage == 3) // shows target star
+        else if (tutorialStage == 2) // shows target star
         {
 
             TargetStarText.GetComponent<Text>().enabled = true;
