@@ -12,7 +12,7 @@ public class reticleMovementScript : MonoBehaviour
     // make sure new targetStar is in not found array before assigning
 
     // movement variables
-    public float movementOffset = 0.01f;
+    float movementOffset = 4.0f;
     public cameraMovement cameraMovementScript;
     public Camera mainCamera;
     public GameObject backgroundImage;
@@ -119,19 +119,19 @@ public class reticleMovementScript : MonoBehaviour
         // reticle movement
         if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
         {
-            this.transform.Translate(Vector2.up * movementOffset);
+            this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
         }
         if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
         {
-            this.transform.Translate(Vector2.down * movementOffset);
+            this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
         }
         if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
         {
-            this.transform.Translate(Vector2.left * movementOffset);
+            this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
         }
         if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
         {
-            this.transform.Translate(Vector2.right * movementOffset);
+            this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
         }
 
         // camera movement

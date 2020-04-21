@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class cameraMovement : MonoBehaviour
 {
-    public float offset = 0.1f;
+    float offset = 4.0f;
     private bool upBoundary = false;
     private bool downBoundary = false;
     private bool leftBoundary = false;
@@ -15,7 +15,7 @@ public class cameraMovement : MonoBehaviour
     {
         if (!rightBoundary)
         {
-            this.transform.Translate(Vector2.right * offset);
+            this.transform.Translate(Vector2.right * offset*Time.deltaTime);
         }
     }
 
@@ -23,14 +23,14 @@ public class cameraMovement : MonoBehaviour
     {
         if (!leftBoundary)
         {
-            this.transform.Translate(Vector2.left * offset);
+            this.transform.Translate(Vector2.left * offset*Time.deltaTime);
         }
     }
     public void moveUp()
     {
         if (!upBoundary)
         {
-            this.transform.Translate(Vector2.up * offset);
+            this.transform.Translate(Vector2.up * offset*Time.deltaTime);
         }
     }
 
@@ -38,7 +38,7 @@ public class cameraMovement : MonoBehaviour
     {
         if (!downBoundary)
         {
-            this.transform.Translate(Vector2.down * offset);
+            this.transform.Translate(Vector2.down * offset*Time.deltaTime);
         }
     }
     // checks if hit boundary

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class TutorialReticleScript : MonoBehaviour
 {
     // movement variables
-    public float movementOffset = 0.1f;
+    float movementOffset = 4.0f;
     public cameraMovement cameraMovementScript;
     public Camera mainCamera;
     public GameObject backgroundImage;
@@ -134,22 +134,22 @@ public class TutorialReticleScript : MonoBehaviour
             if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
-                this.transform.Translate(Vector2.up * movementOffset);
+                this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
-                this.transform.Translate(Vector2.down * movementOffset);
+                this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
-                this.transform.Translate(Vector2.left * movementOffset);
+                this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
-                this.transform.Translate(Vector2.right * movementOffset);
+                this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
             }
         }
         // debugging printout for movement variable
