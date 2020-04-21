@@ -731,6 +731,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: RestartButton
       objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794858, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794858, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794858, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Colors.m_NormalColor.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2011389286182794859, guid: d81def70e71204343ac8d62b440babfe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1290,7 +1305,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf7ee03e9cd4e19428f7674939630f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementOffset: 4
 --- !u!1 &1991235369
 GameObject:
   m_ObjectHideFlags: 0
