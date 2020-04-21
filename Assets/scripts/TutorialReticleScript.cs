@@ -413,9 +413,8 @@ public class TutorialReticleScript : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             scoreUI.gameObject.SetActive(false);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
-            GameObject.Find("continueBox").SetActive(false);
-            GameObject.Find("continuePanel").SetActive(false);
-            GameObject.Find("continueText").SetActive(false);
+            GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = false;
+            GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = false;
             video.clip = (VideoClip)Resources.Load("hintVideos/hint1");
             video.Play();
         }
@@ -433,12 +432,10 @@ public class TutorialReticleScript : MonoBehaviour
         {
             canMove = true;
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            scoreUI.gameObject.SetActive(false);
-            GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
-            GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
-            GameObject.Find("continueBox").SetActive(true);
-            GameObject.Find("continuePanel").SetActive(true);
-            GameObject.Find("continueText").SetActive(true);
+            scoreUI.gameObject.SetActive(true);
+            GameObject.Find("TargetText").GetComponent<Text>().enabled = true;
+            GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = true;
+            GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = true;
             video.enabled = false;
             timer.gameObject.SetActive(true);
         }

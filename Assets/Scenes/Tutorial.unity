@@ -1605,7 +1605,7 @@ MonoBehaviour:
   coolDown: 1
   transitionPanel: {fileID: 1695324019}
   transitionPanelText: {fileID: 1935203966}
-  video: {fileID: 0}
+  video: {fileID: 1634116893}
 --- !u!82 &921708516
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2526,7 +2526,7 @@ GameObject:
   - component: {fileID: 1730943146}
   - component: {fileID: 1730943147}
   m_Layer: 0
-  m_Name: Video Player
+  m_Name: Background Video Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
