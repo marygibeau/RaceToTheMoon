@@ -12,7 +12,7 @@ public class reticleMovementScript : MonoBehaviour
     // make sure new targetStar is in not found array before assigning
 
     // movement variables
-    public float movementOffset = 0.01f;
+    float movementOffset = 4.0f;
     public cameraMovement cameraMovementScript;
     public Camera mainCamera;
     public GameObject backgroundImage;
@@ -67,14 +67,19 @@ public class reticleMovementScript : MonoBehaviour
 
     void Start()
     {
+        // score set up
         scoreUI = GameObject.Find("ScoreText").GetComponent<Text>();
         scoreUI.text = "Score: 00000";
+        // set up star name box variables
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
+        // grab level manager and targetStar scripts
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
+        // hide arrows
         initializeArrows();
+        // sound variables set up
         selectionSound = gameObject.GetComponents<AudioSource>()[1];
         hintSound = gameObject.GetComponents<AudioSource>()[0];
         incorrectSound = gameObject.GetComponents<AudioSource>()[2];
@@ -82,10 +87,13 @@ public class reticleMovementScript : MonoBehaviour
         midSound = (AudioClip)Resources.Load("sounds/boopMid");
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
+        // hide launch panel
         launchButton.gameObject.SetActive(false);
         launchPanel.gameObject.SetActive(false);
+        // game state variable set up
         gameOver = false;
         launchButtonHovered = false;
+        // timer setup and hide star name box
         timer = GameObject.Find("Timer").GetComponent<TimerScript>();
         hideBox();
     }
@@ -111,19 +119,19 @@ public class reticleMovementScript : MonoBehaviour
         // reticle movement
         if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
         {
-            this.transform.Translate(Vector2.up * movementOffset);
+            this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
         }
         if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
         {
-            this.transform.Translate(Vector2.down * movementOffset);
+            this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
         }
         if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
         {
-            this.transform.Translate(Vector2.left * movementOffset);
+            this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
         }
         if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
         {
-            this.transform.Translate(Vector2.right * movementOffset);
+            this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
         }
 
         // camera movement

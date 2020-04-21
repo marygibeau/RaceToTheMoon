@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MenuReticleMovement : MonoBehaviour
 {
     // movement variables
-    public float movementOffset = 0.1f;
+    float movementOffset = 4.0f;
     private bool upBoundary = false;
     private bool downBoundary = false;
     private bool leftBoundary = false;
@@ -22,6 +22,13 @@ public class MenuReticleMovement : MonoBehaviour
     string PlayButtonHint = "Press Enter to Play!";
     string RestartButtonHint = "Press Enter to Restart the Game";
     string initialHint = "Use WASD or Arrow Keys to Move";
+    
+
+
+    // Audio Variables
+    AudioSource hintSound;
+    AudioClip farSound;
+    AudioSource selectionSound;
 
     // level management variables
     LevelManager lvlr;
@@ -36,7 +43,10 @@ public class MenuReticleMovement : MonoBehaviour
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
-       // videoPlayer.SetActive(false);
+        // videoPlayer.SetActive(false);
+        //selectionSound = gameObject.GetComponents<AudioSource>()[1];
+        //hintSound = gameObject.GetComponents<AudioSource>()[0];
+        //farSound = (AudioClip)Resources.Load("sounds/boopFar");
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         showBox(initialHint);
     }
@@ -46,11 +56,14 @@ public class MenuReticleMovement : MonoBehaviour
     {
         if (hasMoved && !onPlayButton)
         {
+            GameObject.Find("PlayButton").GetComponent<Image>().color = Color.white;
             hideBox();
         }
 
         if (onPlayButton)
-        {
+        { 
+           
+            GameObject.Find("PlayButton").GetComponent<Image>().color = Color.blue;
             showBox(PlayButtonHint);
         }
 
@@ -80,7 +93,6 @@ public class MenuReticleMovement : MonoBehaviour
         {
             print("Cinematic 1 to play here.");
 
-           // lvlr.LoadNextLevel();
             lvlr.LoadLevel("Cinematic_1");
         }
 
@@ -167,7 +179,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!rightBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.right * movementOffset);
+            this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
         }
     }
 
@@ -176,7 +188,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!leftBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.left * movementOffset);
+            this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
         }
     }
     public void moveUp()
@@ -184,7 +196,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!upBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.up * movementOffset);
+            this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
         }
     }
 
@@ -193,7 +205,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!downBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.down * movementOffset);
+            this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
         }
     }
 }

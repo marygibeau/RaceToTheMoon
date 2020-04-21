@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class TutorialReticleScript : MonoBehaviour
 {
     // movement variables
-    public float movementOffset = 0.1f;
+    float movementOffset = 4.0f;
     public cameraMovement cameraMovementScript;
     public Camera mainCamera;
     public GameObject backgroundImage;
@@ -23,12 +23,14 @@ public class TutorialReticleScript : MonoBehaviour
     Text starText;
     GameObject blackBox;
     GameObject textBox;
+    GameObject continueBox;
     private int currentScore = 0;
     public int scoreIncrement = 1000;
 
     // star clicking variables
     bool canClick = true;
     public float coolDown = 1.0f;
+
 
     // audio variables
     AudioSource selectionSound;
@@ -41,21 +43,29 @@ public class TutorialReticleScript : MonoBehaviour
 
     // level management variables
     LevelManager lvlr;
-    public Text tutorialPanelText;
-    bool gameOver;
     TimerScript timer;
+    public GameObject transitionPanel;
+    public Text transitionPanelText;
+    string introText = "If you would like a refresher on your star tracking training press enter. If not, hold enter for 3 seconds to skip this training review.";
+    string endText = "You have successfully comlpeted your training review. Press enter to begin system calibration.";
+
 
     // tutorial variables
     int tutorialStage;
+    Text tutorialPanelText;
+    GameObject tutorialPanel;
     GameObject TargetStarText;
     int movements = 0;
     public VideoPlayer video;
     GameObject alpheratz;
     GameObject navi;
+    float enterButtonPressed;
+    bool advancingTutorial = false;
+
     string[] instructions = {"Move the reticle using wasd or arrow keys.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
-                             "Move the reticle over a star to see its name.",
                              "In the upper right hand corner is the name of the star you’re looking for",
+                             "Move the reticle over a star to see its name.",
                              "If the name of the star matches the name of the target star, press enter to earn points.",
                              "Some stars are outside of our view. To move the viewport, move your reticle in the desired direction until it collides with the box.",
                              "If you’re having trouble finding a star, first the circle around the star will expand and shrink to draw your attention.",
@@ -67,13 +77,16 @@ public class TutorialReticleScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // set score and hide
         scoreUI = GameObject.Find("ScoreText").GetComponent<Text>();
         scoreUI.text = "Score: 01000";
-        scoreUI.gameObject.SetActive(false);
+        // get star box components and hide
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
+        // level manager
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        // sound variables initialization
         selectionSound = gameObject.GetComponents<AudioSource>()[1];
         hintSound = gameObject.GetComponents<AudioSource>()[0];
         incorrectSound = gameObject.GetComponents<AudioSource>()[2];
@@ -81,27 +94,35 @@ public class TutorialReticleScript : MonoBehaviour
         midSound = (AudioClip)Resources.Load("sounds/boopMid");
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
+        // video set up
         video = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
-        tutorialStage = 0;
+        // tutorial setup
+        tutorialStage = -1;
+        tutorialPanel = GameObject.Find("Tutorial Box");
         tutorialPanelText = GameObject.Find("TutorialText").GetComponent<Text>();
-        tutorialPanelText.text = instructions[tutorialStage];
-        gameOver = false;
+        transitionPanelText.text = introText;
+        continueBox = GameObject.Find("continueText");
+        // timer set up and hide
         timer = GameObject.Find("Timer").GetComponent<TimerScript>();
-        timer.gameObject.SetActive(false);
+        // target star set up and hide
         TargetStarText = GameObject.Find("TargetText");
         TargetStarText.GetComponent<Text>().text = "Target: Alpheratz";
-        TargetStarText.GetComponent<Text>().enabled = false;
-
+        // star set up and hide
         alpheratz = GameObject.Find("Alpheratz");
         navi = GameObject.Find("Navi");
+        // hide reticle and reticle box
+        HideGameComponents();
+    }
 
-        alpheratz.GetComponent<Renderer>().enabled = false;
-        navi.GetComponent<Renderer>().enabled = false;
-
-        alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
-        navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
-
-        hideBox();
+    void StartTutorial()
+    {
+        transitionPanel.gameObject.SetActive(false);
+        tutorialStage = 0;
+        tutorialPanel.gameObject.SetActive(true);
+        tutorialPanelText.text = instructions[tutorialStage];
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        GameObject.Find("GameUI_TargetBox").GetComponent<SpriteRenderer>().enabled = true;
+        canMove = true;
     }
 
     // Update is called once per frame
@@ -112,78 +133,126 @@ public class TutorialReticleScript : MonoBehaviour
         {
             if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
             {
-                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
-                this.transform.Translate(Vector2.up * movementOffset);
+                if (movements < 61 && tutorialStage == 0) { movements++; }
+                this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
             {
-                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
-                this.transform.Translate(Vector2.down * movementOffset);
+                if (movements < 61 && tutorialStage == 0) { movements++; }
+                this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
             {
-                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
-                this.transform.Translate(Vector2.left * movementOffset);
+                if (movements < 61 && tutorialStage == 0) { movements++; }
+                this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
             {
-                if (movements < 61 && tutorialStage < 2 || tutorialStage == 3) { movements++; }
-                this.transform.Translate(Vector2.right * movementOffset);
+                if (movements < 61 && tutorialStage == 0) { movements++; }
+                this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
             }
         }
         // debugging printout for movement variable
-        if (movements < 61 && movements > 0) { Debug.Log(movements); }
+        // if (movements < 61 && movements > 0) {
+        Debug.Log("movements: " + movements);
+        //   }
 
         // advance tutorial stage for 0 and 6
         if (movements >= 60 && (tutorialStage == 0 || tutorialStage == 5))
         {
-            AdvanceTutorial();
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
             movements = 0;
         }
 
         // advance tutorial debug button
-        if (Input.GetKeyUp(KeyCode.T))
+        if (Input.GetKeyUp(KeyCode.E) || (Input.GetKeyUp(KeyCode.Return)))
         {
-            AdvanceTutorial();
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
         }
 
         // camera movement
-        if (reticleUp && tutorialStage >= 5 && canMove)
+        if (reticleUp && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
-            if (movements < 65 && tutorialStage == 5) { movements++; }
+            if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveUp();
         }
-        if (reticleDown && tutorialStage >= 5 && canMove)
+        if (reticleDown && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
-            if (movements < 65 && tutorialStage == 5) { movements++; }
+            if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveDown();
         }
-        if (reticleLeft && tutorialStage >= 5 && canMove)
+        if (reticleLeft && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
-            if (movements < 65 && tutorialStage == 5) { movements++; }
+            if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveLeft();
         }
-        if (reticleRight && tutorialStage >= 5 && canMove)
+        if (reticleRight && tutorialStage >= 5 && canMove && tutorialStage != 10)
         {
-            if (movements < 65 && tutorialStage == 5) { movements++; }
+            if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveRight();
         }
 
         // logic for star being clicked
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == "Alpheratz" && !gameOver && tutorialStage >= 4)
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == "Alpheratz" && tutorialStage >= 4)
         {
             canClick = false;
             Invoke("CooledDown", coolDown);
             ChangeTargetStarColor();
-            if (tutorialStage == 4) { AdvanceTutorial(); }
+            if (tutorialStage == 4)
+            {
+                if (!advancingTutorial)
+                {
+                    advancingTutorial = true;
+                    AdvanceTutorial();
+                }
+            }
         }
 
         //logic for clicking a star that is not the target to play sound effect
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != "Alpheratz" && starText.text != "" && !gameOver)
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != "Alpheratz" && starText.text != "")
         {
             canClick = false;
             Invoke("CooledDown", coolDown);
             incorrectSound.Play();
+        }
+
+        // logic for clicking start button at end of tutorial
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && tutorialStage == 10)
+        {
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Return) && tutorialStage < 0)
+        {
+            enterButtonPressed = Time.time;
+        }
+
+        // logic for starting tutorial
+        if (Input.GetKeyUp(KeyCode.Return) && tutorialStage < 0)
+        {
+            Debug.Log("time elapsed: " + (Time.time - enterButtonPressed));
+            if ((Time.time - enterButtonPressed) >= 3)
+            {
+                tutorialStage = 11;
+            }
+            // StartTutorial();
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
         }
 
     }
@@ -240,15 +309,20 @@ public class TutorialReticleScript : MonoBehaviour
     public void showBox(string star)
     {
         // Debug.Log(star);
-        if (star != "Main Camera" && star != "Button" && !gameOver)
+        if (star != "Main Camera" && tutorialStage >= 3 && tutorialStage <= 5)
         {
             textBox.gameObject.SetActive(true);
+            
             blackBox.gameObject.SetActive(true);
             starText.text = star;
         }
-        if (tutorialStage == 2)
+        if (tutorialStage == 3)
         {
-            AdvanceTutorial();
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+            }
         }
     }
 
@@ -274,23 +348,45 @@ public class TutorialReticleScript : MonoBehaviour
         targetStarRing.GetComponent<SpriteRenderer>().color = new Color(0.1727581f, 0.945098f, 0.1215686f, 1);
     }
 
+    void HideGameComponents()
+    {
+        scoreUI.gameObject.SetActive(false);
+        hideBox();
+        timer.gameObject.SetActive(false);
+        TargetStarText.GetComponent<Text>().enabled = false;
+        tutorialPanel.gameObject.SetActive(false);
+        alpheratz.GetComponent<Renderer>().enabled = false;
+        navi.GetComponent<Renderer>().enabled = false;
+        alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
+        navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        GameObject.Find("GameUI_TargetBox").GetComponent<SpriteRenderer>().enabled = false;
+        canMove = false;
+    }
+
     // Advances the Tutorial to the next stage and implements that stage's logic
     void AdvanceTutorial()
     {
-        // had to use T button on stages: 1->2, 3->4, 6+
+        // had to use E button on stages: 1->2, 3->4, 6+
+        // Hunter TODO: make press enter only work for above transitions
+        // Hunter TODO: make box only appear for above transitions
 
         tutorialStage++;
         if (tutorialStage >= 11) // loads game
         {
-            // start game button
             SceneManager.LoadScene("Game");
+        }
+        else if (tutorialStage == 0)
+        {
+            StartTutorial();
         }
         else
         {
             tutorialPanelText.text = instructions[tutorialStage];
         }
-        
+
         Debug.Log("Tutorial Advanced to Stage: " + tutorialStage);
+
 
         if (tutorialStage == 1) // shows stars
         {
@@ -299,7 +395,7 @@ public class TutorialReticleScript : MonoBehaviour
             alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
             navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
         }
-        else if (tutorialStage == 3) // shows target star
+        else if (tutorialStage == 2) // shows target star
         {
 
             TargetStarText.GetComponent<Text>().enabled = true;
@@ -317,6 +413,8 @@ public class TutorialReticleScript : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             scoreUI.gameObject.SetActive(false);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
+            GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = false;
+            GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = false;
             video.clip = (VideoClip)Resources.Load("hintVideos/hint1");
             video.Play();
         }
@@ -334,14 +432,20 @@ public class TutorialReticleScript : MonoBehaviour
         {
             canMove = true;
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            scoreUI.gameObject.SetActive(false);
-            GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
+            scoreUI.gameObject.SetActive(true);
+            GameObject.Find("TargetText").GetComponent<Text>().enabled = true;
+            GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = true;
+            GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = true;
             video.enabled = false;
-            // TODO: show timer
+            timer.gameObject.SetActive(true);
         }
         else if (tutorialStage == 10) // show transition to game
         {
-            // TODO
+            HideGameComponents();
+            transitionPanel.gameObject.SetActive(true);
+            transitionPanelText.text = endText;
+            canMove = false;
         }
+        advancingTutorial = false;
     }
 }
