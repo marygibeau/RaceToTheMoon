@@ -172,7 +172,7 @@ public class TutorialReticleScript : MonoBehaviour
         }
 
         // advance tutorial debug button
-        if (Input.GetKeyUp(KeyCode.E) || (Input.GetKeyUp(KeyCode.Return)))
+        if (Input.GetKeyUp(KeyCode.E) || (Input.GetKeyUp(KeyCode.Return)) && canSkip)
         {
             if (!advancingTutorial)
             {
