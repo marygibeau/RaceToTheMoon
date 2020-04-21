@@ -136,22 +136,22 @@ public class TutorialReticleScript : MonoBehaviour
             if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
-                this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
+                this.transform.Translate(Vector2.up * movementOffset * Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
-                this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
+                this.transform.Translate(Vector2.down * movementOffset * Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
-                this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
+                this.transform.Translate(Vector2.left * movementOffset * Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
-                this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
+                this.transform.Translate(Vector2.right * movementOffset * Time.deltaTime);
             }
         }
         // debugging printout for movement variable
@@ -166,6 +166,7 @@ public class TutorialReticleScript : MonoBehaviour
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
+                Debug.Log("call 1");
             }
             movements = 0;
         }
@@ -177,6 +178,7 @@ public class TutorialReticleScript : MonoBehaviour
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
+                Debug.Log("call 2");
             }
         }
 
@@ -214,6 +216,7 @@ public class TutorialReticleScript : MonoBehaviour
                 {
                     advancingTutorial = true;
                     AdvanceTutorial();
+                    Debug.Log("call 3");
                 }
             }
         }
@@ -233,6 +236,7 @@ public class TutorialReticleScript : MonoBehaviour
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
+                Debug.Log("call 4");
             }
         }
 
@@ -254,6 +258,7 @@ public class TutorialReticleScript : MonoBehaviour
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
+                Debug.Log("call 5");
             }
         }
 
@@ -315,7 +320,7 @@ public class TutorialReticleScript : MonoBehaviour
         if (star != "Main Camera" && tutorialStage >= 3 && tutorialStage <= 5)
         {
             textBox.gameObject.SetActive(true);
-            
+
             blackBox.gameObject.SetActive(true);
             starText.text = star;
         }
@@ -325,6 +330,7 @@ public class TutorialReticleScript : MonoBehaviour
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
+                Debug.Log("call 6");
             }
         }
     }
@@ -417,15 +423,11 @@ public class TutorialReticleScript : MonoBehaviour
         }
         else if (tutorialStage == 2) // shows target star
         {
-            HideSkipBox();
             TargetStarText.GetComponent<Text>().enabled = true;
-
         }
         else if (tutorialStage == 3) // shows target star
         {
-            ShowSkipBox();
-            
-
+            HideSkipBox();
         }
         else if (tutorialStage == 4)
         {
