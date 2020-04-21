@@ -63,7 +63,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (onPlayButton)
         { 
            
-            GameObject.Find("PlayButton").GetComponent<Image>().color = Color.blue;
+            GameObject.Find("PlayButton").GetComponent<Image>().color = Color.green;
             showBox(PlayButtonHint);
         }
 
