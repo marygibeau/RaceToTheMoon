@@ -309,6 +309,7 @@ public class TutorialReticleScript : MonoBehaviour
     public void showBox(string star)
     {
         // Debug.Log(star);
+
         if (star != "Main Camera" && tutorialStage >= 3 && tutorialStage <= 5)
         {
             textBox.gameObject.SetActive(true);
