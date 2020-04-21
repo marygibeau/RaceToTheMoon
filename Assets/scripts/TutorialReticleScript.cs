@@ -61,6 +61,7 @@ public class TutorialReticleScript : MonoBehaviour
     GameObject navi;
     float enterButtonPressed;
     bool advancingTutorial = false;
+    private bool canSkip = false;
 
     string[] instructions = {"Move the reticle using wasd or arrow keys.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
@@ -112,6 +113,7 @@ public class TutorialReticleScript : MonoBehaviour
         navi = GameObject.Find("Navi");
         // hide reticle and reticle box
         HideGameComponents();
+        HideSkipBox();
     }
 
     void StartTutorial()
@@ -365,6 +367,22 @@ public class TutorialReticleScript : MonoBehaviour
         canMove = false;
     }
 
+    void ShowSkipBox()  // Skips skip box visuals and enables "enter" to skip
+    {
+        canSkip = true;
+        GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = true;
+        GameObject.Find("continuePanel").GetComponent<Image>().enabled = true;
+        GameObject.Find("continueText").GetComponent<Text>().enabled = true;
+
+    }
+
+    void HideSkipBox()  // Hides Skip box visuals and disables "enter" to skip
+    {
+        canSkip = false;
+        GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = false;
+        GameObject.Find("continuePanel").GetComponent<Image>().enabled = false;
+        GameObject.Find("continueText").GetComponent<Text>().enabled = false;
+    }
     // Advances the Tutorial to the next stage and implements that stage's logic
     void AdvanceTutorial()
     {
@@ -391,6 +409,7 @@ public class TutorialReticleScript : MonoBehaviour
 
         if (tutorialStage == 1) // shows stars
         {
+            ShowSkipBox();
             alpheratz.GetComponent<Renderer>().enabled = true;
             navi.GetComponent<Renderer>().enabled = true;
             alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
@@ -398,12 +417,23 @@ public class TutorialReticleScript : MonoBehaviour
         }
         else if (tutorialStage == 2) // shows target star
         {
-
+            HideSkipBox();
             TargetStarText.GetComponent<Text>().enabled = true;
 
         }
+        else if (tutorialStage == 3) // shows target star
+        {
+            ShowSkipBox();
+            
+
+        }
+        else if (tutorialStage == 4)
+        {
+            ShowSkipBox();
+        }
         else if (tutorialStage == 5) // shows score and changes target star
         {
+            HideSkipBox();
             scoreUI.gameObject.SetActive(true);
             TargetStarText.GetComponent<Text>().text = "Target: Well Done!";
         }
@@ -411,6 +441,7 @@ public class TutorialReticleScript : MonoBehaviour
         {
             canMove = false;
             hideBox();
+            ShowSkipBox();
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             scoreUI.gameObject.SetActive(false);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
