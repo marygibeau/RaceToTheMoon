@@ -121,7 +121,7 @@ public class TutorialReticleScript : MonoBehaviour
         tutorialPanel.gameObject.SetActive(true);
         tutorialPanelText.text = instructions[tutorialStage];
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
-        GameObject.Find("terminalReticleSimpleGreen").GetComponent<SpriteRenderer>().enabled = true;
+        GameObject.Find("GameUI_TargetBox").GetComponent<SpriteRenderer>().enabled = true;
         canMove = true;
     }
 
@@ -360,7 +360,7 @@ public class TutorialReticleScript : MonoBehaviour
         alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
         navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
-        GameObject.Find("terminalReticleSimpleGreen").GetComponent<SpriteRenderer>().enabled = false;
+        GameObject.Find("GameUI_TargetBox").GetComponent<SpriteRenderer>().enabled = false;
         canMove = false;
     }
 
@@ -368,6 +368,8 @@ public class TutorialReticleScript : MonoBehaviour
     void AdvanceTutorial()
     {
         // had to use E button on stages: 1->2, 3->4, 6+
+        // Hunter TODO: make press enter only work for above transitions
+        // Hunter TODO: make box only appear for above transitions
 
         tutorialStage++;
         if (tutorialStage >= 11) // loads game
