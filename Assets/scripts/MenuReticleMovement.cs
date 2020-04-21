@@ -22,6 +22,13 @@ public class MenuReticleMovement : MonoBehaviour
     string PlayButtonHint = "Press Enter to Play!";
     string RestartButtonHint = "Press Enter to Restart the Game";
     string initialHint = "Use WASD or Arrow Keys to Move";
+    
+
+
+    // Audio Variables
+    AudioSource hintSound;
+    AudioClip farSound;
+    AudioSource selectionSound;
 
     // level management variables
     LevelManager lvlr;
@@ -36,7 +43,10 @@ public class MenuReticleMovement : MonoBehaviour
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
-       // videoPlayer.SetActive(false);
+        // videoPlayer.SetActive(false);
+        //selectionSound = gameObject.GetComponents<AudioSource>()[1];
+        //hintSound = gameObject.GetComponents<AudioSource>()[0];
+        //farSound = (AudioClip)Resources.Load("sounds/boopFar");
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         showBox(initialHint);
     }
@@ -46,11 +56,14 @@ public class MenuReticleMovement : MonoBehaviour
     {
         if (hasMoved && !onPlayButton)
         {
+            GameObject.Find("PlayButton").GetComponent<Image>().color = Color.white;
             hideBox();
         }
 
         if (onPlayButton)
-        {
+        { 
+           
+            GameObject.Find("PlayButton").GetComponent<Image>().color = Color.blue;
             showBox(PlayButtonHint);
         }
 
@@ -80,7 +93,6 @@ public class MenuReticleMovement : MonoBehaviour
         {
             print("Cinematic 1 to play here.");
 
-           // lvlr.LoadNextLevel();
             lvlr.LoadLevel("Cinematic_1");
         }
 

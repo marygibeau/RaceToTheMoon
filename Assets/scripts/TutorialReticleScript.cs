@@ -23,12 +23,14 @@ public class TutorialReticleScript : MonoBehaviour
     Text starText;
     GameObject blackBox;
     GameObject textBox;
+    GameObject continueBox;
     private int currentScore = 0;
     public int scoreIncrement = 1000;
 
     // star clicking variables
     bool canClick = true;
     public float coolDown = 1.0f;
+
 
     // audio variables
     AudioSource selectionSound;
@@ -73,6 +75,7 @@ public class TutorialReticleScript : MonoBehaviour
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
         textBox = this.transform.GetChild(2).gameObject;
+
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         selectionSound = gameObject.GetComponents<AudioSource>()[1];
         hintSound = gameObject.GetComponents<AudioSource>()[0];
@@ -84,6 +87,7 @@ public class TutorialReticleScript : MonoBehaviour
         video = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
         tutorialStage = 0;
         tutorialPanelText = GameObject.Find("TutorialText").GetComponent<Text>();
+        continueBox = GameObject.Find("continueText");
         tutorialPanelText.text = instructions[tutorialStage];
         gameOver = false;
         timer = GameObject.Find("Timer").GetComponent<TimerScript>();
@@ -142,7 +146,7 @@ public class TutorialReticleScript : MonoBehaviour
         }
 
         // advance tutorial debug button
-        if (Input.GetKeyUp(KeyCode.T))
+        if (Input.GetKeyUp(KeyCode.E) || (Input.GetKeyUp(KeyCode.Return)))
         {
             AdvanceTutorial();
         }
@@ -243,6 +247,7 @@ public class TutorialReticleScript : MonoBehaviour
         if (star != "Main Camera" && star != "Button" && !gameOver)
         {
             textBox.gameObject.SetActive(true);
+            
             blackBox.gameObject.SetActive(true);
             starText.text = star;
         }
@@ -277,7 +282,7 @@ public class TutorialReticleScript : MonoBehaviour
     // Advances the Tutorial to the next stage and implements that stage's logic
     void AdvanceTutorial()
     {
-        // had to use T button on stages: 1->2, 3->4, 6+
+        // had to use E button on stages: 1->2, 3->4, 6+
 
         tutorialStage++;
         if (tutorialStage >= 11) // loads game
@@ -317,6 +322,9 @@ public class TutorialReticleScript : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             scoreUI.gameObject.SetActive(false);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
+            GameObject.Find("continueBox").SetActive(false);
+            GameObject.Find("continuePanel").SetActive(false);
+            GameObject.Find("continueText").SetActive(false);
             video.clip = (VideoClip)Resources.Load("hintVideos/hint1");
             video.Play();
         }
@@ -336,6 +344,10 @@ public class TutorialReticleScript : MonoBehaviour
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
             scoreUI.gameObject.SetActive(false);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
+            GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
+            GameObject.Find("continueBox").SetActive(true);
+            GameObject.Find("continuePanel").SetActive(true);
+            GameObject.Find("continueText").SetActive(true);
             video.enabled = false;
             // TODO: show timer
         }
