@@ -1,12 +1,12 @@
 Alpheratz
-Navi
 Diphda
+Rigel
 Achernar
-Polaris
 Acamar
 Menkar
-Mirfak
+Fomalhaut
 Aldebaran
-Rigel
-Capella
 Canopus
+Sirius
+Capella
+Mirfak
