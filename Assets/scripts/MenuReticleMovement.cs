@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class MenuReticleMovement : MonoBehaviour
 {
     // movement variables
-    public float movementOffset = 0.1f;
+    float movementOffset = 4.0f;
     private bool upBoundary = false;
     private bool downBoundary = false;
     private bool leftBoundary = false;
@@ -179,7 +179,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!rightBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.right * movementOffset);
+            this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
         }
     }
 
@@ -188,7 +188,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!leftBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.left * movementOffset);
+            this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
         }
     }
     public void moveUp()
@@ -196,7 +196,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!upBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.up * movementOffset);
+            this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
         }
     }
 
@@ -205,7 +205,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!downBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.down * movementOffset);
+            this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
         }
     }
 }
