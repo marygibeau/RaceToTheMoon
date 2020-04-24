@@ -207,22 +207,22 @@ public class TutorialReticleScript : MonoBehaviour
         }
 
         // camera movement
-        if (reticleUp && tutorialStage >= 5 && canMove && tutorialStage != 10)
+        if (reticleUp && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveUp();
         }
-        if (reticleDown && tutorialStage >= 5 && canMove && tutorialStage != 10)
+        if (reticleDown && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveDown();
         }
-        if (reticleLeft && tutorialStage >= 5 && canMove && tutorialStage != 10)
+        if (reticleLeft && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveLeft();
         }
-        if (reticleRight && tutorialStage >= 5 && canMove && tutorialStage != 10)
+        if (reticleRight && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveRight();
@@ -522,7 +522,7 @@ public class TutorialReticleScript : MonoBehaviour
             transitionPanel.gameObject.SetActive(true);
             transitionPanelText.text = endText;
             goButton.SetActive(true);
-            canMove = false;
+            canMove = true;
         }
         advancingTutorial = false;
     }
