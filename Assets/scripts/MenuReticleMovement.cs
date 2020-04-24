@@ -62,13 +62,13 @@ public class MenuReticleMovement : MonoBehaviour
 
         if (onPlayButton)
         { 
-            button.GetComponent<Image>().color = Color.blue;
+            button.GetComponent<Image>().color = Color.green;
             showBox(PlayButtonHint);
         }
 
         if (onRestartButton)
         {
-            button.GetComponent<Image>().color = Color.blue;
+            button.GetComponent<Image>().color = Color.green;
             showBox(RestartButtonHint);
         }
 
