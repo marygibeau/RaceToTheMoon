@@ -22,7 +22,7 @@ public class MenuReticleMovement : MonoBehaviour
     string PlayButtonHint = "Press Enter to Play!";
     string RestartButtonHint = "Press Enter to Restart the Game";
     string initialHint = "Use WASD or Arrow Keys to Move";
-    
+    public GameObject button;
 
 
     // Audio Variables
@@ -54,21 +54,21 @@ public class MenuReticleMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasMoved && !onPlayButton)
+        if (hasMoved && (!onPlayButton || !onRestartButton))
         {
-            GameObject.Find("PlayButton").GetComponent<Image>().color = Color.white;
+            button.GetComponent<Image>().color = Color.white;
             hideBox();
         }
 
         if (onPlayButton)
         { 
-           
-            GameObject.Find("PlayButton").GetComponent<Image>().color = Color.green;
+            button.GetComponent<Image>().color = Color.green;
             showBox(PlayButtonHint);
         }
 
         if (onRestartButton)
         {
+            button.GetComponent<Image>().color = Color.green;
             showBox(RestartButtonHint);
         }
 

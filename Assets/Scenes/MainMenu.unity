@@ -219,7 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf7ee03e9cd4e19428f7674939630f87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementOffset: 4
+  button: {fileID: 942892844}
 --- !u!114 &510746600 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,

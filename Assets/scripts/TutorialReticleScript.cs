@@ -46,8 +46,11 @@ public class TutorialReticleScript : MonoBehaviour
     TimerScript timer;
     public GameObject transitionPanel;
     public Text transitionPanelText;
-    string introText = "If you would like a refresher on your star tracking training press enter. If not, hold enter for 3 seconds to skip this training review.";
-    string endText = "You have successfully comlpeted your training review. Press enter to begin system calibration.";
+    bool startButtonHovered;
+    bool reviewButtonHovered;
+    bool goButtonHovered;
+    string introText = "If you would like a refresher on your star tracking press the review button. If not, press start to skip this training review.";
+    string endText = "You have successfully comlpeted your training review. Press GO to begin system calibration.";
 
 
     // tutorial variables
@@ -62,6 +65,9 @@ public class TutorialReticleScript : MonoBehaviour
     float enterButtonPressed;
     bool advancingTutorial = false;
     private bool canSkip = false;
+    public GameObject reviewButton;
+    public GameObject goButton;
+    public GameObject startButton;
 
     string[] instructions = {"Move the reticle using wasd or arrow keys.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
@@ -69,7 +75,8 @@ public class TutorialReticleScript : MonoBehaviour
                              "Move the reticle over a star to see its name.",
                              "If the name of the star matches the name of the target star, press enter to earn points.",
                              "Some stars are outside of our view. To move the viewport, move your reticle in the desired direction until it collides with the box.",
-                             "If you’re having trouble finding a star, first the circle around the star will expand and shrink to draw your attention.",
+                             "Excellent work! To help you track down difficult stars, we've built some star tracking technology into the ship.",
+                             "First the circle around the star will expand and shrink to draw your attention.",
                              "Next our audio tracking system will play beeps that get faster as you get closer to the target star and a special sound will play when you hover over the correct star.",
                              "Finally, arrows will appear to help guide you in the direction of very difficult stars.",
                              "Because this is a critical mission, you’ll only have a certain amount of time.",
@@ -103,6 +110,10 @@ public class TutorialReticleScript : MonoBehaviour
         tutorialPanelText = GameObject.Find("TutorialText").GetComponent<Text>();
         transitionPanelText.text = introText;
         continueBox = GameObject.Find("continueText");
+        goButtonHovered = false;
+        startButtonHovered = false;
+        reviewButtonHovered = false;
+        goButton.SetActive(false);
         // timer set up and hide
         timer = GameObject.Find("Timer").GetComponent<TimerScript>();
         // target star set up and hide
@@ -111,7 +122,7 @@ public class TutorialReticleScript : MonoBehaviour
         // star set up and hide
         alpheratz = GameObject.Find("Alpheratz");
         navi = GameObject.Find("Navi");
-        // hide reticle and reticle box
+        // hide game objects (not reticle) and skip box
         HideGameComponents();
         HideSkipBox();
     }
@@ -119,6 +130,8 @@ public class TutorialReticleScript : MonoBehaviour
     void StartTutorial()
     {
         transitionPanel.gameObject.SetActive(false);
+        startButton.SetActive(false);
+        reviewButton.SetActive(false);
         tutorialStage = 0;
         tutorialPanel.gameObject.SetActive(true);
         tutorialPanelText.text = instructions[tutorialStage];
@@ -171,8 +184,19 @@ public class TutorialReticleScript : MonoBehaviour
             movements = 0;
         }
 
+        // advance tutorial on transitions that need transition
+        if ((Input.GetKeyUp(KeyCode.Return)) && canSkip)
+        {
+            if (!advancingTutorial)
+            {
+                advancingTutorial = true;
+                AdvanceTutorial();
+                Debug.Log("call 2");
+            }
+        }
+
         // advance tutorial debug button
-        if (Input.GetKeyUp(KeyCode.E) || (Input.GetKeyUp(KeyCode.Return)) && canSkip)
+        if (Input.GetKeyUp(KeyCode.T))
         {
             if (!advancingTutorial)
             {
@@ -183,22 +207,22 @@ public class TutorialReticleScript : MonoBehaviour
         }
 
         // camera movement
-        if (reticleUp && tutorialStage >= 5 && canMove && tutorialStage != 10)
+        if (reticleUp && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveUp();
         }
-        if (reticleDown && tutorialStage >= 5 && canMove && tutorialStage != 10)
+        if (reticleDown && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveDown();
         }
-        if (reticleLeft && tutorialStage >= 5 && canMove && tutorialStage != 10)
+        if (reticleLeft && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveLeft();
         }
-        if (reticleRight && tutorialStage >= 5 && canMove && tutorialStage != 10)
+        if (reticleRight && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveRight();
@@ -229,36 +253,29 @@ public class TutorialReticleScript : MonoBehaviour
             incorrectSound.Play();
         }
 
-        // logic for clicking start button at end of tutorial
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && tutorialStage == 10)
+        // logic for clicking go button at end of tutorial
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && tutorialStage == 12 && goButtonHovered)
         {
             if (!advancingTutorial)
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
-                Debug.Log("call 4");
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) && tutorialStage < 0)
-        {
-            enterButtonPressed = Time.time;
-        }
-
-        // logic for starting tutorial
+        // logic for starting or skipping tutorial 
         if (Input.GetKeyUp(KeyCode.Return) && tutorialStage < 0)
         {
-            Debug.Log("time elapsed: " + (Time.time - enterButtonPressed));
-            if ((Time.time - enterButtonPressed) >= 3)
+            // Skip tutorial
+            if (startButtonHovered)
             {
-                tutorialStage = 11;
+                tutorialStage = 12;
             }
-            // StartTutorial();
-            if (!advancingTutorial)
+            // Start tutorial
+            if (!advancingTutorial && reviewButtonHovered)
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
-                Debug.Log("call 5");
             }
         }
 
@@ -281,6 +298,15 @@ public class TutorialReticleScript : MonoBehaviour
                 break;
             case "down":
                 reticleDown = true;
+                break;
+            case "StartButton":
+                startButtonHovered = true;
+                break;
+            case "ReviewButton":
+                reviewButtonHovered = true;
+                break;
+            case "GoButton":
+                goButtonHovered = true;
                 break;
             default:
                 showBox(other.gameObject.name);
@@ -305,6 +331,15 @@ public class TutorialReticleScript : MonoBehaviour
                 break;
             case "down":
                 reticleDown = false;
+                break;
+            case "StartButton":
+                startButtonHovered = false;
+                break;
+            case "ReviewButton":
+                reviewButtonHovered = false;
+                break;
+            case "GoButton":
+                goButtonHovered = false;
                 break;
             default:
                 hideBox();
@@ -368,9 +403,9 @@ public class TutorialReticleScript : MonoBehaviour
         navi.GetComponent<Renderer>().enabled = false;
         alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
         navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
-        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        // gameObject.GetComponent<SpriteRenderer>().enabled = false;
         GameObject.Find("GameUI_TargetBox").GetComponent<SpriteRenderer>().enabled = false;
-        canMove = false;
+        // canMove = false;
     }
 
     void ShowSkipBox()  // Skips skip box visuals and enables "enter" to skip
@@ -393,11 +428,9 @@ public class TutorialReticleScript : MonoBehaviour
     void AdvanceTutorial()
     {
         // had to use E button on stages: 1->2, 3->4, 6+
-        // Hunter TODO: make press enter only work for above transitions
-        // Hunter TODO: make box only appear for above transitions
 
         tutorialStage++;
-        if (tutorialStage >= 11) // loads game
+        if (tutorialStage >= 12) // loads game
         {
             SceneManager.LoadScene("Game");
         }
@@ -439,9 +472,19 @@ public class TutorialReticleScript : MonoBehaviour
             scoreUI.gameObject.SetActive(true);
             TargetStarText.GetComponent<Text>().text = "Target: Well Done!";
         }
-        else if (tutorialStage == 6) // hides game components and shows first hint video
+        else if (tutorialStage == 6) // transition to hint videos
         {
+            // this.transform.position = originalReticlePosition;
+            // TODO: Calculate center of screen and move reticle to that position
+            Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.5f));
+            this.transform.position = centerPos;
             canMove = false;
+            hideBox();
+            ShowSkipBox();
+        }
+        else if (tutorialStage == 7) // hides game components and shows first hint video
+        {
+            // canMove = false;
             hideBox();
             ShowSkipBox();
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -452,17 +495,17 @@ public class TutorialReticleScript : MonoBehaviour
             video.clip = (VideoClip)Resources.Load("hintVideos/hint1");
             video.Play();
         }
-        else if (tutorialStage == 7) // shows second hint video
+        else if (tutorialStage == 8) // shows second hint video
         {
             video.clip = (VideoClip)Resources.Load("hintVideos/hint2");
             video.Play();
         }
-        else if (tutorialStage == 8) // shows third hint video
+        else if (tutorialStage == 9) // shows third hint video
         {
             video.clip = (VideoClip)Resources.Load("hintVideos/hint3");
             video.Play();
         }
-        else if (tutorialStage == 9) // shows game components and hides videos, timed mission
+        else if (tutorialStage == 10) // shows game components and hides videos, timed mission
         {
             canMove = true;
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
@@ -473,12 +516,13 @@ public class TutorialReticleScript : MonoBehaviour
             video.enabled = false;
             timer.gameObject.SetActive(true);
         }
-        else if (tutorialStage == 10) // show transition to game
+        else if (tutorialStage == 11) // show transition to game
         {
             HideGameComponents();
             transitionPanel.gameObject.SetActive(true);
             transitionPanelText.text = endText;
-            canMove = false;
+            goButton.SetActive(true);
+            canMove = true;
         }
         advancingTutorial = false;
     }
