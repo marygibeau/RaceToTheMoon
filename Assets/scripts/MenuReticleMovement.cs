@@ -48,7 +48,7 @@ public class MenuReticleMovement : MonoBehaviour
         //hintSound = gameObject.GetComponents<AudioSource>()[0];
         //farSound = (AudioClip)Resources.Load("sounds/boopFar");
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
-        showBox(initialHint);
+        hideBox();
     }
 
     // Update is called once per frame
