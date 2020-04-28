@@ -46,6 +46,7 @@ public class TutorialReticleScript : MonoBehaviour
     LevelManager lvlr;
     TimerScript timer;
     public GameObject transitionPanel;
+    public GameObject finalPanel;
     public Text transitionPanelText;
     bool startButtonHovered;
     bool reviewButtonHovered;
@@ -61,6 +62,7 @@ public class TutorialReticleScript : MonoBehaviour
     GameObject TargetStarText;
     int movements = 0;
     public VideoPlayer video;
+    public VideoPlayer transVideo;
     GameObject alpheratz;
     GameObject navi;
     float enterButtonPressed;
@@ -106,6 +108,7 @@ public class TutorialReticleScript : MonoBehaviour
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
         // video set up
         video = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
+        transVideo = GameObject.Find("TransVideoPlayer").GetComponent<VideoPlayer>();
         // tutorial setup
         tutorialStage = -1;
         tutorialPanel = GameObject.Find("Tutorial Box");
@@ -132,6 +135,7 @@ public class TutorialReticleScript : MonoBehaviour
     void StartTutorial()
     {
         transitionPanel.gameObject.SetActive(false);
+        finalPanel.gameObject.SetActive(false);
         startButton.SetActive(false);
         reviewButton.SetActive(false);
         tutorialStage = 0;
@@ -256,7 +260,7 @@ public class TutorialReticleScript : MonoBehaviour
         }
 
         // logic for clicking go button at end of tutorial
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && tutorialStage == 12 && goButtonHovered)
+        if (Input.GetKeyUp(KeyCode.Return) && goButtonHovered)
         {
             if (!advancingTutorial)
             {
@@ -442,18 +446,8 @@ public class TutorialReticleScript : MonoBehaviour
         tutorialStage++;
         if (tutorialStage >= 12) // loads game
         {
-            //hideBox();
-            //ShowSkipBox();
-            //gameObject.GetComponent<SpriteRenderer>().enabled = false;
-            //scoreUI.gameObject.SetActive(false);
-            //GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
-            //GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = false;
-            //GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = false;
-            //GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = true;
-            //video.enabled = false;
-            //video.clip = (VideoClip)Resources.Load("Assets/Sprites/Overlaps_WEBM/RTTM_Overlay_Go.webm");
-            //video.Play();
-            SceneManager.LoadScene("LoadingGame");
+            
+            SceneManager.LoadScene("Game");
         }
         else if (tutorialStage == 0)
         {
@@ -539,11 +533,25 @@ public class TutorialReticleScript : MonoBehaviour
         }
         else if (tutorialStage == 11) // show transition to game
         {
+            hideBox();
+            HideSkipBox();
             HideGameComponents();
-            transitionPanel.gameObject.SetActive(true);
-            transitionPanelText.text = endText;
-            goButton.SetActive(true);
             canMove = true;
+            gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            //GameObject.Find("Tutorial Box").GetComponent<SpriteRenderer>().enabled = false;
+            //scoreUI.gameObject.SetActive(false);
+            video.enabled = false;
+            GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
+            GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = false;
+            GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = false;
+            finalPanel.gameObject.SetActive(true);
+           // finalPanel.GetComponent<SpriteRenderer>().enabled = true;
+            transVideo.enabled = true;
+           
+            goButton.SetActive(true);
+           
+            transVideo.Play();
+            advancingTutorial = false;
         }
         advancingTutorial = false;
     }
