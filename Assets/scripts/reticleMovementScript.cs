@@ -35,6 +35,7 @@ public class reticleMovementScript : MonoBehaviour
     TargetStar targetScript;
     GameObject targetStar;
     public float timeSinceLastStar = 0;
+    GameObject lastStar;
 
     // audio variables
     AudioSource selectionSound;
@@ -168,6 +169,9 @@ public class reticleMovementScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget() 
         && starText.text != "" && !gameOver)
         {
+            lastStar = GameObject.Find(starText.text);
+            lastStar.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+            Invoke("disableX", .6F);
             canClick = false;
             Invoke("CooledDown", coolDown);
             incorrectSound.Play();
@@ -325,6 +329,11 @@ public class reticleMovementScript : MonoBehaviour
     void CooledDown()
     {
         canClick = true;
+    }
+
+    void disableX() 
+    {
+        lastStar.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public int getScore()
