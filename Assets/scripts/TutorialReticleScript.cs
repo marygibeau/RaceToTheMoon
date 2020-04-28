@@ -270,8 +270,9 @@ public class TutorialReticleScript : MonoBehaviour
             // Skip tutorial
             if (startButtonHovered)
             {
-                SceneManager.LoadScene("LoadingGame");
-                tutorialStage = 12;
+                tutorialStage = 11;
+                advancingTutorial = true;
+                AdvanceTutorial();
             }
             // Start tutorial
             if (!advancingTutorial && reviewButtonHovered)
