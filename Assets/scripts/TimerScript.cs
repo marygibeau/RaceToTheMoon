@@ -10,23 +10,42 @@ public class TimerScript : MonoBehaviour
     float currentTime = 0f;
     public float startingTime = 5f;
     Boolean gameOver = false;
+    Boolean gameStarted = false;
+    public GameObject countdownPanelText;
+    Text countdownPanelTextComp;
+    public GameObject countdownPanel;
+    float currentTimeCountdown = 0f;
+    public reticleMovementScript game;
 
     LevelManager lvlr;
 
     // Start is called before the first frame update
     void Start()
     {
+        game.setCanMove(false);
         currentTime = startingTime;
+        currentTimeCountdown = 3f;
         timerText = gameObject.GetComponent<Text>();
+        countdownPanelTextComp = countdownPanelText.GetComponent<Text>();
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!gameOver)
+        if (!gameOver && gameStarted)
         {
             currentTime -= 1 * Time.deltaTime;
+        } else 
+        {
+            currentTimeCountdown -= 1 * Time.deltaTime;
+            countdownPanelTextComp.text = "STAR SELECTION PROCESS BEGINNING IN\n" + ((int)currentTimeCountdown + 1).ToString();
+            if(currentTimeCountdown <= 0) 
+            {
+                gameStarted = true;
+                countdownPanel.SetActive(false);
+                game.setCanMove(true);
+            }
         }
         //changes color to red when time is below 10 seconds
         if (currentTime <= 10 && currentTime > 0)
