@@ -10,26 +10,29 @@ public class TargetStar : MonoBehaviour
     string target = "";
     System.Random random = new System.Random();
     int randomIndex;
-    public List<string> starsToFind = new List<string>();
+    public List<string> starsToFind;
     public List<string> starsFound = new List<string>();
 
-    StreamReader reader = new StreamReader("Assets/scripts/stars.txt");
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Target star script started");
-        while (!reader.EndOfStream)
-        {
-            string line = reader.ReadLine();
-            starsToFind.Add(line);
-        }
+        starsToFind = new List<string> {
+            "Menkar",
+            "Rigel",
+            "Alpheratz",
+            "Diphda",
+            "Achernar",
+            "Acamar",
+            "Fomalhaut",
+            "Aldebaran",
+            "Canopus",
+            "Sirius",
+            "Capella",
+            "Mirfak"
+        };
         target = starsToFind[0];
         Debug.Log("Target star = " + target);
-    }
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public string GetTarget()
