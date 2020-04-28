@@ -265,11 +265,12 @@ public class TutorialReticleScript : MonoBehaviour
         }
 
         // logic for starting or skipping tutorial 
-        if (Input.GetKeyUp(KeyCode.Return) && tutorialStage < 0)
+        if (Input.GetKeyUp(KeyCode.Return) && tutorialStage <= 0)
         {
             // Skip tutorial
             if (startButtonHovered)
             {
+                SceneManager.LoadScene("LoadingGame");
                 tutorialStage = 12;
             }
             // Start tutorial
