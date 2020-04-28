@@ -42,26 +42,28 @@ public class TargetStar : MonoBehaviour
 
     public void UpdateTarget()
     {
-        if (starsToFind.Count == 0)
+        if (starsFound.Count == 0)
         {
-            target = "done";
+            starsFound.Add(target);
+            starsToFind.Remove(target);
+            target = starsToFind[0];
         }
         else
         {
-            if (starsFound.Count == 0)
+            starsFound.Add(target);
+            starsToFind.Remove(target);
+            Debug.Log(starsToFind.Count);
+            if (starsToFind.Count == 0) // no more stars to find
             {
-                starsFound.Add(target);
-                starsToFind.Remove(target);
-                target = starsToFind[0];
+                target = "done";
             }
             else
             {
-                starsFound.Add(target);
-                starsToFind.Remove(target);
                 randomIndex = random.Next(starsToFind.Count);
                 target = starsToFind[randomIndex];
             }
         }
+
     }
     public int GetNumberOfStarsFound()
     {

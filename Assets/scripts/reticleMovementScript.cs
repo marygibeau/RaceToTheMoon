@@ -6,10 +6,6 @@ using System;
 
 public class reticleMovementScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-    // for target star logic, maintain list of stars that have been selected and stars that can be selected 
-    // make sure new targetStar is in not found array before assigning
 
     // movement variables
     float movementOffset = 4.0f;
@@ -103,8 +99,10 @@ public class reticleMovementScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // keeps track of time since last star for hint purposes
         timeSinceLastStar += 1 * Time.deltaTime;
 
+        // turn on different hints depending on how long since last star
         if (Math.Ceiling(timeSinceLastStar) % 60 == 5 && !gameOver)
         {
             StartFirstHint();
@@ -166,7 +164,6 @@ public class reticleMovementScript : MonoBehaviour
             ResetHints();
             ChangeTargetStarColor();
             UpdateTargetStarDebug();
-            // UpdateTargetStar();
         }
 
         //logic for clicking a star that is not the target to play sound effect
@@ -181,6 +178,7 @@ public class reticleMovementScript : MonoBehaviour
             incorrectSound.Play();
         }
 
+        // save score and load next screen when launch button pressed at end of game
         if (Input.GetKeyUp(KeyCode.Return) && launchButtonHovered)
         {
             lvlr.LoadNextLevelWithStarListAndTimeLeft(getStarsCollectedList(), timer.GetTimeLeft());
@@ -217,11 +215,10 @@ public class reticleMovementScript : MonoBehaviour
             else if (distanceToTarget > 1.5) hintSound.clip = closeSound;
             else hintSound.clip = rapidSound;
             if (prevSound != hintSound.clip) hintSound.Play();
-            //Debug.Log(distanceToTarget);
 
         }
 
-        // arrow hint
+        // updates arrow hint while arrow hint is active
         if (isArrowHint && !gameOver)
         {
             UpdateArrows();
@@ -258,6 +255,10 @@ public class reticleMovementScript : MonoBehaviour
             case "down":
                 reticleDown = true;
                 break;
+            case "launch button": // launch button hover behavior
+                launchButtonHovered = true;
+                GameObject.Find("launch button").GetComponent<Image>().color = Color.green;
+                break;
             default:
                 showBox(other.gameObject.name);
                 break;
@@ -282,21 +283,20 @@ public class reticleMovementScript : MonoBehaviour
             case "down":
                 reticleDown = false;
                 break;
+            case "launch button": // launch button hover behavior
+                launchButtonHovered = false;
+                GameObject.Find("launch button").GetComponent<Image>().color = Color.white;
+                break;
             default:
                 hideBox();
                 break;
         }
     }
 
+    // shows star name box
     public void showBox(string star)
     {
-        // Debug.Log(star);
-        if (star == "launch button")
-        {
-            launchButtonHovered = true;
-            GameObject.Find("launch button").GetComponent<Image>().color = Color.green;
-        }
-        else if (star != "Main Camera" && star != "Button" && !gameOver)
+        if (star != "Main Camera" && star != "Button" && !gameOver)
         {
             textBox.gameObject.SetActive(true);
             blackBox.gameObject.SetActive(true);
@@ -304,16 +304,12 @@ public class reticleMovementScript : MonoBehaviour
         }
     }
 
+    // hides star name box
     public void hideBox()
     {
         textBox.gameObject.SetActive(false);
         blackBox.gameObject.SetActive(false);
         starText.text = "";
-        if (launchButtonHovered)
-        {
-            launchButtonHovered = false;
-            GameObject.Find("launch button").GetComponent<Image>().color = Color.white;
-        }
     }
 
     // increases the score shown by an amount passed
@@ -326,6 +322,7 @@ public class reticleMovementScript : MonoBehaviour
         selectionSound.Play();
     }
 
+    // updates score ui text
     public void updateScoreText(int score)
     {
         if (currentScore < 10000)
@@ -335,11 +332,13 @@ public class reticleMovementScript : MonoBehaviour
         else scoreUI.text = "Score: " + currentScore.ToString();
     }
 
+    // cooldown function for star clicking
     void CooledDown()
     {
         canClick = true;
     }
 
+    // turns off x for wrong star behavior
     void disableX()
     {
         lastStar.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
@@ -350,23 +349,26 @@ public class reticleMovementScript : MonoBehaviour
         return currentScore;
     }
 
+    // getter for target script to get number of stars found
     public int getStars()
     {
         return targetScript.GetNumberOfStarsFound();
     }
 
+    // getter for target script to get a list of stars found
     public List<string> getStarsCollectedList()
     {
         return targetScript.GetNamesOfStarsFound();
     }
 
+    // changes color of a star once it has been found
     void ChangeTargetStarColor()
     {
         GameObject targetStarRing = GameObject.Find(targetScript.GetTarget()).transform.GetChild(0).gameObject;
-        Debug.Log("targetStarRing name: " + targetStarRing.name);
         targetStarRing.GetComponent<SpriteRenderer>().color = new Color(0.1727581f, 0.945098f, 0.1215686f, 1);
     }
 
+    // updates target star and logs information in console
     void UpdateTargetStarDebug()
     {
         UpdateTargetStar();
@@ -378,6 +380,7 @@ public class reticleMovementScript : MonoBehaviour
         }
     }
 
+    // updates target star
     void UpdateTargetStar()
     {
         if (!gameOver)
@@ -425,6 +428,7 @@ public class reticleMovementScript : MonoBehaviour
     void StopSecondHint()
     {
         Debug.Log("second hint ended");
+
         isAudioHint = false;
         hintSound.Stop();
     }
@@ -432,12 +436,15 @@ public class reticleMovementScript : MonoBehaviour
     void StartThirdHint()
     {
         Debug.Log("first hint started");
+
         targetStar = GameObject.Find(targetScript.GetTarget());
         isArrowHint = true;
     }
 
+    // updates which arrows are active depending on screen position relative to target star
     void UpdateArrows()
     {
+        // turns off arrows if target star is visible
         if (targetStar.GetComponent<Renderer>().isVisible)
         {
             rightArrow.gameObject.SetActive(false);
@@ -447,9 +454,11 @@ public class reticleMovementScript : MonoBehaviour
         }
         else
         {
+            // gets screen points
             Vector3 topRight = mainCamera.ViewportToWorldPoint(new Vector3(1.0f, 1.0f, 1.0f));
             Vector3 bottomLeft = mainCamera.ViewportToWorldPoint(new Vector3(0.0f, 0.0f, 1.0f));
 
+            // get target star location
             float targetX = targetStar.transform.position.x;
             float targetY = targetStar.transform.position.y;
             // turn on right arrow
@@ -496,6 +505,7 @@ public class reticleMovementScript : MonoBehaviour
         isArrowHint = false;
     }
 
+    // saves arrows and makes them invisible
     void initializeArrows()
     {
         upArrow = GameObject.Find("up arrow");
@@ -508,6 +518,7 @@ public class reticleMovementScript : MonoBehaviour
         rightArrow.gameObject.SetActive(false);
     }
 
+    // turns off all hints and resents time since last star
     void ResetHints()
     {
         StopFirstHint();
@@ -515,6 +526,8 @@ public class reticleMovementScript : MonoBehaviour
         StopThirdHint();
         timeSinceLastStar = 0;
     }
+
+    // shows end of game launch panel
     public void showLaunchInfo()
     {
         launchButton.gameObject.SetActive(true);
@@ -523,6 +536,7 @@ public class reticleMovementScript : MonoBehaviour
         ResetHints();
     }
 
+    // begins end of game sequence
     public void gameOverActivate()
     {
         gameOver = true;
@@ -531,6 +545,7 @@ public class reticleMovementScript : MonoBehaviour
         showLaunchInfo();
     }
 
+    // setter for can move
     public void setCanMove(Boolean b)
     {
         canMove = b;

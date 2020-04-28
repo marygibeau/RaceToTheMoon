@@ -49,7 +49,5 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("SecondsLeft", secondsLeft);
         int score = starsFound.Count * 1000 + secondsLeft * 100;
         LoadNextLevelWithScoreandStars(score, starsFound.Count);
-        // TODO: Update where load next level is used
-        // TODO: Update how the end screen takes in info
     }
 }
