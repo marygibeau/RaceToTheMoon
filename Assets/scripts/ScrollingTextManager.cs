@@ -24,14 +24,15 @@ public class ScrollingTextManager : MonoBehaviour
         cloneRectTransform.SetParent(m_textRectTransform);
         cloneRectTransform.anchorMin = new Vector2(1, 0.5f);
         cloneRectTransform.anchorMax = new Vector2(1, 0.5f);
-        cloneRectTransform.localPosition = new Vector2(100, 0);
+        cloneRectTransform.localPosition = new Vector2(m_textRectTransform.offsetMax.x + TextMeshProComponent.preferredWidth * m_textRectTransform.lossyScale.x, 0);
         cloneRectTransform.localScale = new Vector3(1, 1, 1);
         
     }
     
     IEnumerator Start()
     {
-        float width = TextMeshProComponent.preferredWidth * m_textRectTransform.lossyScale.x;        Debug.Log("The Width is: " + width);
+        float width = TextMeshProComponent.preferredWidth * m_textRectTransform.lossyScale.x;        
+        Debug.Log("The Width is: " + width);
 
         Vector3 startPosition = m_textRectTransform.position;
 

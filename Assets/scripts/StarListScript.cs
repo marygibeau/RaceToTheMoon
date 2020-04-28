@@ -28,7 +28,7 @@ public class StarListScript : MonoBehaviour
         {
             string getString = "Star_" + (x).ToString();
             starsFoundText += PlayerPrefs.GetString(getString);
-            if (x < starsFound -1 ){ starsFoundText += "  --  "; }
+            starsFoundText += " | "; 
             
         }
 
