@@ -2345,7 +2345,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8660382fbd7fac9458da3462eaf7c35a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.69411767, g: 0.64705884, b: 0.6117647, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -2701,6 +2701,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Type
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2011389286182794871, guid: d81def70e71204343ac8d62b440babfe,
         type: 3}
@@ -3246,6 +3261,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Type
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2011389286182794871, guid: d81def70e71204343ac8d62b440babfe,
         type: 3}
@@ -4399,6 +4429,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Type
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2011389286182794869, guid: d81def70e71204343ac8d62b440babfe,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2011389286182794871, guid: d81def70e71204343ac8d62b440babfe,
         type: 3}

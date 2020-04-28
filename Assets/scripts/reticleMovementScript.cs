@@ -119,23 +119,23 @@ public class reticleMovementScript : MonoBehaviour
         }
 
         // reticle movement
-        if(canMove) 
+        if (canMove)
         {
             if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
             {
-                this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
+                this.transform.Translate(Vector2.up * movementOffset * Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
             {
-                this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
+                this.transform.Translate(Vector2.down * movementOffset * Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
             {
-                this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
+                this.transform.Translate(Vector2.left * movementOffset * Time.deltaTime);
             }
             if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
             {
-                this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
+                this.transform.Translate(Vector2.right * movementOffset * Time.deltaTime);
             }
         }
 
@@ -170,7 +170,7 @@ public class reticleMovementScript : MonoBehaviour
         }
 
         //logic for clicking a star that is not the target to play sound effect
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget() 
+        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget()
         && starText.text != "" && !gameOver)
         {
             lastStar = GameObject.Find(starText.text);
@@ -294,6 +294,7 @@ public class reticleMovementScript : MonoBehaviour
         if (star == "launch button")
         {
             launchButtonHovered = true;
+            GameObject.Find("launch button").GetComponent<Image>().color = Color.green;
         }
         else if (star != "Main Camera" && star != "Button" && !gameOver)
         {
@@ -308,7 +309,11 @@ public class reticleMovementScript : MonoBehaviour
         textBox.gameObject.SetActive(false);
         blackBox.gameObject.SetActive(false);
         starText.text = "";
-        launchButtonHovered = false;
+        if (launchButtonHovered)
+        {
+            launchButtonHovered = false;
+            GameObject.Find("launch button").GetComponent<Image>().color = Color.white;
+        }
     }
 
     // increases the score shown by an amount passed
@@ -335,7 +340,7 @@ public class reticleMovementScript : MonoBehaviour
         canClick = true;
     }
 
-    void disableX() 
+    void disableX()
     {
         lastStar.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
     }
@@ -526,9 +531,9 @@ public class reticleMovementScript : MonoBehaviour
         showLaunchInfo();
     }
 
-    public void setCanMove(Boolean b) 
+    public void setCanMove(Boolean b)
     {
         canMove = b;
     }
- 
+
 }
