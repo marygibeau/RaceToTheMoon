@@ -171,6 +171,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingTime: 90
+  countdownPanelText: {fileID: 0}
+  countdownPanel: {fileID: 0}
+  game: {fileID: 0}
 --- !u!114 &22693181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1629,6 +1632,7 @@ MonoBehaviour:
   cameraMovementScript: {fileID: 519420033}
   mainCamera: {fileID: 519420031}
   backgroundImage: {fileID: 769464020}
+  button: {fileID: 0}
   scoreIncrement: 1000
   coolDown: 1
   transitionPanel: {fileID: 1695324019}
@@ -3961,12 +3965,12 @@ PrefabInstance:
     - target: {fileID: 2011389286182794859, guid: d81def70e71204343ac8d62b440babfe,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 234
       objectReference: {fileID: 0}
     - target: {fileID: 2011389286182794859, guid: d81def70e71204343ac8d62b440babfe,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -118.00001
+      value: -147
       objectReference: {fileID: 0}
     - target: {fileID: 2011389286182794859, guid: d81def70e71204343ac8d62b440babfe,
         type: 3}

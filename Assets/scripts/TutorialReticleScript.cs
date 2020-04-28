@@ -69,6 +69,7 @@ public class TutorialReticleScript : MonoBehaviour
     public GameObject reviewButton;
     public GameObject goButton;
     public GameObject startButton;
+    
 
     string[] instructions = {"Move the reticle using the joystick.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
@@ -304,13 +305,15 @@ public class TutorialReticleScript : MonoBehaviour
                 break;
             case "StartButton":
                 startButtonHovered = true;
+                GameObject.Find("StartButton").GetComponent<Image>().color = Color.green;
                 break;
             case "ReviewButton":
-              //  button.GetComponent<Image>().color = Color.green;
                 reviewButtonHovered = true;
+                GameObject.Find("ReviewButton").GetComponent<Image>().color = Color.green;
                 break;
             case "GoButton":
                 goButtonHovered = true;
+                GameObject.Find("GoButton").GetComponent<Image>().color = Color.green;
                 break;
             default:
                 showBox(other.gameObject.name);
@@ -338,12 +341,15 @@ public class TutorialReticleScript : MonoBehaviour
                 break;
             case "StartButton":
                 startButtonHovered = false;
+                GameObject.Find("StartButton").GetComponent<Image>().color = Color.white;
                 break;
             case "ReviewButton":
                 reviewButtonHovered = false;
+                GameObject.Find("ReviewButton").GetComponent<Image>().color = Color.white;
                 break;
             case "GoButton":
                 goButtonHovered = false;
+                GameObject.Find("GoButton").GetComponent<Image>().color = Color.white;
                 break;
             default:
                 hideBox();
