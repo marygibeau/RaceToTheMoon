@@ -12,6 +12,7 @@ public class TutorialReticleScript : MonoBehaviour
     public cameraMovement cameraMovementScript;
     public Camera mainCamera;
     public GameObject backgroundImage;
+    public GameObject button;
     private bool reticleUp = false;
     private bool reticleDown = false;
     private bool reticleLeft = false;
@@ -303,6 +304,7 @@ public class TutorialReticleScript : MonoBehaviour
                 startButtonHovered = true;
                 break;
             case "ReviewButton":
+              //  button.GetComponent<Image>().color = Color.green;
                 reviewButtonHovered = true;
                 break;
             case "GoButton":
@@ -432,7 +434,18 @@ public class TutorialReticleScript : MonoBehaviour
         tutorialStage++;
         if (tutorialStage >= 12) // loads game
         {
-            SceneManager.LoadScene("Game");
+            //hideBox();
+            //ShowSkipBox();
+            //gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            //scoreUI.gameObject.SetActive(false);
+            //GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
+            //GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = false;
+            //GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = false;
+            //GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = true;
+            //video.enabled = false;
+            //video.clip = (VideoClip)Resources.Load("Assets/Sprites/Overlaps_WEBM/RTTM_Overlay_Go.webm");
+            //video.Play();
+            SceneManager.LoadScene("LoadingGame");
         }
         else if (tutorialStage == 0)
         {
