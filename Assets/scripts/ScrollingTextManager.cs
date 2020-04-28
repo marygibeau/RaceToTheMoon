@@ -24,7 +24,7 @@ public class ScrollingTextManager : MonoBehaviour
         cloneRectTransform.SetParent(m_textRectTransform);
         cloneRectTransform.anchorMin = new Vector2(1, 0.5f);
         cloneRectTransform.anchorMax = new Vector2(1, 0.5f);
-        cloneRectTransform.localPosition = new Vector2(m_textRectTransform.offsetMax.x + TextMeshProComponent.preferredWidth * m_textRectTransform.lossyScale.x, 0);
+        cloneRectTransform.localPosition = new Vector2(m_textRectTransform.offsetMax.x + (TextMeshProComponent.preferredWidth * m_textRectTransform.lossyScale.x) -3.5f, 0);
         cloneRectTransform.localScale = new Vector3(1, 1, 1);
         
     }
