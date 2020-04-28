@@ -3,38 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using TMPro;
 
 
 public class StarListScript : MonoBehaviour
 {
-    private Text starList;
-    private Vector3 startPosition;
-    private float scrollSpeed = 0.05f;
-    private float scrollPosition = 0.0f;
+    private TextMeshProUGUI starList;
+  
 
     // Start is called before the first frame update
     void Start()
     {
-        this.GetComponent<Text>().text = generateStarList();
-        starList = this.GetComponent<Text>();
-        startPosition = starList.transform.position;
-
-        if(PlayerPrefs.GetInt("starsFound") < 7){
-            scrollSpeed = 0.0f;
-        } else {
-            scrollSpeed = 0.05f;
-        }
+        this.GetComponent<TextMeshProUGUI>().text = generateStarList();
+        starList = this.GetComponent<TextMeshProUGUI>();
         
-        scrollPosition = 0.0f;
-        float height = starList.preferredHeight;
-        
-        Debug.Log(height);
-
-        Debug.Log(startPosition);
-        Debug.Log(starList.transform.localPosition);
-
-        Debug.Log("Initial Y (position): " + starList.transform.position.y);
-        Debug.Log("Initial Y (localPosition): " + starList.transform.localPosition.y);
     }
 
     public string generateStarList()
@@ -46,24 +28,11 @@ public class StarListScript : MonoBehaviour
         {
             string getString = "Star_" + (x).ToString();
             starsFoundText += PlayerPrefs.GetString(getString);
-            starsFoundText += '\n';
+            starsFoundText += " | "; 
+            
         }
 
         return starsFoundText;
     }
-     // Update is called once per frame
-    void Update()
-    {
-        if(PlayerPrefs.GetInt("starsFound") < 7){
-             starList.transform.position = new Vector3(startPosition.x, startPosition.y + 2.98f, startPosition.z);
-        } else {
-            float boundary = 8.0f;
-            starList.transform.position = new Vector3(startPosition.x, (scrollPosition % boundary) - 1.0f, startPosition.z);
-
-            Debug.Log(scrollPosition);
-
-            scrollPosition += scrollSpeed * 20 * Time.deltaTime;
-        }
-
-    }
+  
 }

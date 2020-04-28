@@ -20,6 +20,7 @@ public class reticleMovementScript : MonoBehaviour
     private bool reticleDown = false;
     private bool reticleLeft = false;
     private bool reticleRight = false;
+    private bool canMove = true;
 
     // UI variables
     Text scoreUI;
@@ -35,6 +36,7 @@ public class reticleMovementScript : MonoBehaviour
     TargetStar targetScript;
     GameObject targetStar;
     public float timeSinceLastStar = 0;
+    GameObject lastStar;
 
     // audio variables
     AudioSource selectionSound;
@@ -117,21 +119,24 @@ public class reticleMovementScript : MonoBehaviour
         }
 
         // reticle movement
-        if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
+        if(canMove) 
         {
-            this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
-        }
-        if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
-        {
-            this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
-        }
-        if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
-        {
-            this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
-        }
-        if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
-        {
-            this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
+            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
+            {
+                this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
+            }
+            if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
+            {
+                this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
+            }
+            if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
+            {
+                this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
+            }
+            if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
+            {
+                this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
+            }
         }
 
         // camera movement
@@ -168,6 +173,9 @@ public class reticleMovementScript : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget() 
         && starText.text != "" && !gameOver)
         {
+            lastStar = GameObject.Find(starText.text);
+            lastStar.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+            Invoke("disableX", .6F);
             canClick = false;
             Invoke("CooledDown", coolDown);
             incorrectSound.Play();
@@ -325,6 +333,11 @@ public class reticleMovementScript : MonoBehaviour
     void CooledDown()
     {
         canClick = true;
+    }
+
+    void disableX() 
+    {
+        lastStar.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public int getScore()
@@ -513,4 +526,9 @@ public class reticleMovementScript : MonoBehaviour
         showLaunchInfo();
     }
 
+    public void setCanMove(Boolean b) 
+    {
+        canMove = b;
+    }
+ 
 }
