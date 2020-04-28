@@ -71,7 +71,7 @@ public class TutorialReticleScript : MonoBehaviour
     public GameObject reviewButton;
     public GameObject goButton;
     public GameObject startButton;
-    
+
 
     string[] instructions = {"Move the reticle using the joystick.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
@@ -108,7 +108,6 @@ public class TutorialReticleScript : MonoBehaviour
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
         // video set up
         video = GameObject.Find("Video Player").GetComponent<VideoPlayer>();
-        transVideo = GameObject.Find("TransVideoPlayer").GetComponent<VideoPlayer>();
         // tutorial setup
         tutorialStage = -1;
         tutorialPanel = GameObject.Find("Tutorial Box");
@@ -132,6 +131,7 @@ public class TutorialReticleScript : MonoBehaviour
         HideSkipBox();
     }
 
+    // puts tutorial in beginning state
     void StartTutorial()
     {
         transitionPanel.gameObject.SetActive(false);
@@ -173,10 +173,6 @@ public class TutorialReticleScript : MonoBehaviour
                 this.transform.Translate(Vector2.right * movementOffset * Time.deltaTime);
             }
         }
-        // debugging printout for movement variable
-        // if (movements < 61 && movements > 0) {
-        Debug.Log("movements: " + movements);
-        //   }
 
         // advance tutorial stage for 0 and 6
         if (movements >= 60 && (tutorialStage == 0 || tutorialStage == 5))
@@ -185,7 +181,6 @@ public class TutorialReticleScript : MonoBehaviour
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
-                Debug.Log("call 1");
             }
             movements = 0;
         }
@@ -197,7 +192,6 @@ public class TutorialReticleScript : MonoBehaviour
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
-                Debug.Log("call 2");
             }
         }
 
@@ -208,7 +202,6 @@ public class TutorialReticleScript : MonoBehaviour
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
-                Debug.Log("call 2");
             }
         }
 
@@ -307,6 +300,7 @@ public class TutorialReticleScript : MonoBehaviour
             case "down":
                 reticleDown = true;
                 break;
+            // Different button hover behaviors
             case "StartButton":
                 startButtonHovered = true;
                 GameObject.Find("StartButton").GetComponent<Image>().color = Color.green;
@@ -319,7 +313,7 @@ public class TutorialReticleScript : MonoBehaviour
                 goButtonHovered = true;
                 GameObject.Find("GoButton").GetComponent<Image>().color = Color.green;
                 break;
-            default:
+            default: // otherwise it's a star
                 showBox(other.gameObject.name);
                 break;
         }
@@ -343,6 +337,7 @@ public class TutorialReticleScript : MonoBehaviour
             case "down":
                 reticleDown = false;
                 break;
+            // Different button hover behaviors
             case "StartButton":
                 startButtonHovered = false;
                 GameObject.Find("StartButton").GetComponent<Image>().color = Color.white;
@@ -355,7 +350,7 @@ public class TutorialReticleScript : MonoBehaviour
                 goButtonHovered = false;
                 GameObject.Find("GoButton").GetComponent<Image>().color = Color.white;
                 break;
-            default:
+            default: // otherwise it's a star
                 hideBox();
                 break;
         }
@@ -364,22 +359,20 @@ public class TutorialReticleScript : MonoBehaviour
     // shows box by reticle star box
     public void showBox(string star)
     {
-        // Debug.Log(star);
 
+        // shows star name box for stages 3-5
         if (star != "Main Camera" && tutorialStage >= 3 && tutorialStage <= 5)
         {
             textBox.gameObject.SetActive(true);
-
             blackBox.gameObject.SetActive(true);
             starText.text = star;
         }
-        if (tutorialStage == 3)
+        if (tutorialStage == 3) // if shown on stage 3, advance stage
         {
             if (!advancingTutorial)
             {
                 advancingTutorial = true;
                 AdvanceTutorial();
-                Debug.Log("call 6");
             }
         }
     }
@@ -417,9 +410,7 @@ public class TutorialReticleScript : MonoBehaviour
         navi.GetComponent<Renderer>().enabled = false;
         alpheratz.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
         navi.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = false;
-        // gameObject.GetComponent<SpriteRenderer>().enabled = false;
         GameObject.Find("GameUI_TargetBox").GetComponent<SpriteRenderer>().enabled = false;
-        // canMove = false;
     }
 
     void ShowSkipBox()  // Skips skip box visuals and enables "enter" to skip
@@ -438,22 +429,21 @@ public class TutorialReticleScript : MonoBehaviour
         GameObject.Find("continuePanel").GetComponent<Image>().enabled = false;
         GameObject.Find("continueText").GetComponent<Text>().enabled = false;
     }
+
     // Advances the Tutorial to the next stage and implements that stage's logic
     void AdvanceTutorial()
     {
-        // had to use E button on stages: 1->2, 3->4, 6+
-
         tutorialStage++;
-        if (tutorialStage >= 12) // loads game
+        if (tutorialStage >= 12) // loads game at final stage of tutorial
         {
-            
+
             SceneManager.LoadScene("Game");
         }
-        else if (tutorialStage == 0)
+        else if (tutorialStage == 0) // loads tutorial if player doesn't skip
         {
             StartTutorial();
         }
-        else
+        else // updates tutorial text with current stage
         {
             tutorialPanelText.text = instructions[tutorialStage];
         }
@@ -473,11 +463,11 @@ public class TutorialReticleScript : MonoBehaviour
         {
             TargetStarText.GetComponent<Text>().enabled = true;
         }
-        else if (tutorialStage == 3) // shows target star
+        else if (tutorialStage == 3) // move to target star
         {
             HideSkipBox();
         }
-        else if (tutorialStage == 4)
+        else if (tutorialStage == 4) // select star
         {
             ShowSkipBox();
         }
@@ -489,17 +479,17 @@ public class TutorialReticleScript : MonoBehaviour
         }
         else if (tutorialStage == 6) // transition to hint videos
         {
-            // this.transform.position = originalReticlePosition;
-            // TODO: Calculate center of screen and move reticle to that position
+            // moves reticle to screen center
             Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.5f));
             this.transform.position = centerPos;
-            canMove = false;
+            canMove = false; // disables movement
+            // shows skip box and hides starname box
             hideBox();
             ShowSkipBox();
         }
         else if (tutorialStage == 7) // hides game components and shows first hint video
         {
-            // canMove = false;
+            // hides game components
             hideBox();
             ShowSkipBox();
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
@@ -507,6 +497,7 @@ public class TutorialReticleScript : MonoBehaviour
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
             GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = false;
             GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = false;
+            // loads hint video
             video.clip = (VideoClip)Resources.Load("hintVideos/hint1");
             video.Play();
         }
@@ -522,36 +513,31 @@ public class TutorialReticleScript : MonoBehaviour
         }
         else if (tutorialStage == 10) // shows game components and hides videos, timed mission
         {
-            // canMove = true;
+            // shows game components
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
             scoreUI.gameObject.SetActive(true);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = true;
             GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = true;
             GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = true;
-            video.enabled = false;
             timer.gameObject.SetActive(true);
+            video.enabled = false; // turns off hint videos
         }
         else if (tutorialStage == 11) // show transition to game
         {
+            // hide all game elements
             hideBox();
             HideSkipBox();
             HideGameComponents();
-            canMove = true;
-            gameObject.GetComponent<SpriteRenderer>().enabled = true;
-            //GameObject.Find("Tutorial Box").GetComponent<SpriteRenderer>().enabled = false;
-            //scoreUI.gameObject.SetActive(false);
-            video.enabled = false;
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
             GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = false;
-            GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().enabled = false;
+            // makes the reticle visible and moveable
+            canMove = true;
+            gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            // swap out background video
+            GameObject.Find("Background Video Player").GetComponent<VideoPlayer>().clip = (VideoClip)Resources.Load("RTTM_Overlay_Go");
+            // show final scene objects
             finalPanel.gameObject.SetActive(true);
-           // finalPanel.GetComponent<SpriteRenderer>().enabled = true;
-            transVideo.enabled = true;
-           
             goButton.SetActive(true);
-           
-            transVideo.Play();
-            advancingTutorial = false;
         }
         advancingTutorial = false;
     }
