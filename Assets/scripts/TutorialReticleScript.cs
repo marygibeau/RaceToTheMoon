@@ -51,7 +51,7 @@ public class TutorialReticleScript : MonoBehaviour
     bool reviewButtonHovered;
     bool goButtonHovered;
     string introText = "If you would like a refresher on your star tracking press the review button. If not, press start to skip this training review.";
-    string endText = "You have successfully comlpeted your training review. Press GO to begin system calibration.";
+    string endText = "You have successfully completed your training review. Press GO to begin system calibration.";
 
 
     // tutorial variables
