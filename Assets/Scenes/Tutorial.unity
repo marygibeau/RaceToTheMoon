@@ -645,8 +645,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.55, y: -0.003067}
-  m_SizeDelta: {x: 428.39, y: 90.494}
+  m_AnchoredPosition: {x: -3.55, y: 0.00034332}
+  m_SizeDelta: {x: 428.4, y: 55.152}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &413455308
 MonoBehaviour:
@@ -679,7 +679,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press Enter to continue
+  m_Text: Press the joystick button to continue
 --- !u!222 &413455309
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -935,6 +935,12 @@ PrefabInstance:
       propertyPath: m_Text
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8240194544595189552, guid: 064f07a5f6932d14ea94e2ac3f79f3a2,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 27f859be97b1e4fbcbff1eb29b4dda6a,
+        type: 3}
     - target: {fileID: 8240194545106226800, guid: 064f07a5f6932d14ea94e2ac3f79f3a2,
         type: 3}
       propertyPath: m_Name

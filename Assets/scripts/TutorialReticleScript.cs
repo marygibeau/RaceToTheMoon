@@ -69,11 +69,11 @@ public class TutorialReticleScript : MonoBehaviour
     public GameObject goButton;
     public GameObject startButton;
 
-    string[] instructions = {"Move the reticle using wasd or arrow keys.",
+    string[] instructions = {"Move the reticle using the joystick.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
                              "In the upper right hand corner is the name of the star you’re looking for",
                              "Move the reticle over a star to see its name.",
-                             "If the name of the star matches the name of the target star, press enter to earn points.",
+                             "If the name of the star matches the name of the target star, press the joystick button to earn points.",
                              "Some stars are outside of our view. To move the viewport, move your reticle in the desired direction until it collides with the box.",
                              "Excellent work! To help you track down difficult stars, we've built some star tracking technology into the ship.",
                              "First the circle around the star will expand and shrink to draw your attention.",
