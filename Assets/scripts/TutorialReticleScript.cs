@@ -522,7 +522,7 @@ public class TutorialReticleScript : MonoBehaviour
         }
         else if (tutorialStage == 10) // shows game components and hides videos, timed mission
         {
-            canMove = true;
+            // canMove = true;
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
             scoreUI.gameObject.SetActive(true);
             GameObject.Find("TargetText").GetComponent<Text>().enabled = true;
