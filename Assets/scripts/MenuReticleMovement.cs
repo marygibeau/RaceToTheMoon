@@ -63,7 +63,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (onPlayButton)
         { 
             button.GetComponent<Image>().color = Color.green;
-            showBox(PlayButtonHint);
+            // showBox(PlayButtonHint);
         }
 
         if (onRestartButton)
@@ -89,14 +89,14 @@ public class MenuReticleMovement : MonoBehaviour
             moveRight();
         }
 
-        if (Input.GetKeyUp(KeyCode.Return) && starText.text == PlayButtonHint)
+        if (Input.GetKeyUp(KeyCode.Return) && onPlayButton)
         {
             print("Cinematic 1 to play here.");
 
             lvlr.LoadLevel("Cinematic_1");
         }
 
-        if (Input.GetKeyUp(KeyCode.Return) && starText.text == RestartButtonHint)
+        if (Input.GetKeyUp(KeyCode.Return) && onRestartButton)
         {
             lvlr.LoadLevel("MainMenu");
         }
