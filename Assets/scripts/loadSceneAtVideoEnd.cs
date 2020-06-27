@@ -15,9 +15,9 @@ public class loadSceneAtVideoEnd : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.Return))
         {
-            SceneManager.LoadScene("Tutorial");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
     void LoadScene(VideoPlayer vp)
