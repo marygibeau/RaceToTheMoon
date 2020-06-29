@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 
-public class loadSceneAtVideoEnd : MonoBehaviour
+public class LoadSceneAtVideoEnd : MonoBehaviour
 {
     public VideoPlayer VideoPlayer; // Drag & Drop the GameObject holding the VideoPlayer component
 

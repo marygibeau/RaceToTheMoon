@@ -9,14 +9,14 @@ public class TutorialReticleScript : MonoBehaviour
 {
     // movement variables
     float movementOffset = 4.0f;
-    public cameraMovement cameraMovementScript;
+    public CameraMovement cameraMovementScript;
     public Camera mainCamera;
     public GameObject backgroundImage;
     public GameObject button;
-    private bool reticleUp = false;
-    private bool reticleDown = false;
-    private bool reticleLeft = false;
-    private bool reticleRight = false;
+    private bool crosshairUp = false;
+    private bool crosshairDown = false;
+    private bool crosshairLeft = false;
+    private bool crosshairRight = false;
     private bool canMove = true;
 
     // UI variables
@@ -73,12 +73,12 @@ public class TutorialReticleScript : MonoBehaviour
     public GameObject startButton;
 
 
-    string[] instructions = {"Move the reticle using the joystick.",
+    string[] instructions = {"Move the crosshair using the joystick.",
                              "We’ve built some star tracking technology into the ship. The mission critical stars will have a circle around them.",
                              "In the upper right hand corner is the name of the star you’re looking for",
-                             "Move the reticle over a star to see its name.",
+                             "Move the crosshair over a star to see its name.",
                              "If the name of the star matches the name of the target star, press the joystick button to earn points.",
-                             "Some stars are outside of our view. To move the viewport, move your reticle in the desired direction until it collides with the box.",
+                             "Some stars are outside of our view. To move the viewport, move your crosshair in the desired direction until it collides with the box.",
                              "Excellent work! To help you track down difficult stars, we've built some star tracking technology into the ship.",
                              "First the circle around the star will expand and shrink to draw your attention.",
                              "Next our audio tracking system will play beeps that get faster as you get closer to the target star and a special sound will play when you hover over the correct star.",
@@ -126,7 +126,7 @@ public class TutorialReticleScript : MonoBehaviour
         // star set up and hide
         alpheratz = GameObject.Find("Alpheratz");
         navi = GameObject.Find("Navi");
-        // hide game objects (not reticle) and skip box
+        // hide game objects (not crosshair) and skip box
         HideGameComponents();
         HideSkipBox();
     }
@@ -149,25 +149,25 @@ public class TutorialReticleScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // reticle movement
+        // crosshair movement
         if (canMove)
         {
-            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
+            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !crosshairUp)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
                 this.transform.Translate(Vector2.up * movementOffset * Time.deltaTime);
             }
-            if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
+            if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !crosshairDown)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
                 this.transform.Translate(Vector2.down * movementOffset * Time.deltaTime);
             }
-            if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
+            if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !crosshairLeft)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
                 this.transform.Translate(Vector2.left * movementOffset * Time.deltaTime);
             }
-            if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
+            if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !crosshairRight)
             {
                 if (movements < 61 && tutorialStage == 0) { movements++; }
                 this.transform.Translate(Vector2.right * movementOffset * Time.deltaTime);
@@ -206,22 +206,22 @@ public class TutorialReticleScript : MonoBehaviour
         }
 
         // camera movement
-        if (reticleUp && tutorialStage >= 5 && canMove && tutorialStage != 11)
+        if (crosshairUp && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveUp();
         }
-        if (reticleDown && tutorialStage >= 5 && canMove && tutorialStage != 11)
+        if (crosshairDown && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveDown();
         }
-        if (reticleLeft && tutorialStage >= 5 && canMove && tutorialStage != 11)
+        if (crosshairLeft && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveLeft();
         }
-        if (reticleRight && tutorialStage >= 5 && canMove && tutorialStage != 11)
+        if (crosshairRight && tutorialStage >= 5 && canMove && tutorialStage != 11)
         {
             if (movements < 61 && tutorialStage == 5) { movements++; }
             cameraMovementScript.moveRight();
@@ -282,23 +282,23 @@ public class TutorialReticleScript : MonoBehaviour
 
     }
 
-    // checks if reticle has collided with a trigger
+    // checks if crosshair has collided with a trigger
     void OnTriggerEnter2D(Collider2D other)
     {
         // turns on movement directions
         switch (other.gameObject.name)
         {
             case "right":
-                reticleRight = true;
+                crosshairRight = true;
                 break;
             case "left":
-                reticleLeft = true;
+                crosshairLeft = true;
                 break;
             case "up":
-                reticleUp = true;
+                crosshairUp = true;
                 break;
             case "down":
-                reticleDown = true;
+                crosshairDown = true;
                 break;
             // Different button hover behaviors
             case "StartButton":
@@ -319,23 +319,23 @@ public class TutorialReticleScript : MonoBehaviour
         }
     }
 
-    // checks if reticle is no longer colliding with a trigger
+    // checks if crosshair is no longer colliding with a trigger
     void OnTriggerExit2D(Collider2D other)
     {
         // turns off movement directions
         switch (other.gameObject.name)
         {
             case "right":
-                reticleRight = false;
+                crosshairRight = false;
                 break;
             case "left":
-                reticleLeft = false;
+                crosshairLeft = false;
                 break;
             case "up":
-                reticleUp = false;
+                crosshairUp = false;
                 break;
             case "down":
-                reticleDown = false;
+                crosshairDown = false;
                 break;
             // Different button hover behaviors
             case "StartButton":
@@ -356,7 +356,7 @@ public class TutorialReticleScript : MonoBehaviour
         }
     }
 
-    // shows box by reticle star box
+    // shows box by crosshair star box
     public void showBox(string star)
     {
 
@@ -377,7 +377,7 @@ public class TutorialReticleScript : MonoBehaviour
         }
     }
 
-    // hides box by reticle
+    // hides box by crosshair
     public void hideBox()
     {
         textBox.gameObject.SetActive(false);
@@ -479,7 +479,7 @@ public class TutorialReticleScript : MonoBehaviour
         }
         else if (tutorialStage == 6) // transition to hint videos
         {
-            // moves reticle to screen center
+            // moves crosshair to screen center
             Vector3 centerPos = Camera.main.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, 0.5f));
             this.transform.position = centerPos;
             canMove = false; // disables movement
@@ -530,7 +530,7 @@ public class TutorialReticleScript : MonoBehaviour
             HideGameComponents();
             GameObject.Find("TargetText").GetComponent<Text>().enabled = false;
             GameObject.Find("continueBox").GetComponent<SpriteRenderer>().enabled = false;
-            // makes the reticle visible and moveable
+            // makes the crosshair visible and moveable
             canMove = true;
             gameObject.GetComponent<SpriteRenderer>().enabled = true;
             // swap out background video

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class teleTypeAnimation : MonoBehaviour
+public class TypewriterAnimation : MonoBehaviour
 {
 
     public float writeSpeed = 0.05f;

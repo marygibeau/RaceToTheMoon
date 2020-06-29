@@ -15,7 +15,7 @@ public class TimerScript : MonoBehaviour
     Text countdownPanelTextComp;
     public GameObject countdownPanel;
     float currentTimeCountdown = 0f;
-    public reticleMovementScript game;
+    public ReticleMovementScript game;
 
     LevelManager lvlr;
 
@@ -90,9 +90,9 @@ public class TimerScript : MonoBehaviour
 
     public void LoadEndScreen()
     {
-        // get reticle to show launch button
-        reticleMovementScript reticle = GameObject.Find("reticle").GetComponent<reticleMovementScript>();
-        reticle.gameOverActivate();
+        // get crosshair to show launch button
+        ReticleMovementScript crosshair = GameObject.Find("reticle").GetComponent<ReticleMovementScript>();
+        crosshair.gameOverActivate();
         
     }
 }

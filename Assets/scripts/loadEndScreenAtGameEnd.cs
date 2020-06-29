@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 
-public class loadEndScreenAtGameEnd : MonoBehaviour
+public class LoadEndScreenAtGameEnd : MonoBehaviour
 {
-    public VideoPlayer VideoPlayer; // Drag & Drop the GameObject holding the VideoPlayer component
+    public VideoPlayer videoPlayer; // Drag & Drop the GameObject holding the VideoPlayer component
     public LevelManager lvlr;
 
     void Start()
     {
-        VideoPlayer.loopPointReached += LoadScene;
+        videoPlayer.loopPointReached += LoadScene;
     }
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetKeyUp(KeyCode.Return))
         {
             int currentScore = PlayerPrefs.GetInt("finalScore");
             int starsFound = PlayerPrefs.GetInt("starsFound");

@@ -14,24 +14,8 @@ public class StartTextPopUp : MonoBehaviour
     // Ensures text is not on display when the game is started
     public void Start()
     {
-        // starText.gameObject.SetActive(false);
-        print("All should be clear");
         starText.gameObject.GetComponent<Text>().enabled = false;
         isEntered = false;
-    }
-
-    public void Update()
-    {
-    // CircleCollider2D coll = this.GetComponent<CircleCollider2D>();
-    // Vector4 reticlePosition = GameObject.Find("reticle").transform.position;
-    //     if (!coll.OverlapPoint(reticlePosition))
-    //     {
-    //         starText.gameObject.SetActive(false);
-    //     }
-    //     else
-    //     {
-    //         starText.gameObject.SetActive(true);
-    //     }
     }
 
     // If the start is hovered over, show the star name
@@ -42,7 +26,7 @@ public class StartTextPopUp : MonoBehaviour
         isEntered = true;
         
     }
-    // Once reticle is no longer over star, hide the star name
+    // Once crosshair is no longer over star, hide the star name
     void OnTriggerExit2D(Collider2D other)
     {
         // starText.gameObject.SetActive(false);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class targetTextScript : MonoBehaviour
+public class TargetTextScript : MonoBehaviour
 {
     Text textObject;
     TargetStar targetStar;

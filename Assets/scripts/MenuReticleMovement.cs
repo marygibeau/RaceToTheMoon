@@ -129,7 +129,7 @@ public class MenuReticleMovement : MonoBehaviour
         }
     }
 
-    // checks if reticle is no longer touching the edge
+    // checks if crosshair is no longer touching the edge
     void OnTriggerExit2D(Collider2D other)
     {
         // turns off movement directions

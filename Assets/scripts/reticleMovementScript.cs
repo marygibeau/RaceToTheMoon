@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class reticleMovementScript : MonoBehaviour
+public class ReticleMovementScript : MonoBehaviour
 {
 
     // movement variables
     float movementOffset = 4.0f;
-    public cameraMovement cameraMovementScript;
+    public CameraMovement cameraMovementScript;
     public Camera mainCamera;
     public GameObject backgroundImage;
-    private bool reticleUp = false;
-    private bool reticleDown = false;
-    private bool reticleLeft = false;
-    private bool reticleRight = false;
+    private bool crosshairUp = false;
+    private bool crosshairDown = false;
+    private bool crosshairLeft = false;
+    private bool crosshairRight = false;
     private bool canMove = true;
 
     // UI variables
@@ -116,41 +116,41 @@ public class reticleMovementScript : MonoBehaviour
             StartThirdHint();
         }
 
-        // reticle movement
+        // crosshair movement
         if (canMove)
         {
-            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !reticleUp)
+            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !crosshairUp)
             {
                 this.transform.Translate(Vector2.up * movementOffset * Time.deltaTime);
             }
-            if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !reticleDown)
+            if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !crosshairDown)
             {
                 this.transform.Translate(Vector2.down * movementOffset * Time.deltaTime);
             }
-            if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !reticleLeft)
+            if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !crosshairLeft)
             {
                 this.transform.Translate(Vector2.left * movementOffset * Time.deltaTime);
             }
-            if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !reticleRight)
+            if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !crosshairRight)
             {
                 this.transform.Translate(Vector2.right * movementOffset * Time.deltaTime);
             }
         }
 
         // camera movement
-        if (reticleUp && !gameOver)
+        if (crosshairUp && !gameOver)
         {
             cameraMovementScript.moveUp();
         }
-        if (reticleDown && !gameOver)
+        if (crosshairDown && !gameOver)
         {
             cameraMovementScript.moveDown();
         }
-        if (reticleLeft && !gameOver)
+        if (crosshairLeft && !gameOver)
         {
             cameraMovementScript.moveLeft();
         }
-        if (reticleRight && !gameOver)
+        if (crosshairRight && !gameOver)
         {
             cameraMovementScript.moveRight();
         }
@@ -205,7 +205,7 @@ public class reticleMovementScript : MonoBehaviour
         // audio hint
         if (isAudioHint && !gameOver)
         {
-            // gets distance from reticle to target star
+            // gets distance from crosshair to target star
             double distanceToTarget = (Vector2.Distance(gameObject.transform.position, GameObject.Find(targetScript.GetTarget()).transform.position));
             // need to keep track to see if the sound actually changed so we can call Play on the Audio Source
             AudioClip prevSound = hintSound.clip;
@@ -237,23 +237,23 @@ public class reticleMovementScript : MonoBehaviour
     }
 
 
-    // checks if reticle has collided with a trigger
+    // checks if crosshair has collided with a trigger
     void OnTriggerEnter2D(Collider2D other)
     {
         // turns on movement directions
         switch (other.gameObject.name)
         {
             case "right":
-                reticleRight = true;
+                crosshairRight = true;
                 break;
             case "left":
-                reticleLeft = true;
+                crosshairLeft = true;
                 break;
             case "up":
-                reticleUp = true;
+                crosshairUp = true;
                 break;
             case "down":
-                reticleDown = true;
+                crosshairDown = true;
                 break;
             case "launch button": // launch button hover behavior
                 launchButtonHovered = true;
@@ -265,23 +265,23 @@ public class reticleMovementScript : MonoBehaviour
         }
     }
 
-    // checks if reticle is no longer colliding with a trigger
+    // checks if crosshair is no longer colliding with a trigger
     void OnTriggerExit2D(Collider2D other)
     {
         // turns off movement directions
         switch (other.gameObject.name)
         {
             case "right":
-                reticleRight = false;
+                crosshairRight = false;
                 break;
             case "left":
-                reticleLeft = false;
+                crosshairLeft = false;
                 break;
             case "up":
-                reticleUp = false;
+                crosshairUp = false;
                 break;
             case "down":
-                reticleDown = false;
+                crosshairDown = false;
                 break;
             case "launch button": // launch button hover behavior
                 launchButtonHovered = false;
