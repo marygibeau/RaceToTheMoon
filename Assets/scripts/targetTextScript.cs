@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class TargetTextScript : MonoBehaviour
 {
-    Text textObject;
+    TextMeshProUGUI textObject;
     // Start is called before the first frame update
     void Start()
     {
-        textObject = this.GetComponent<Text>();
+        textObject = this.GetComponent<TextMeshProUGUI>();
     }
 
     public void GenerateTargetText(string target)
