@@ -12,6 +12,7 @@ public class TargetStar : MonoBehaviour
     int randomIndex;
     public List<string> starsToFind;
     public List<string> starsFound = new List<string>();
+    TargetTextScript targetText;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +33,9 @@ public class TargetStar : MonoBehaviour
             "Mirfak"
         };
         target = starsToFind[0];
-        Debug.Log("Target star = " + target);
+        targetText = GameObject.Find("TargetText").GetComponent<TargetTextScript>();
+        UpdateTargetText();
+        // Debug.Log("Target star = " + target);
     }
 
     public string GetTarget()
@@ -52,7 +55,7 @@ public class TargetStar : MonoBehaviour
         {
             starsFound.Add(target);
             starsToFind.Remove(target);
-            Debug.Log(starsToFind.Count);
+            // Debug.Log(starsToFind.Count);
             if (starsToFind.Count == 0) // no more stars to find
             {
                 target = "done";
@@ -63,7 +66,12 @@ public class TargetStar : MonoBehaviour
                 target = starsToFind[randomIndex];
             }
         }
+        UpdateTargetText();
+    }
 
+    public void UpdateTargetText()
+    {
+        targetText.GenerateTargetText(target);
     }
     public int GetNumberOfStarsFound()
     {

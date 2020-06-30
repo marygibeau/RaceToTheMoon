@@ -6,30 +6,21 @@ using UnityEngine.UI;
 public class TargetTextScript : MonoBehaviour
 {
     Text textObject;
-    TargetStar targetStar;
     // Start is called before the first frame update
     void Start()
     {
         textObject = this.GetComponent<Text>();
-        targetStar = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
-        GenerateTargetText();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GenerateTargetText(string target)
     {
-        GenerateTargetText();
-    }
-
-    void GenerateTargetText()
-    {
-        if (targetStar.GetTarget() == "done")
+        if (target == "done")
         {
             textObject.text = "Target: ";
         }
         else
         {
-            textObject.text = "Target: " + targetStar.GetTarget() + " ";
+            textObject.text = "Target: " + target + " ";
         }
     }
 }
