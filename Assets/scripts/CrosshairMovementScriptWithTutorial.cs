@@ -50,7 +50,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public GameObject launchPanel;
     bool gameOver;
     bool launchButtonHovered;
-    TimerScript timer;
+    TimerScriptWithTutorial timer;
 
     // hint variables
     Boolean isAudioHint;
@@ -92,7 +92,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         gameOver = false;
         launchButtonHovered = false;
         // timer setup and hide star name box
-        timer = GameObject.Find("Timer").GetComponent<TimerScript>();
+        timer = GameObject.Find("Timer").GetComponent<TimerScriptWithTutorial>();
         hideBox();
     }
 

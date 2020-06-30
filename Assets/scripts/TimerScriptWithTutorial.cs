@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class TimerScriptWithTutorial : MonoBehaviour
 {
-    Text timerText;
+    TextMeshProUGUI timerText;
     float currentTime = 0f;
     public float startingTime = 5f;
     Boolean gameOver = false;
@@ -25,7 +26,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
         game.setCanMove(false);
         currentTime = startingTime;
         currentTimeCountdown = 3f;
-        timerText = gameObject.GetComponent<Text>();
+        timerText = gameObject.GetComponent<TextMeshProUGUI>();
         countdownPanelTextComp = countdownPanelText.GetComponent<Text>();
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
     }
