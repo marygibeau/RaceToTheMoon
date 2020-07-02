@@ -22,6 +22,7 @@ public class LoadSceneAtVideoEnd : MonoBehaviour
     }
     void LoadScene(VideoPlayer vp)
     {
-        SceneManager.LoadScene("Tutorial");
+        // SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
