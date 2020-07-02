@@ -41,11 +41,12 @@ public class TimerScriptWithTutorial : MonoBehaviour
         {
             currentTimeCountdown -= 1 * Time.deltaTime;
             countdownPanelTextComp.text = "STAR SELECTION PROCESS BEGINNING IN\n" + ((int)currentTimeCountdown + 1).ToString();
-            if(currentTimeCountdown <= 0) 
+            if(currentTimeCountdown <= 0 && !gameOver) 
             {
                 gameStarted = true;
                 countdownPanel.SetActive(false);
                 game.setCanMove(true);
+                game.startTutorial();
             }
         }
         //changes color to red when time is below 10 seconds

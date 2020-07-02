@@ -52,6 +52,9 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     bool launchButtonHovered;
     TimerScriptWithTutorial timer;
 
+    //tutorial variables
+    public GameObject tutorial;
+
     // hint variables
     Boolean isAudioHint;
     Boolean isArrowHint;
@@ -88,6 +91,8 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         // hide launch panel
         launchButton.gameObject.SetActive(false);
         launchPanel.gameObject.SetActive(false);
+        // hide tutorial
+        tutorial.gameObject.SetActive(false);
         // game state variable set up
         gameOver = false;
         launchButtonHovered = false;
@@ -164,6 +169,10 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             ResetHints();
             ChangeTargetStarColor();
             UpdateTargetStarDebug();
+            // turn off tutorial if found first star
+            if (getStars() >= 1) {
+                endTutorial();
+            }
         }
 
         //logic for clicking a star that is not the target to play sound effect
@@ -534,6 +543,15 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         launchPanel.gameObject.SetActive(true);
         GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
         ResetHints();
+    }
+
+    public void startTutorial() {
+        tutorial.gameObject.SetActive(true);
+    }
+
+
+    public void endTutorial() {
+        tutorial.gameObject.SetActive(false);
     }
 
     // begins end of game sequence
