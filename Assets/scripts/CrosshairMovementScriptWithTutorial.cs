@@ -180,7 +180,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         && starText.text != "" && !gameOver)
         {
             lastStar = GameObject.Find(starText.text);
-            lastStar.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = true;
+            lastStar.transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = true;
             Invoke("disableX", .6F);
             canClick = false;
             Invoke("CooledDown", coolDown);
@@ -350,7 +350,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // turns off x for wrong star behavior
     void disableX()
     {
-        lastStar.transform.GetChild(1).GetComponent<SpriteRenderer>().enabled = false;
+        lastStar.transform.GetChild(2).GetComponent<SpriteRenderer>().enabled = false;
     }
 
     public int getScore()
@@ -373,8 +373,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // changes color of a star once it has been found
     void ChangeTargetStarColor()
     {
-        GameObject targetStarRing = GameObject.Find(targetScript.GetTarget()).transform.GetChild(0).gameObject;
-        targetStarRing.GetComponent<SpriteRenderer>().color = new Color(0.1727581f, 0.945098f, 0.1215686f, 1);
+        GameObject targetStar = GameObject.Find(targetScript.GetTarget());
+        GameObject targetStarSquare = targetStar.transform.GetChild(0).gameObject;
+        GameObject targetStarCircle = targetStar.transform.GetChild(1).gameObject;
+        targetStarSquare.GetComponent<SpriteRenderer>().enabled = false;
+        targetStarCircle.GetComponent<SpriteRenderer>().enabled = true;
     }
 
     // updates target star and logs information in console
