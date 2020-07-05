@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using TMPro;
 
 public class CrosshairMovementScriptWithTutorial : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
 
     // UI variables
     Text scoreUI;
-    Text starText;
+    TextMeshProUGUI starText;
     GameObject blackBox;
     GameObject textBox;
     private int currentScore = 0;
@@ -73,7 +74,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         scoreUI.text = "Score: 00000";
         // set up star name box variables
         blackBox = this.transform.GetChild(0).gameObject;
-        starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
+        starText = this.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
         textBox = this.transform.GetChild(2).gameObject;
         // grab level manager and targetStar scripts
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();

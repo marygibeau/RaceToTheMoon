@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class MenuReticleMovement : MonoBehaviour
 {
@@ -16,7 +17,7 @@ public class MenuReticleMovement : MonoBehaviour
     private bool onRestartButton = false;
 
     // UI variables
-    Text starText;
+    TextMeshProUGUI starText;
     GameObject blackBox;
     GameObject textBox;
     string PlayButtonHint = "Press Enter to Play!";
@@ -41,7 +42,7 @@ public class MenuReticleMovement : MonoBehaviour
     void Start()
     {
         blackBox = this.transform.GetChild(0).gameObject;
-        starText = this.transform.GetChild(1).gameObject.GetComponent<Text>();
+        starText = this.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
         textBox = this.transform.GetChild(2).gameObject;
         // videoPlayer.SetActive(false);
         //selectionSound = gameObject.GetComponents<AudioSource>()[1];
@@ -69,7 +70,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (onRestartButton)
         {
             button.GetComponent<Image>().color = Color.green;
-            showBox(RestartButtonHint);
+            // showBox(RestartButtonHint);
         }
 
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) && !upBoundary)
