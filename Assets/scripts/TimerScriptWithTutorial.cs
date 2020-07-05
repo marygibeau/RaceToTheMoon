@@ -13,7 +13,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
     Boolean gameOver = false;
     Boolean gameStarted = false;
     public GameObject countdownPanelText;
-    Text countdownPanelTextComp;
+    TextMeshProUGUI countdownPanelTextComp;
     public GameObject countdownPanel;
     float currentTimeCountdown = 0f;
     public CrosshairMovementScriptWithTutorial game;
@@ -27,7 +27,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
         currentTime = startingTime;
         currentTimeCountdown = 3f;
         timerText = gameObject.GetComponent<TextMeshProUGUI>();
-        countdownPanelTextComp = countdownPanelText.GetComponent<Text>();
+        countdownPanelTextComp = countdownPanelText.GetComponent<TextMeshProUGUI>();
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
     }
 

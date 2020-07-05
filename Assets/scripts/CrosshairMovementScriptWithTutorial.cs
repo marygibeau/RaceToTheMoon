@@ -20,7 +20,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     private bool canMove = true;
 
     // UI variables
-    Text scoreUI;
+    TextMeshProUGUI scoreUI;
     TextMeshProUGUI starText;
     GameObject blackBox;
     GameObject textBox;
@@ -70,7 +70,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     void Start()
     {
         // score set up
-        scoreUI = GameObject.Find("ScoreText").GetComponent<Text>();
+        scoreUI = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
         scoreUI.text = "Score: 00000";
         // set up star name box variables
         blackBox = this.transform.GetChild(0).gameObject;
