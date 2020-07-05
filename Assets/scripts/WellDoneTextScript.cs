@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class WellDoneTextScript : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class WellDoneTextScript : MonoBehaviour
     void Start()
     {
         Debug.Log("started well done text");
-        this.GetComponent<Text>().text = generateWellDoneText();
+        this.GetComponent<TextMeshProUGUI>().text = generateWellDoneText();
     }
 
     public string generateWellDoneText()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class FinalScoreTextScript : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class FinalScoreTextScript : MonoBehaviour
     void Start()
     {
         Debug.Log("started text");
-        this.GetComponent<Text>().text = generateScoreText();
+        this.GetComponent<TextMeshProUGUI>().text = generateScoreText();
     }
 
     public string generateScoreText()
