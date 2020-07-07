@@ -8,8 +8,7 @@ using TMPro;
 public class TimerScriptWithTutorial : MonoBehaviour
 {
     TextMeshProUGUI timerText;
-    float currentTime = 0f;
-    public float startingTime = 5f;
+    float gameTime = 120f;
     Boolean gameOver = false;
     Boolean gameStarted = false;
     public GameObject countdownPanelText;
@@ -25,7 +24,6 @@ public class TimerScriptWithTutorial : MonoBehaviour
     void Start()
     {
         game.setCanMove(false);
-        currentTime = startingTime;
         timerText = gameObject.GetComponent<TextMeshProUGUI>();
         timerText.text = countdownPanelText + currentTimeCountdown.ToString();
         countdownPanelTextComp = countdownPanelText.GetComponent<TextMeshProUGUI>();
@@ -37,12 +35,13 @@ public class TimerScriptWithTutorial : MonoBehaviour
     {
         if (!gameOver && gameStarted)
         {
-            currentTime -= 1 * Time.deltaTime;
-        } else 
+            gameTime -= 1 * Time.deltaTime;
+        }
+        else
         {
             currentTimeCountdown -= 1 * Time.deltaTime;
             countdownPanelTextComp.text = countdownText + ((int)currentTimeCountdown + 1).ToString();
-            if(currentTimeCountdown <= 0 && !gameOver) 
+            if (currentTimeCountdown <= 0 && !gameOver)
             {
                 gameStarted = true;
                 countdownPanel.SetActive(false);
@@ -50,52 +49,52 @@ public class TimerScriptWithTutorial : MonoBehaviour
                 game.startTutorial();
             }
         }
+
+        if (gameTime <= 0)
+        {
+            //if the game isn't over and the timer is at 0, end the game
+            if (!gameOver)
+            {
+                GameOverSequence();
+                gameOver = true;
+            }
+        }
+
+        generateTimerText();
+    }
+
+    void generateTimerText()
+    {
+        int timeLeft = GetTimeLeft();
         //changes color to red when time is below 10 seconds
-        if (currentTime <= 10 && currentTime > 0)
+        if (gameTime <= 10 && gameTime > 0)
         {
             timerText.color = Color.red;
         }
 
-        if (Math.Ceiling(currentTime) % 60 != 0)
-        {
-            timerText.text = ((int)(currentTime / 60)).ToString() + ":" + (Math.Ceiling(currentTime) % 60).ToString("00");
-        }
-        else if (currentTime > 0)
-        {
-            //handling a weird edge case for when the seconds are 00 and the minute decrements a second early
-            timerText.text = ((int)(currentTime / 60) + 1).ToString() + ":" + (Math.Ceiling(currentTime) % 60).ToString("00");
-        }
-        else
+        timerText.text = ((int)(timeLeft / 60)).ToString() + ":" + (timeLeft % 60).ToString("00");
+
+        if (gameTime <= 0)
         {
             timerText.text = "0:00";
-            //if the game isn't over and the timer is at 0, end the game
-            if (!gameOver)
-            {
-                LoadEndScreen();
-                gameOver = true;
-            }
         }
-        //ensuring the timer doesn't go into the negatives
-        if (currentTime <= 0)
-        {
-            currentTime = 0;
-        }
-
     }
 
-    public void stopTimer() {
+    public void stopTimer()
+    {
         gameOver = true;
     }
 
-    public int GetTimeLeft() {
-        return (int) Math.Ceiling(currentTime);
+    public int GetTimeLeft()
+    {
+        return (int)Math.Ceiling(gameTime);
     }
 
-    public void LoadEndScreen()
+    void GameOverSequence()
     {
         // get crosshair to show launch button
         CrosshairMovementScriptWithTutorial crosshair = GameObject.Find("crosshair").GetComponent<CrosshairMovementScriptWithTutorial>();
         crosshair.gameOverActivate();
-        
+
     }
 }
