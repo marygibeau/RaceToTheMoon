@@ -426,8 +426,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.1, y: 110.8}
-  m_SizeDelta: {x: 342.2, y: 104.2}
+  m_AnchoredPosition: {x: 12.5, y: 74.3}
+  m_SizeDelta: {x: 335.4, y: 167.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &106190838
 MonoBehaviour:
@@ -476,10 +476,10 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 25
+  m_fontSize: 36
   m_fontSizeBase: 25
   m_fontWeight: 400
-  m_enableAutoSizing: 0
+  m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -514,7 +514,7 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 5.6487045, w: 0}
   m_textInfo:
     textComponent: {fileID: 106190838}
     characterCount: 38
@@ -522,7 +522,7 @@ MonoBehaviour:
     spaceCount: 6
     wordCount: 6
     linkCount: 0
-    lineCount: 3
+    lineCount: 4
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
@@ -1965,8 +1965,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 9.1, y: 110.8}
-  m_SizeDelta: {x: 342.2, y: 104.2}
+  m_AnchoredPosition: {x: 9.1, y: 74.3}
+  m_SizeDelta: {x: 342.2, y: 167.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &685574781
 MonoBehaviour:
@@ -2329,8 +2329,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 878859325}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 12.470007, y: 108.5, z: 578.00006}
-  m_LocalScale: {x: 53.912933, y: 34.49399, z: 22.503403}
+  m_LocalPosition: {x: 12.470007, y: 78.6, z: 578.00006}
+  m_LocalScale: {x: 53.912933, y: 44.842186, z: 22.503403}
   m_Children: []
   m_Father: {fileID: 421635277}
   m_RootOrder: 0
@@ -2920,7 +2920,6 @@ MonoBehaviour:
   backgroundImage: {fileID: 769464020}
   scoreIncrement: 1000
   coolDown: 1
-  timeSinceLastStar: 0
   launchButton: {fileID: 1976863117}
   launchPanel: {fileID: 181458017}
   tutorial: {fileID: 1582476829}
@@ -3922,7 +3921,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba25a48b7071c984eab45f90cfde9ed2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingTime: 120
   countdownPanelText: {fileID: 106190836}
   countdownPanel: {fileID: 421635276}
   game: {fileID: 921708519}
@@ -6259,12 +6257,12 @@ PrefabInstance:
     - target: {fileID: 1039063692450869017, guid: 25ac9c85cc73ff64eaf7226095f09f48,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.815001
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1039063692450869017, guid: 25ac9c85cc73ff64eaf7226095f09f48,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -44.865
+      value: -93
       objectReference: {fileID: 0}
     - target: {fileID: 1039063692450869017, guid: 25ac9c85cc73ff64eaf7226095f09f48,
         type: 3}
