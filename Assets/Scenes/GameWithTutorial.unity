@@ -5308,7 +5308,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This timer represents the time you have until launch.
+  m_text: You have 2 minutes to complete your mission
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1de3550c1aa91e46a2d76335c62105f, type: 2}
   m_sharedMaterial: {fileID: 7195167389721702486, guid: b1de3550c1aa91e46a2d76335c62105f,
@@ -5375,13 +5375,13 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 1.3551825}
+  m_margin: {x: 9.041941, y: 0, z: 0, w: 1.3551825}
   m_textInfo:
     textComponent: {fileID: 1610880494}
-    characterCount: 53
+    characterCount: 43
     spriteCount: 0
-    spaceCount: 8
-    wordCount: 9
+    spaceCount: 7
+    wordCount: 8
     linkCount: 0
     lineCount: 3
     pageCount: 1
@@ -5443,8 +5443,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -183, y: 111}
-  m_SizeDelta: {x: 156, y: 69.2}
+  m_AnchoredPosition: {x: -180.78, y: 111.049995}
+  m_SizeDelta: {x: 160.35, y: 69.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1658505784
 MonoBehaviour:
@@ -5464,7 +5464,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This is your score. Find stars to increase your score.
+  m_text: Correctly find target stars to increase score
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1de3550c1aa91e46a2d76335c62105f, type: 2}
   m_sharedMaterial: {fileID: 7195167389721702486, guid: b1de3550c1aa91e46a2d76335c62105f,
@@ -5531,13 +5531,13 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 1.3551825}
+  m_margin: {x: 7.911725, y: 0, z: 0, w: 1.3551825}
   m_textInfo:
     textComponent: {fileID: 1658505784}
-    characterCount: 54
+    characterCount: 45
     spriteCount: 0
-    spaceCount: 9
-    wordCount: 10
+    spaceCount: 6
+    wordCount: 7
     linkCount: 0
     lineCount: 3
     pageCount: 1
@@ -5944,8 +5944,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 179.9, y: 114}
-  m_SizeDelta: {x: 168.1, y: 73.4}
+  m_AnchoredPosition: {x: 200.2, y: 114}
+  m_SizeDelta: {x: 127.4, y: 73.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1836469755
 MonoBehaviour:
@@ -5965,7 +5965,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: This target star shows the star you're looking for.
+  m_text: Find the star listed here
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1de3550c1aa91e46a2d76335c62105f, type: 2}
   m_sharedMaterial: {fileID: 7195167389721702486, guid: b1de3550c1aa91e46a2d76335c62105f,
@@ -6001,7 +6001,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_textAlignment: 1025
+  m_textAlignment: 1028
   m_characterSpacing: 0
   m_wordSpacing: 0
   m_lineSpacing: 0
@@ -6032,15 +6032,15 @@ MonoBehaviour:
   m_firstVisibleCharacter: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -0.00000013255531, z: 0, w: 1.3551825}
+  m_margin: {x: 0, y: -0.00000013255531, z: 9.041941, w: 1.3551825}
   m_textInfo:
     textComponent: {fileID: 1836469755}
-    characterCount: 51
+    characterCount: 25
     spriteCount: 0
-    spaceCount: 8
-    wordCount: 9
+    spaceCount: 4
+    wordCount: 5
     linkCount: 0
-    lineCount: 3
+    lineCount: 2
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0
