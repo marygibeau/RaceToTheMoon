@@ -34,7 +34,7 @@ public class TargetStar : MonoBehaviour
         };
         target = starsToFind[0];
         targetText = GameObject.Find("TargetText").GetComponent<TargetTextScript>();
-        UpdateTargetText();
+        UpdateTargetText(false);
         // Debug.Log("Target star = " + target);
     }
 
@@ -66,12 +66,12 @@ public class TargetStar : MonoBehaviour
                 target = starsToFind[randomIndex];
             }
         }
-        UpdateTargetText();
+        UpdateTargetText(true);
     }
 
-    public void UpdateTargetText()
+    public void UpdateTargetText(bool playAnimation)
     {
-        targetText.GenerateTargetText(target);
+        targetText.GenerateTargetText(target, playAnimation);
     }
     public int GetNumberOfStarsFound()
     {

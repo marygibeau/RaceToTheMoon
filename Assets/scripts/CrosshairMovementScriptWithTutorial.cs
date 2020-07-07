@@ -34,6 +34,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     GameObject targetStar;
     float timeSinceLastStar = 0;
     GameObject lastStar;
+    
 
     // audio variables
     AudioSource selectionSound;
@@ -168,7 +169,6 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             increaseScore(scoreIncrement);
             Invoke("CooledDown", coolDown);
             ResetHints();
-            ChangeTargetStarColor();
             UpdateTargetStarDebug();
             // turn off tutorial if found first star
             if (getStars() >= 1) {
@@ -396,6 +396,8 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // updates target star
     void UpdateTargetStar()
     {
+        ChangeTargetStarColor();
+        // TODO
         if (!gameOver)
         {
             targetScript.UpdateTarget();

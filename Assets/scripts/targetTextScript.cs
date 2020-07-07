@@ -12,8 +12,9 @@ public class TargetTextScript : MonoBehaviour
         textObject = this.GetComponent<TextMeshProUGUI>();
     }
 
-    public void GenerateTargetText(string target)
+    public void GenerateTargetText(string target, bool playAnimation)
     {
+        if(playAnimation) {gameObject.GetComponent<Animator>().Play("Flash");}
         if (target == "done")
         {
             textObject.text = "Target: ";
