@@ -11,9 +11,8 @@ public class TimerScriptWithTutorial : MonoBehaviour
     float gameTime = 120f;
     Boolean gameOver = false;
     Boolean gameStarted = false;
-    public GameObject countdownPanelText;
-    TextMeshProUGUI countdownPanelTextComp;
     public GameObject countdownPanel;
+    public GameObject pressButtonObject;
     public CrosshairMovementScriptWithTutorial game;
 
     LevelManager lvlr;
@@ -55,6 +54,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
     {
         gameStarted = true;
         countdownPanel.SetActive(false);
+        pressButtonObject.SetActive(false);
         game.setCanMove(true);
         game.startTutorial();
     }
