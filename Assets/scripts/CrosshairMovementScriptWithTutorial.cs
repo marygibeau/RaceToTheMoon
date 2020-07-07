@@ -32,7 +32,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public float coolDown = 1.0f;
     TargetStar targetScript;
     GameObject targetStar;
-    public float timeSinceLastStar = 0;
+    float timeSinceLastStar = -10;
     GameObject lastStar;
 
     // audio variables

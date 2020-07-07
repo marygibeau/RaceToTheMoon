@@ -15,8 +15,9 @@ public class TimerScriptWithTutorial : MonoBehaviour
     public GameObject countdownPanelText;
     TextMeshProUGUI countdownPanelTextComp;
     public GameObject countdownPanel;
-    float currentTimeCountdown = 0f;
+    float currentTimeCountdown = 10f;
     public CrosshairMovementScriptWithTutorial game;
+    string countdownText = "Try and find as many stars as you can before launch to help the astronauts safely reach the moon. \n \n STAR SELECTION PROCESS BEGINNING IN\n";
 
     LevelManager lvlr;
 
@@ -25,8 +26,8 @@ public class TimerScriptWithTutorial : MonoBehaviour
     {
         game.setCanMove(false);
         currentTime = startingTime;
-        currentTimeCountdown = 3f;
         timerText = gameObject.GetComponent<TextMeshProUGUI>();
+        timerText.text = countdownPanelText + currentTimeCountdown.ToString();
         countdownPanelTextComp = countdownPanelText.GetComponent<TextMeshProUGUI>();
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
     }
@@ -40,7 +41,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
         } else 
         {
             currentTimeCountdown -= 1 * Time.deltaTime;
-            countdownPanelTextComp.text = "STAR SELECTION PROCESS BEGINNING IN\n" + ((int)currentTimeCountdown + 1).ToString();
+            countdownPanelTextComp.text = countdownText + ((int)currentTimeCountdown + 1).ToString();
             if(currentTimeCountdown <= 0 && !gameOver) 
             {
                 gameStarted = true;
