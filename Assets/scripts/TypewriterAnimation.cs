@@ -14,7 +14,7 @@ public class TypewriterAnimation : MonoBehaviour
     IEnumerator Start()
     {
         skipText = gameObject.GetComponent<TextMeshProUGUI>();
-
+        skipText.maxVisibleCharacters = 0;
         yield return new WaitForEndOfFrame();
         StartCoroutine("type");
     }

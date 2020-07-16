@@ -14,6 +14,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
     public GameObject countdownPanel;
     public GameObject pressButtonObject;
     public CrosshairMovementScriptWithTutorial game;
+    public Animator tutorialAnimator;
 
     LevelManager lvlr;
 
@@ -57,6 +58,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
         pressButtonObject.SetActive(false);
         game.setCanMove(true);
         game.startTutorial();
+        tutorialAnimator.SetTrigger("Begin Tutorial Animation");
     }
 
     void generateTimerText()

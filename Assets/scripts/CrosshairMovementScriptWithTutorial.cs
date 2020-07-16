@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.Video;
 using TMPro;
 
 public class CrosshairMovementScriptWithTutorial : MonoBehaviour
@@ -26,6 +27,8 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     GameObject textBox;
     private int currentScore = 0;
     public int scoreIncrement = 1000;
+    public Animator tempUI;
+    public Animation launchUI;
 
     // star clicking variables
     bool canClick = true;
@@ -34,7 +37,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     GameObject targetStar;
     float timeSinceLastStar = 0;
     GameObject lastStar;
-    
+
 
     // audio variables
     AudioSource selectionSound;
@@ -53,11 +56,14 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     bool gameOver;
     bool launchButtonHovered;
     TimerScriptWithTutorial timer;
+    public GameObject backgroundUIImage;
+    public VideoPlayer backrgoundUIVideo;
 
     //tutorial variables
     public GameObject tutorial;
 
     // hint variables
+    bool gameStarted = false;
     Boolean isAudioHint;
     Boolean isArrowHint;
     public GameObject upArrow;
@@ -106,8 +112,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // keeps track of time since last star for hint purposes
-        timeSinceLastStar += 1 * Time.deltaTime;
+        if (gameStarted)
+        {
+            // keeps track of time since last star for hint purposes
+            timeSinceLastStar += 1 * Time.deltaTime;
+        }
 
         // turn on different hints depending on how long since last star
         if (Math.Ceiling(timeSinceLastStar) % 60 == 5 && !gameOver)
@@ -171,7 +180,8 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             ResetHints();
             UpdateTargetStarDebug();
             // turn off tutorial if found first star
-            if (getStars() >= 1) {
+            if (getStars() >= 1)
+            {
                 endTutorial();
             }
         }
@@ -547,23 +557,32 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     {
         launchButton.gameObject.SetActive(true);
         launchPanel.gameObject.SetActive(true);
+        backrgoundUIVideo.clip = (VideoClip)Resources.Load("RTTM_Overlay_Go");
+        backgroundUIImage.gameObject.SetActive(true);
         GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
         ResetHints();
     }
 
-    public void startTutorial() {
+    public void startTutorial()
+    {
         tutorial.gameObject.SetActive(true);
+        gameStarted = true;
     }
 
 
-    public void endTutorial() {
+    public void endTutorial()
+    {
         tutorial.gameObject.SetActive(false);
     }
 
     // begins end of game sequence
     public void gameOverActivate()
     {
+        endTutorial();
         gameOver = true;
+        tempUI.SetTrigger("GameOver");
+        // launchUI.SetTrigger("GameOver");
+        launchUI.Play();
         timer.stopTimer();
         hideBox();
         showLaunchInfo();
