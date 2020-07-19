@@ -51,8 +51,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
 
     // level management variables
     LevelManager lvlr;
-    public GameObject launchButton;
-    public GameObject launchPanel;
+    public GameObject launchObject;
     bool gameOver;
     bool launchButtonHovered;
     TimerScriptWithTutorial timer;
@@ -97,8 +96,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
         // hide launch panel
-        launchButton.gameObject.SetActive(false);
-        launchPanel.gameObject.SetActive(false);
+        launchObject.gameObject.SetActive(false);
         // hide tutorial
         // tutorial.gameObject.SetActive(false);
         // game state variable set up
@@ -556,19 +554,12 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // shows end of game launch panel
     public void showLaunchInfo()
     {
-        launchButton.gameObject.SetActive(true);
-        launchPanel.gameObject.SetActive(true);
+        launchObject.gameObject.SetActive(true);
         backrgoundUIVideo.clip = (VideoClip)Resources.Load("RTTM_Overlay_Go");
         backgroundUIImage.gameObject.SetActive(true);
         GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
         ResetHints();
     }
-
-    public void startTutorial()
-    {
-        tutorial.gameObject.SetActive(true);
-    }
-
 
     public void endTutorial()
     {

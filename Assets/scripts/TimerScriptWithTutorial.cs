@@ -33,6 +33,10 @@ public class TimerScriptWithTutorial : MonoBehaviour
             StartGame();
         }
 
+        if(Input.GetKeyUp(KeyCode.S) && !gameStarted) {
+            StartGame();
+        }
+
         if (!gameOver && gameStarted)
         {
             gameTime -= 1 * Time.deltaTime;
