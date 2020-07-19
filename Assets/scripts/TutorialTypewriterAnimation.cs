@@ -9,6 +9,8 @@ public class TutorialTypewriterAnimation : MonoBehaviour
     public TextMeshProUGUI scoreInfoText;
     public TextMeshProUGUI targetInfoText;
     public TextMeshProUGUI timerInfoText;
+    public TextMeshProUGUI p1;
+    public TextMeshProUGUI p2;
     public Animator tutorialAnimator;
 
     IEnumerator Start()
@@ -64,6 +66,23 @@ public class TutorialTypewriterAnimation : MonoBehaviour
             timerInfoText.maxVisibleCharacters = visibleCount;
             counter++;
             yield return new WaitForSeconds(writeSpeed);
+        }
+        tutorialAnimator.SetBool("Ready To Start", true);
+    }
+
+    private void Update()
+    {
+        if (tutorialAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime > 1)
+        {
+            if (tutorialAnimator.GetCurrentAnimatorStateInfo(0).IsName("Tutorial Intro Section 1 Animation"))
+            {
+                p1.color = new Color(255, 0, 0, 255);
+                tutorialAnimator.SetTrigger("Paragraph 1 Done");
+            }
+            else if (tutorialAnimator.GetCurrentAnimatorStateInfo(0).IsName("Tutorial Intro Section 2 Animation"))
+            {
+                tutorialAnimator.SetTrigger("Paragraph 2 Done");
+            }
         }
     }
 

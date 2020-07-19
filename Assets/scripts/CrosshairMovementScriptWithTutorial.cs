@@ -100,7 +100,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         launchButton.gameObject.SetActive(false);
         launchPanel.gameObject.SetActive(false);
         // hide tutorial
-        tutorial.gameObject.SetActive(false);
+        // tutorial.gameObject.SetActive(false);
         // game state variable set up
         gameOver = false;
         launchButtonHovered = false;
@@ -179,11 +179,12 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             Invoke("CooledDown", coolDown);
             ResetHints();
             UpdateTargetStarDebug();
+
             // turn off tutorial if found first star
-            if (getStars() >= 1)
-            {
-                endTutorial();
-            }
+            // if (getStars() >= 1)
+            // {
+            //     endTutorial();
+            // }
         }
 
         //logic for clicking a star that is not the target to play sound effect
@@ -566,12 +567,12 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public void startTutorial()
     {
         tutorial.gameObject.SetActive(true);
-        gameStarted = true;
     }
 
 
     public void endTutorial()
     {
+        gameStarted = true;
         tutorial.gameObject.SetActive(false);
     }
 
@@ -581,7 +582,6 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         endTutorial();
         gameOver = true;
         tempUI.SetTrigger("GameOver");
-        // launchUI.SetTrigger("GameOver");
         launchUI.Play();
         timer.stopTimer();
         hideBox();

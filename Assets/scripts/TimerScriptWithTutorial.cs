@@ -29,7 +29,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyUp(KeyCode.Return) && !gameStarted) {
+        if(Input.GetKeyUp(KeyCode.Return) && !gameStarted && tutorialAnimator.GetBool("Ready To Start")) {
             StartGame();
         }
 
@@ -57,8 +57,8 @@ public class TimerScriptWithTutorial : MonoBehaviour
         countdownPanel.SetActive(false);
         pressButtonObject.SetActive(false);
         game.setCanMove(true);
-        game.startTutorial();
-        tutorialAnimator.SetTrigger("Begin Tutorial Animation");
+        game.endTutorial();
+        tutorialAnimator.SetBool("Ready To Start", false);
     }
 
     void generateTimerText()
