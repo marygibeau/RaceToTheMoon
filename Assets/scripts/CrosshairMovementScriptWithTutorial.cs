@@ -469,7 +469,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     void UpdateArrows()
     {
         // turns off arrows if target star is visible
-        if (targetStar.GetComponent<Renderer>().isVisible)
+        if (targetStar.GetComponent<Renderer>().isVisible || !isArrowHint)
         {
             rightArrow.gameObject.SetActive(false);
             leftArrow.gameObject.SetActive(false);
@@ -526,7 +526,12 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
 
     void StopThirdHint()
     {
+        Debug.Log("Third Hint Ended");
         isArrowHint = false;
+        upArrow.gameObject.SetActive(false);
+        downArrow.gameObject.SetActive(false);
+        leftArrow.gameObject.SetActive(false);
+        rightArrow.gameObject.SetActive(false);
     }
 
     // saves arrows and makes them invisible
@@ -545,6 +550,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // turns off all hints and resents time since last star
     void ResetHints()
     {
+        Debug.Log("Hints Reset");
         StopFirstHint();
         StopSecondHint();
         StopThirdHint();
@@ -557,8 +563,6 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         launchObject.gameObject.SetActive(true);
         backrgoundUIVideo.clip = (VideoClip)Resources.Load("RTTM_Overlay_Go");
         backgroundUIImage.gameObject.SetActive(true);
-        GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
-        ResetHints();
     }
 
     public void endTutorial()
@@ -571,8 +575,10 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public void gameOverActivate()
     {
         endTutorial();
+        ResetHints();
         gameOver = true;
         tempUI.SetTrigger("GameOver");
+        GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
         launchUI.Play();
         timer.stopTimer();
         hideBox();
