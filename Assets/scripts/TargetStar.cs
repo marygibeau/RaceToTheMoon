@@ -13,6 +13,7 @@ public class TargetStar : MonoBehaviour
     public List<string> starsToFind;
     public List<string> starsFound = new List<string>();
     TargetTextScript targetText;
+    public StarBarController starBar;
 
     // Start is called before the first frame update
     void Start()
@@ -67,6 +68,7 @@ public class TargetStar : MonoBehaviour
             }
         }
         UpdateTargetText(true);
+        starBar.UpdateStarBar(starsFound.Count);
     }
 
     public void UpdateTargetText(bool playAnimation)
