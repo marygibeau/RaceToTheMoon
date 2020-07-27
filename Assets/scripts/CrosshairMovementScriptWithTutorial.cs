@@ -481,10 +481,10 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         // turns off arrows if target star is visible
         if (targetStar.GetComponent<Renderer>().isVisible || !isArrowHint)
         {
-            rightArrow.gameObject.SetActive(false);
-            leftArrow.gameObject.SetActive(false);
-            upArrow.gameObject.SetActive(false);
-            downArrow.gameObject.SetActive(false);
+            UpArrowOn(false);
+            DownArrowOn(false);
+            LeftArrowOn(false);
+            RightArrowOn(false);
         }
         else
         {
@@ -498,38 +498,38 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             // turn on right arrow
             if (targetX > topRight.x)
             {
-                rightArrow.gameObject.SetActive(true);
-                leftArrow.gameObject.SetActive(false);
+                LeftArrowOn(false);
+                RightArrowOn(true);
             }
             // turn on left arrow
             if (targetX < bottomLeft.x)
             {
-                rightArrow.gameObject.SetActive(false);
-                leftArrow.gameObject.SetActive(true);
+                LeftArrowOn(true);
+                RightArrowOn(false);
             }
             // turn off horizontal arrows
             if (targetX > bottomLeft.x && targetX < topRight.x)
             {
-                rightArrow.gameObject.SetActive(false);
-                leftArrow.gameObject.SetActive(false);
+                LeftArrowOn(false);
+                RightArrowOn(false);
             }
             // turn on up arrow
             if (targetY > topRight.y)
             {
-                upArrow.gameObject.SetActive(true);
-                downArrow.gameObject.SetActive(false);
+                UpArrowOn(true);
+                DownArrowOn(false);
             }
             // turn on down arrow
             if (targetY < bottomLeft.y)
             {
-                upArrow.gameObject.SetActive(false);
-                downArrow.gameObject.SetActive(true);
+                UpArrowOn(false);
+                DownArrowOn(true);
             }
-            // turn of verticle arrows
+            // turn off verticle arrows
             if (targetY > bottomLeft.y && targetY < topRight.y)
             {
-                upArrow.gameObject.SetActive(false);
-                downArrow.gameObject.SetActive(false);
+                UpArrowOn(false);
+                DownArrowOn(false);
             }
         }
     }
@@ -538,10 +538,10 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     {
         Debug.Log("Third Hint Ended");
         isArrowHint = false;
-        upArrow.gameObject.SetActive(false);
-        downArrow.gameObject.SetActive(false);
-        leftArrow.gameObject.SetActive(false);
-        rightArrow.gameObject.SetActive(false);
+        UpArrowOn(false);
+        DownArrowOn(false);
+        LeftArrowOn(false);
+        RightArrowOn(false);
     }
 
     // saves arrows and makes them invisible
@@ -551,10 +551,34 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         downArrow = GameObject.Find("down arrow");
         leftArrow = GameObject.Find("left arrow");
         rightArrow = GameObject.Find("right arrow");
-        upArrow.gameObject.SetActive(false);
-        downArrow.gameObject.SetActive(false);
-        leftArrow.gameObject.SetActive(false);
-        rightArrow.gameObject.SetActive(false);
+        UpArrowOn(false);
+        DownArrowOn(false);
+        LeftArrowOn(false);
+        RightArrowOn(false);
+    }
+
+    void UpArrowOn(bool on)
+    {
+        upArrow.gameObject.GetComponent<SpriteRenderer>().enabled = on;
+        upArrow.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = on;
+    }
+
+    void DownArrowOn(bool on)
+    {
+        downArrow.gameObject.GetComponent<SpriteRenderer>().enabled = on;
+        downArrow.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = on;
+    }
+
+    void LeftArrowOn(bool on)
+    {
+        leftArrow.gameObject.GetComponent<SpriteRenderer>().enabled = on;
+        leftArrow.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = on;
+    }
+
+    void RightArrowOn(bool on)
+    {
+        rightArrow.gameObject.GetComponent<SpriteRenderer>().enabled = on;
+        rightArrow.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().enabled = on;
     }
 
     // turns off all hints and resents time since last star
