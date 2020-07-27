@@ -22,32 +22,20 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    // This just to pass the score to the final menu
-    public void LoadNextLevelWithScoreandStars(int score, int stars)
+    public void LoadNextLevelWithFinalInfo(int finalScore, List<string> starsFound, int secondsLeft)
     {
-        PlayerPrefs.SetInt("finalScore", score);
-        PlayerPrefs.SetInt("starsFound", stars);
-        LoadNextLevel();
-    }
-
-    public void LoadCinematic2WithScoreandStars(int score, int stars)
-    {
-        PlayerPrefs.SetInt("finalScore", score);
-        PlayerPrefs.SetInt("starsFound", stars);
-        LoadLevel("Cinematic_2");
-    }
-
-    public void LoadNextLevelWithStarListAndTimeLeft(List<string> starsFound, int secondsLeft)
-    {
-        Debug.Log("load with star list and time activated");
-        Debug.Log("time = " + secondsLeft);
         int i = 0;
-        foreach(string star in starsFound) {
+        foreach (string star in starsFound)
+        {
             PlayerPrefs.SetString("Star_" + i, star);
             i++;
         }
-        PlayerPrefs.SetInt("SecondsLeft", secondsLeft);
-        int score = starsFound.Count * 1000 + secondsLeft * 100;
-        LoadNextLevelWithScoreandStars(score, starsFound.Count);
+        if (starsFound.Count == 12 && secondsLeft > 0)
+        {
+            finalScore += secondsLeft * 100;
+        }
+        PlayerPrefs.SetInt("finalScore", finalScore);
+        PlayerPrefs.SetInt("starsFound", starsFound.Count);
+        LoadNextLevel();
     }
 }

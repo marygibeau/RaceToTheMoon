@@ -17,15 +17,11 @@ public class LoadEndScreenAtGameEnd : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Return))
         {
-            int currentScore = PlayerPrefs.GetInt("finalScore");
-            int starsFound = PlayerPrefs.GetInt("starsFound");
-            lvlr.LoadNextLevelWithScoreandStars(currentScore, starsFound);
+            lvlr.LoadNextLevel();
         }
     }
     void LoadScene(VideoPlayer vp)
     {
-        int currentScore = PlayerPrefs.GetInt("finalScore");
-        int starsFound = PlayerPrefs.GetInt("starsFound");
-        lvlr.LoadNextLevelWithScoreandStars(currentScore, starsFound);
+        lvlr.LoadNextLevel();
     }
 }

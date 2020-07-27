@@ -181,7 +181,7 @@ public class ReticleMovementScript : MonoBehaviour
         // save score and load next screen when launch button pressed at end of game
         if (Input.GetKeyUp(KeyCode.Return) && launchButtonHovered)
         {
-            lvlr.LoadNextLevelWithStarListAndTimeLeft(getStarsCollectedList(), timer.GetTimeLeft());
+            lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
         }
 
         //testing increaseScore
@@ -193,7 +193,7 @@ public class ReticleMovementScript : MonoBehaviour
         // testing load with final score
         if (Input.GetKeyDown(KeyCode.E) && !gameOver)
         {
-            lvlr.LoadNextLevelWithStarListAndTimeLeft(getStarsCollectedList(), GameObject.Find("Timer").GetComponent<TimerScript>().GetTimeLeft());
+            lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), GameObject.Find("Timer").GetComponent<TimerScript>().GetTimeLeft());
         }
 
         // cycle target star

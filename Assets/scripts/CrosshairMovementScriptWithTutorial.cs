@@ -172,20 +172,10 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         // logic for star being clicked
         if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == targetScript.GetTarget() && !gameOver)
         {
-            canClick = false;
-            increaseScore(scoreIncrement);
-            Invoke("CooledDown", coolDown);
-            ResetHints();
-            UpdateTargetStarDebug();
-
-            // turn off tutorial if found first star
-            // if (getStars() >= 1)
-            // {
-            //     endTutorial();
-            // }
+            CorrectStarSelected();
         }
 
-        //logic for clicking a star that is not the target to play sound effect
+        // logic for clicking a star that is not the target to play sound effect
         if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget()
         && starText.text != "" && !gameOver)
         {
@@ -195,30 +185,25 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             canClick = false;
             Invoke("CooledDown", coolDown);
             incorrectSound.Play();
+            decreaseScore();
         }
 
         // save score and load next screen when launch button pressed at end of game
         if (Input.GetKeyUp(KeyCode.Return) && launchButtonHovered)
         {
-            lvlr.LoadNextLevelWithStarListAndTimeLeft(getStarsCollectedList(), timer.GetTimeLeft());
+            lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
         }
 
-        //testing increaseScore
-        if (Input.GetKeyDown(KeyCode.Q) && !gameOver)
-        {
-            increaseScore(scoreIncrement);
-        }
-
-        // testing load with final score
+        // DEBUG: load with final score
         if (Input.GetKeyDown(KeyCode.E) && !gameOver)
         {
-            lvlr.LoadNextLevelWithStarListAndTimeLeft(getStarsCollectedList(), GameObject.Find("Timer").GetComponent<TimerScript>().GetTimeLeft());
+            lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
         }
 
-        // cycle target star
+        // DEBUG: cycle target star
         if (Input.GetKeyDown(KeyCode.T) || Input.GetKeyDown(KeyCode.N) && !gameOver)
         {
-            UpdateTargetStarDebug();
+            CorrectStarSelected();
         }
 
         // audio hint
@@ -228,8 +213,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             double distanceToTarget = (Vector2.Distance(gameObject.transform.position, GameObject.Find(targetScript.GetTarget()).transform.position));
             // need to keep track to see if the sound actually changed so we can call Play on the Audio Source
             AudioClip prevSound = hintSound.clip;
-            if (distanceToTarget > 15)
-                hintSound.clip = farSound;
+            if (distanceToTarget > 15) hintSound.clip = farSound;
             else if (distanceToTarget > 7) hintSound.clip = midSound;
             else if (distanceToTarget > 1.5) hintSound.clip = closeSound;
             else hintSound.clip = rapidSound;
@@ -312,6 +296,15 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         }
     }
 
+    void CorrectStarSelected()
+    {
+        canClick = false;
+        increaseScore();
+        Invoke("CooledDown", coolDown);
+        ResetHints();
+        UpdateTargetStar();
+    }
+
     // shows star name box
     public void showBox(string star)
     {
@@ -332,19 +325,36 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     }
 
     // increases the score shown by an amount passed
-    public void increaseScore(int amount)
+    public void increaseScore()
     {
-        currentScore += amount;
+        currentScore += scoreIncrement;
         // if score is 4 digits, keeps the leading zero, else just show the 5 digit score
         updateScoreText(currentScore);
         //play the sound effect for selecting the correct star
         selectionSound.Play();
     }
 
+    public void decreaseScore()
+    {
+        if (currentScore - (scoreIncrement / 2) >= 0)
+        {
+            currentScore -= scoreIncrement / 2;
+            updateScoreText(currentScore);
+        }
+    }
+
     // updates score ui text
     public void updateScoreText(int score)
     {
-        if (currentScore < 10000)
+        if (currentScore == 0)
+        {
+            scoreUI.text = "Score: 00000";
+        }
+        else if (currentScore < 1000)
+        {
+            scoreUI.text = "Score: " + ("00" + currentScore);
+        }
+        else if (currentScore < 10000)
         {
             scoreUI.text = "Score: " + ("0" + currentScore);
         }
