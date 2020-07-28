@@ -76,7 +76,6 @@ public class TutorialTypewriterAnimation : MonoBehaviour
         {
             if (tutorialAnimator.GetCurrentAnimatorStateInfo(0).IsName("Tutorial Intro Section 1 Animation"))
             {
-                p1.color = new Color(255, 0, 0, 255);
                 tutorialAnimator.SetTrigger("Paragraph 1 Done");
             }
             else if (tutorialAnimator.GetCurrentAnimatorStateInfo(0).IsName("Tutorial Intro Section 2 Animation"))

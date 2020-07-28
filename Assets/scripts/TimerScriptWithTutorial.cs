@@ -60,9 +60,9 @@ public class TimerScriptWithTutorial : MonoBehaviour
     void StartGame()
     {
         gameStarted = true;
-        countdownPanel.SetActive(false);
-        pressButtonObject.SetActive(false);
-        game.setCanMove(true);
+        // countdownPanel.SetActive(false);
+        // pressButtonObject.SetActive(false);
+        // game.setCanMove(true);
         game.endTutorial();
         tutorialAnimator.SetBool("Ready To Start", false);
     }

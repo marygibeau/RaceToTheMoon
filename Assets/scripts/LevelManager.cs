@@ -38,4 +38,15 @@ public class LevelManager : MonoBehaviour
         PlayerPrefs.SetInt("starsFound", starsFound.Count);
         LoadNextLevel();
     }
+
+    public void LoadLoseWithInfo(List<string> starsFound) {
+        int i = 0;
+        foreach (string star in starsFound)
+        {
+            PlayerPrefs.SetString("Star_" + i, star);
+            i++;
+        }
+        PlayerPrefs.SetInt("starsFound", starsFound.Count);
+        LoadLevel("Lose");
+    }
 }

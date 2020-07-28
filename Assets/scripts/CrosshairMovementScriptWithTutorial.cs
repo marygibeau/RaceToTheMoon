@@ -191,13 +191,24 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         // save score and load next screen when launch button pressed at end of game
         if (Input.GetKeyUp(KeyCode.Return) && launchButtonHovered)
         {
-            lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
+            if (getStars() >= 3)
+            {
+                lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
+            } else {
+                lvlr.LoadLoseWithInfo(getStarsCollectedList());
+            }
         }
 
         // DEBUG: load with final score
         if (Input.GetKeyDown(KeyCode.E) && !gameOver)
         {
             lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
+        }
+
+        // DEBUG: test game over activate
+        if (Input.GetKeyDown(KeyCode.R) && !gameOver)
+        {
+            gameOverActivate();
         }
 
         // DEBUG: cycle target star
@@ -598,9 +609,17 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         backrgoundUIVideo.clip = (VideoClip)Resources.Load("RTTM_Overlay_Go");
         backgroundUIImage.gameObject.SetActive(true);
     }
+    public void showLoseInfo()
+    {
+        launchObject.transform.GetChild(2).transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "something about losing...";
+        launchObject.gameObject.SetActive(true);
+        backrgoundUIVideo.clip = (VideoClip)Resources.Load("RTTM_Overlay_Go");
+        backgroundUIImage.gameObject.SetActive(true);
+    }
 
     public void endTutorial()
     {
+        canMove = true;
         gameStarted = true;
         tutorial.gameObject.SetActive(false);
     }
@@ -608,15 +627,30 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // begins end of game sequence
     public void gameOverActivate()
     {
-        endTutorial();
-        ResetHints();
-        gameOver = true;
-        tempUI.SetTrigger("GameOver");
-        GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
-        launchUI.Play();
-        timer.stopTimer();
-        hideBox();
-        showLaunchInfo();
+        if (getStars() >= 3)
+        {
+            endTutorial();
+            ResetHints();
+            gameOver = true;
+            tempUI.SetTrigger("GameOver");
+            GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
+            launchUI.Play();
+            timer.stopTimer();
+            hideBox();
+            showLaunchInfo();
+        }
+        else
+        {
+            endTutorial();
+            ResetHints();
+            gameOver = true;
+            tempUI.SetTrigger("GameOver");
+            GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
+            launchUI.Play();
+            timer.stopTimer();
+            hideBox();
+            showLoseInfo();
+        }
     }
 
     // setter for can move
