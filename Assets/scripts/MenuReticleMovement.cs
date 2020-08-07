@@ -60,19 +60,14 @@ public class MenuReticleMovement : MonoBehaviour
 
         if (!onPlayButton || !onRestartButton)
         {
-            button.GetComponent<Image>().color = Color.white;
+            button.GetComponent<Image>().enabled = true;
+            button.transform.GetChild(0).GetComponent<Image>().enabled = false;
         }
 
-        if (onPlayButton)
+        if (onPlayButton || onRestartButton)
         {
-            button.GetComponent<Image>().color = Color.green;
-            // showBox(PlayButtonHint);
-        }
-
-        if (onRestartButton)
-        {
-            button.GetComponent<Image>().color = Color.green;
-            // showBox(RestartButtonHint);
+            button.GetComponent<Image>().enabled = false;
+            button.transform.GetChild(0).GetComponent<Image>().enabled = true;
         }
 
         float xTranslation = xTranslationRaw;
