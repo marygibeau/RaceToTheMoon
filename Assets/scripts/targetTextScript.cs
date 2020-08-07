@@ -17,11 +17,11 @@ public class TargetTextScript : MonoBehaviour
         if(playAnimation) {gameObject.GetComponent<Animator>().Play("Flash");}
         if (target == "done")
         {
-            textObject.text = "Target: ";
+            textObject.text = " ";
         }
         else
         {
-            textObject.text = "Target: " + target + " ";
+            textObject.text = target + " ";
         }
     }
 }

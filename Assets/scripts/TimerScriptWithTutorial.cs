@@ -29,7 +29,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Return) && !gameStarted && tutorialAnimator.GetBool("Ready To Start"))
+        if (Input.GetButtonUp("Fire1") && !gameStarted && tutorialAnimator.GetBool("Ready To Start"))
         {
             StartGame();
         }

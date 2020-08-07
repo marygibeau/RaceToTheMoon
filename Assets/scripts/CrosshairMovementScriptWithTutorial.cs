@@ -110,6 +110,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // DEBUG: print axis output
+        Debug.Log("Vertical: " + Input.GetAxis("Vertical"));
+        Debug.Log("Horizontal: " + Input.GetAxis("Horizontal"));
+        float xTranslationRaw = (Input.GetAxis("Horizontal")) * movementOffset * Time.deltaTime;
+        float yTranslationRaw = Input.GetAxis("Vertical") * movementOffset * Time.deltaTime;
         if (gameStarted)
         {
             // keeps track of time since last star for hint purposes
@@ -133,50 +138,54 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         // crosshair movement
         if (canMove)
         {
-            if ((Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W)) && !crosshairUp)
+            float xTranslation = xTranslationRaw;
+            float yTranslation = yTranslationRaw;
+            if (xTranslation > 0 && crosshairRight)
             {
-                this.transform.Translate(Vector2.up * movementOffset * Time.deltaTime);
+                xTranslation = 0;
             }
-            if ((Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S)) && !crosshairDown)
+            if (xTranslation < 0 && crosshairLeft)
             {
-                this.transform.Translate(Vector2.down * movementOffset * Time.deltaTime);
+                xTranslation = 0;
             }
-            if ((Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A)) && !crosshairLeft)
+            if (yTranslation > 0 && crosshairUp)
             {
-                this.transform.Translate(Vector2.left * movementOffset * Time.deltaTime);
+                yTranslation = 0;
             }
-            if ((Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) && !crosshairRight)
+            if (yTranslation < 0 && crosshairDown)
             {
-                this.transform.Translate(Vector2.right * movementOffset * Time.deltaTime);
+                yTranslation = 0;
             }
+            this.transform.Translate(xTranslation, yTranslation, 0);
+
         }
 
         // camera movement
-        if (crosshairUp && !gameOver)
+        if (yTranslationRaw > 0 && crosshairUp && !gameOver)
         {
             cameraMovementScript.moveUp();
         }
-        if (crosshairDown && !gameOver)
+        if (yTranslationRaw < 0 && crosshairDown && !gameOver)
         {
             cameraMovementScript.moveDown();
         }
-        if (crosshairLeft && !gameOver)
+        if (xTranslationRaw < 0 && crosshairLeft && !gameOver)
         {
             cameraMovementScript.moveLeft();
         }
-        if (crosshairRight && !gameOver)
+        if (xTranslationRaw > 0 && crosshairRight && !gameOver)
         {
             cameraMovementScript.moveRight();
         }
 
         // logic for star being clicked
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text == targetScript.GetTarget() && !gameOver)
+        if (Input.GetButtonUp("Fire1") && canClick && starText.text == targetScript.GetTarget() && !gameOver)
         {
             CorrectStarSelected();
         }
 
         // logic for clicking a star that is not the target to play sound effect
-        if (Input.GetKeyUp(KeyCode.Return) && canClick && starText.text != targetScript.GetTarget()
+        if (Input.GetButtonUp("Fire1") && canClick && starText.text != targetScript.GetTarget()
         && starText.text != "" && !gameOver)
         {
             lastStar = GameObject.Find(starText.text);
@@ -189,12 +198,14 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         }
 
         // save score and load next screen when launch button pressed at end of game
-        if (Input.GetKeyUp(KeyCode.Return) && launchButtonHovered)
+        if (Input.GetButtonUp("Fire1") && launchButtonHovered)
         {
             if (getStars() >= 3)
             {
                 lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
-            } else {
+            }
+            else
+            {
                 lvlr.LoadLoseWithInfo(getStarsCollectedList());
             }
         }

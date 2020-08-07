@@ -35,8 +35,8 @@ public class MenuReticleMovement : MonoBehaviour
     LevelManager lvlr;
 
     // Cinematic variables
-  //  public GameObject videoPlayer;
-  //  public int timeToStop;
+    //  public GameObject videoPlayer;
+    //  public int timeToStop;
 
     // Start is called before the first frame update
     void Start()
@@ -55,14 +55,16 @@ public class MenuReticleMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hasMoved && (!onPlayButton || !onRestartButton))
+        float yTranslationRaw = Input.GetAxis("Vertical") * movementOffset * Time.deltaTime;
+        float xTranslationRaw = (Input.GetAxis("Horizontal")) * movementOffset * Time.deltaTime;
+
+        if (!onPlayButton || !onRestartButton)
         {
             button.GetComponent<Image>().color = Color.white;
-            hideBox();
         }
 
         if (onPlayButton)
-        { 
+        {
             button.GetComponent<Image>().color = Color.green;
             // showBox(PlayButtonHint);
         }
@@ -73,31 +75,36 @@ public class MenuReticleMovement : MonoBehaviour
             // showBox(RestartButtonHint);
         }
 
-        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) && !upBoundary)
+        float xTranslation = xTranslationRaw;
+        float yTranslation = yTranslationRaw;
+
+        if (xTranslation > 0 && rightBoundary)
         {
-            moveUp();
+            xTranslation = 0;
         }
-        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) && !downBoundary)
+        if (xTranslation < 0 && leftBoundary)
         {
-            moveDown();
+            xTranslation = 0;
         }
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A) && !leftBoundary)
+        if (yTranslation > 0 && upBoundary)
         {
-            moveLeft();
+            yTranslation = 0;
         }
-        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) && !rightBoundary)
+        if (yTranslation < 0 && downBoundary)
         {
-            moveRight();
+            yTranslation = 0;
         }
 
-        if (Input.GetKeyUp(KeyCode.Return) && onPlayButton)
+        this.transform.Translate(xTranslation, yTranslation, 0);
+
+        if (Input.GetButtonUp("Fire1") && onPlayButton)
         {
             print("Cinematic 1 to play here.");
 
             lvlr.LoadLevel("Cinematic_1");
         }
 
-        if (Input.GetKeyUp(KeyCode.Return) && onRestartButton)
+        if (Input.GetButtonUp("Fire1") && onRestartButton)
         {
             lvlr.LoadLevel("MainMenu");
         }
@@ -175,12 +182,13 @@ public class MenuReticleMovement : MonoBehaviour
         starText.text = "";
     }
 
+
     public void moveRight()
     {
         if (!rightBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.right * movementOffset*Time.deltaTime);
+            this.transform.Translate(Vector2.right * movementOffset * Time.deltaTime);
         }
     }
 
@@ -189,7 +197,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!leftBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.left * movementOffset*Time.deltaTime);
+            this.transform.Translate(Vector2.left * movementOffset * Time.deltaTime);
         }
     }
     public void moveUp()
@@ -197,7 +205,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!upBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.up * movementOffset*Time.deltaTime);
+            this.transform.Translate(Vector2.up * movementOffset * Time.deltaTime);
         }
     }
 
@@ -206,7 +214,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (!downBoundary)
         {
             hasMoved = true;
-            this.transform.Translate(Vector2.down * movementOffset*Time.deltaTime);
+            this.transform.Translate(Vector2.down * movementOffset * Time.deltaTime);
         }
     }
 }
