@@ -15,6 +15,7 @@ public class MenuReticleMovement : MonoBehaviour
     private bool hasMoved = false;
     private bool onPlayButton = false;
     private bool onRestartButton = false;
+    private bool onQuitButton = false;
 
     // UI variables
     TextMeshProUGUI starText;
@@ -24,6 +25,7 @@ public class MenuReticleMovement : MonoBehaviour
     string RestartButtonHint = "Press Enter to Restart the Game";
     string initialHint = "Use WASD or Arrow Keys to Move";
     public GameObject button;
+    public GameObject button2;
 
 
     // Audio Variables
@@ -34,9 +36,6 @@ public class MenuReticleMovement : MonoBehaviour
     // level management variables
     LevelManager lvlr;
 
-    // Cinematic variables
-    //  public GameObject videoPlayer;
-    //  public int timeToStop;
 
     // Start is called before the first frame update
     void Start()
@@ -64,10 +63,22 @@ public class MenuReticleMovement : MonoBehaviour
             button.transform.GetChild(0).GetComponent<Image>().enabled = false;
         }
 
+        if (!onQuitButton)
+        {
+            button2.GetComponent<Image>().enabled = true;
+            button2.transform.GetChild(0).GetComponent<Image>().enabled = false;
+        }
+
         if (onPlayButton || onRestartButton)
         {
             button.GetComponent<Image>().enabled = false;
             button.transform.GetChild(0).GetComponent<Image>().enabled = true;
+        }
+
+        if (onQuitButton)
+        {
+            button2.GetComponent<Image>().enabled = false;
+            button2.transform.GetChild(0).GetComponent<Image>().enabled = true;
         }
 
         float xTranslation = xTranslationRaw;
@@ -101,6 +112,11 @@ public class MenuReticleMovement : MonoBehaviour
 
         if (Input.GetButtonUp("Fire1") && onRestartButton)
         {
+            lvlr.LoadLevel("GameWithTutorial");
+        }
+
+        if (Input.GetButtonUp("Fire1") && onQuitButton)
+        {
             lvlr.LoadLevel("MainMenu");
         }
     }
@@ -128,6 +144,9 @@ public class MenuReticleMovement : MonoBehaviour
                 break;
             case "RestartButton":
                 onRestartButton = true;
+                break;
+            case "QuitButton":
+                onQuitButton = true;
                 break;
         }
     }
@@ -157,6 +176,9 @@ public class MenuReticleMovement : MonoBehaviour
             case "RestartButton":
                 onRestartButton = false;
                 break;
+            case "QuitButton":
+                onQuitButton = false;
+                break;
         }
     }
 
@@ -177,39 +199,4 @@ public class MenuReticleMovement : MonoBehaviour
         starText.text = "";
     }
 
-
-    public void moveRight()
-    {
-        if (!rightBoundary)
-        {
-            hasMoved = true;
-            this.transform.Translate(Vector2.right * movementOffset * Time.deltaTime);
-        }
-    }
-
-    public void moveLeft()
-    {
-        if (!leftBoundary)
-        {
-            hasMoved = true;
-            this.transform.Translate(Vector2.left * movementOffset * Time.deltaTime);
-        }
-    }
-    public void moveUp()
-    {
-        if (!upBoundary)
-        {
-            hasMoved = true;
-            this.transform.Translate(Vector2.up * movementOffset * Time.deltaTime);
-        }
-    }
-
-    public void moveDown()
-    {
-        if (!downBoundary)
-        {
-            hasMoved = true;
-            this.transform.Translate(Vector2.down * movementOffset * Time.deltaTime);
-        }
-    }
 }

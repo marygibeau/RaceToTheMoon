@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   button: {fileID: 942892844}
+  button2: {fileID: 942892844}
 --- !u!1001 &368855088
 PrefabInstance:
   m_ObjectHideFlags: 0
