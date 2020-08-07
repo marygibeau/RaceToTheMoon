@@ -77,7 +77,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     {
         // score set up
         scoreUI = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
-        scoreUI.text = "Score: 00000";
+        scoreUI.text = "00000";
         // set up star name box variables
         blackBox = this.transform.GetChild(0).gameObject;
         starText = this.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
@@ -111,8 +111,8 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     void Update()
     {
         // DEBUG: print axis output
-        Debug.Log("Vertical: " + Input.GetAxis("Vertical"));
-        Debug.Log("Horizontal: " + Input.GetAxis("Horizontal"));
+        // Debug.Log("Vertical: " + Input.GetAxis("Vertical"));
+        // Debug.Log("Horizontal: " + Input.GetAxis("Horizontal"));
         float xTranslationRaw = (Input.GetAxis("Horizontal")) * movementOffset * Time.deltaTime;
         float yTranslationRaw = Input.GetAxis("Vertical") * movementOffset * Time.deltaTime;
         if (gameStarted)
@@ -370,17 +370,17 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     {
         if (currentScore == 0)
         {
-            scoreUI.text = "Score: 00000";
+            scoreUI.text = "00000";
         }
         else if (currentScore < 1000)
         {
-            scoreUI.text = "Score: " + ("00" + currentScore);
+            scoreUI.text = ("00" + currentScore);
         }
         else if (currentScore < 10000)
         {
-            scoreUI.text = "Score: " + ("0" + currentScore);
+            scoreUI.text = ("0" + currentScore);
         }
-        else scoreUI.text = "Score: " + currentScore.ToString();
+        else scoreUI.text = currentScore.ToString();
     }
 
     // cooldown function for star clicking
@@ -643,7 +643,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             endTutorial();
             ResetHints();
             gameOver = true;
-            tempUI.SetTrigger("GameOver");
+            // tempUI.SetTrigger("GameOver");
             GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
             launchUI.Play();
             timer.stopTimer();
@@ -655,7 +655,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             endTutorial();
             ResetHints();
             gameOver = true;
-            tempUI.SetTrigger("GameOver");
+            // tempUI.SetTrigger("GameOver");
             GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
             launchUI.Play();
             timer.stopTimer();

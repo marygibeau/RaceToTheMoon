@@ -8,13 +8,16 @@ using TMPro;
 public class TimerScriptWithTutorial : MonoBehaviour
 {
     TextMeshProUGUI timerText;
-    float gameTime = 120f;
+    float originalTimeAmount = 20f;
+    float gameTime;
     Boolean gameOver = false;
     Boolean gameStarted = false;
     public GameObject countdownPanel;
     public GameObject pressButtonObject;
     public CrosshairMovementScriptWithTutorial game;
     public Animator tutorialAnimator;
+    private Image pieChartFull;
+    private Image pieChartEmpty;
 
     LevelManager lvlr;
 
@@ -24,6 +27,9 @@ public class TimerScriptWithTutorial : MonoBehaviour
         game.setCanMove(false);
         timerText = gameObject.GetComponent<TextMeshProUGUI>();
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+        pieChartEmpty = this.transform.GetChild(0).gameObject.GetComponent<Image>();
+        pieChartFull = this.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Image>();
+        gameTime = originalTimeAmount;
     }
 
     // Update is called once per frame
@@ -54,6 +60,8 @@ public class TimerScriptWithTutorial : MonoBehaviour
             }
         }
 
+        pieChartFull.fillAmount = gameTime / originalTimeAmount;
+
         generateTimerText();
     }
 
@@ -73,7 +81,9 @@ public class TimerScriptWithTutorial : MonoBehaviour
         //changes color to red when time is below 10 seconds
         if (gameTime <= 10 && gameTime > 0)
         {
-            timerText.color = Color.red;
+            timerText.color = new Color(0.9960784f, 0.3803922f, 0);
+            pieChartFull.color = new Color(0.9960784f, 0.3803922f, 0);
+            pieChartEmpty.color = new Color(0.9960784f, 0.3803922f, 0);
         }
 
         timerText.text = ((int)(timeLeft / 60)).ToString() + ":" + (timeLeft % 60).ToString("00");

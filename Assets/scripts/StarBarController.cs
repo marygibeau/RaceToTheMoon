@@ -14,7 +14,7 @@ public class StarBarController : MonoBehaviour
         {
             if (i < 12)
             {
-                activeStars[i] = child.gameObject.transform.GetChild(0).gameObject;
+                activeStars[i] = child.gameObject;
                 activeStars[i].SetActive(false);
                 i++;
             }
