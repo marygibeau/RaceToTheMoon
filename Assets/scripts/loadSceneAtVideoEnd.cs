@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class LoadSceneAtVideoEnd : MonoBehaviour
 {
     public VideoPlayer VideoPlayer; // Drag & Drop the GameObject holding the VideoPlayer component
+    public LevelManager lvlr;
 
     void Start()
     {
@@ -17,12 +18,11 @@ public class LoadSceneAtVideoEnd : MonoBehaviour
     {
         if (Input.GetButtonUp("Fire1"))
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            lvlr.LoadNextLevel();
         }
     }
     void LoadScene(VideoPlayer vp)
     {
-        // SceneManager.LoadScene("Tutorial");
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        lvlr.LoadNextLevel();
     }
 }

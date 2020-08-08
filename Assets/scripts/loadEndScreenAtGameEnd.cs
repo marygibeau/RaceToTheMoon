@@ -15,7 +15,7 @@ public class LoadEndScreenAtGameEnd : MonoBehaviour
     }
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Return))
+        if (Input.GetButtonUp("Fire1"))
         {
             lvlr.LoadNextLevel();
         }

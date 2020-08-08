@@ -540,6 +540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VideoPlayer: {fileID: 1207471675}
+  lvlr: {fileID: 2028398434}
 --- !u!1 &1391204479
 GameObject:
   m_ObjectHideFlags: 0
@@ -692,6 +693,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: df593f3bcbc44d44d882852e25870abb, type: 3}
+--- !u!114 &2028398434 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7673667697074501413, guid: df593f3bcbc44d44d882852e25870abb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2028398433}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac5a2f8f23f620f4e86c934a1cb67ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2031490768
 GameObject:
   m_ObjectHideFlags: 0

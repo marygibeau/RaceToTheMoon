@@ -29,6 +29,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public int scoreIncrement = 1000;
     public Animator tempUI;
     public Animation launchUI;
+    public StarHandler starHandler;
 
     // star clicking variables
     bool canClick = true;
@@ -52,14 +53,17 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // level management variables
     LevelManager lvlr;
     public GameObject launchObject;
+    public GameObject loseObject;
     bool gameOver;
     bool launchButtonHovered;
+    bool playAgainButtonHovered;
     TimerScriptWithTutorial timer;
     public GameObject backgroundUIImage;
     public VideoPlayer backrgoundUIVideo;
 
     //tutorial variables
     public GameObject tutorial;
+    private bool playTutorial;
 
     // hint variables
     bool gameStarted = false;
@@ -85,6 +89,9 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         // grab level manager and targetStar scripts
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
+        // timer setup and hide star name box
+        timer = GameObject.Find("Timer").GetComponent<TimerScriptWithTutorial>();
+        hideBox();
         // hide arrows
         initializeArrows();
         // sound variables set up
@@ -95,16 +102,21 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         midSound = (AudioClip)Resources.Load("sounds/boopMid");
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
-        // hide launch panel
-        launchObject.gameObject.SetActive(false);
-        // hide tutorial
         // tutorial.gameObject.SetActive(false);
         // game state variable set up
         gameOver = false;
         launchButtonHovered = false;
-        // timer setup and hide star name box
-        timer = GameObject.Find("Timer").GetComponent<TimerScriptWithTutorial>();
-        hideBox();
+        // hide launch panel
+        launchObject.gameObject.SetActive(false);
+        loseObject.gameObject.SetActive(false);
+        // hide tutorial
+        playTutorial = (PlayerPrefs.GetString("Replay") == "true" ? false : true);
+        if (!playTutorial)
+        {
+            Debug.Log("Starting game.....");
+            timer.StartGame();
+            Debug.Log("Can move = " + canMove);
+        }
     }
 
     // Update is called once per frame
@@ -135,9 +147,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             StartThirdHint();
         }
 
+        Debug.Log("Can move = " + canMove);
         // crosshair movement
         if (canMove)
         {
+            Debug.Log("can move");
             float xTranslation = xTranslationRaw;
             float yTranslation = yTranslationRaw;
             if (xTranslation > 0 && crosshairRight)
@@ -208,6 +222,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             {
                 lvlr.LoadLoseWithInfo(getStarsCollectedList());
             }
+        }
+
+        if (Input.GetButtonUp("Fire1") && playAgainButtonHovered)
+        {
+            lvlr.ReloadGameWithOutTutorial();
         }
 
         // DEBUG: load with final score
@@ -282,7 +301,13 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
                 break;
             case "launch button": // launch button hover behavior
                 launchButtonHovered = true;
-                GameObject.Find("launch button").GetComponent<Image>().color = Color.green;
+                GameObject.Find("launch button").GetComponent<Image>().enabled = false;
+                GameObject.Find("launch button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
+                break;
+            case "play again button":
+                playAgainButtonHovered = true;
+                GameObject.Find("play again button").GetComponent<Image>().enabled = false;
+                GameObject.Find("play again button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                 break;
             default:
                 showBox(other.gameObject.name);
@@ -310,7 +335,13 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
                 break;
             case "launch button": // launch button hover behavior
                 launchButtonHovered = false;
-                GameObject.Find("launch button").GetComponent<Image>().color = Color.white;
+                GameObject.Find("launch button").GetComponent<Image>().enabled = true;
+                GameObject.Find("launch button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+                break;
+            case "play again button":
+                playAgainButtonHovered = false;
+                GameObject.Find("play again button").GetComponent<Image>().enabled = true;
+                GameObject.Find("play again button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
                 break;
             default:
                 hideBox();
@@ -622,10 +653,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     }
     public void showLoseInfo()
     {
-        launchObject.transform.GetChild(2).transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "something about losing...";
-        launchObject.gameObject.SetActive(true);
-        backrgoundUIVideo.clip = (VideoClip)Resources.Load("RTTM_Overlay_Go");
-        backgroundUIImage.gameObject.SetActive(true);
+        loseObject.gameObject.SetActive(true);
+        // launchObject.transform.GetChild(2).transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().text = "something about losing...";
+        // launchObject.gameObject.SetActive(true);
+        // backrgoundUIVideo.clip = (VideoClip)Resources.Load("RTTM_Overlay_Go");
+        // backgroundUIImage.gameObject.SetActive(true);
     }
 
     public void endTutorial()
@@ -638,11 +670,12 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // begins end of game sequence
     public void gameOverActivate()
     {
-        if (getStars() >= 3)
+        if (getStars() >= 4)
         {
             endTutorial();
             ResetHints();
             gameOver = true;
+            starHandler.HideAllStars();
             // tempUI.SetTrigger("GameOver");
             GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
             launchUI.Play();
@@ -655,9 +688,9 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             endTutorial();
             ResetHints();
             gameOver = true;
-            // tempUI.SetTrigger("GameOver");
+            starHandler.HideAllStars();
             GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
-            launchUI.Play();
+            // launchUI.Play();
             timer.stopTimer();
             hideBox();
             showLoseInfo();

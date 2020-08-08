@@ -22,6 +22,21 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void LoadGameWithTutorial() {
+        PlayerPrefs.SetString("Replay", "false");
+        LoadLevel("GameWithTutorial");
+    }
+
+    public void LoadGameWithOutTutorial() {
+        PlayerPrefs.SetString("Replay", "true");
+        LoadLevel("GameWithTutorial");
+    }
+
+    public void ReloadGameWithOutTutorial() {
+        PlayerPrefs.SetString("Replay", "true");
+        SceneManager.LoadScene("GameWithTutorial", LoadSceneMode.Single);
+    }
+
     public void LoadNextLevelWithFinalInfo(int finalScore, List<string> starsFound, int secondsLeft)
     {
         int i = 0;

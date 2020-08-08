@@ -24,7 +24,10 @@ public class TimerScriptWithTutorial : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        game.setCanMove(false);
+        if (PlayerPrefs.GetString("Replay") == "false")
+        {
+            game.setCanMove(false);
+        }
         timerText = gameObject.GetComponent<TextMeshProUGUI>();
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         pieChartEmpty = this.transform.GetChild(0).gameObject.GetComponent<Image>();
@@ -65,12 +68,10 @@ public class TimerScriptWithTutorial : MonoBehaviour
         generateTimerText();
     }
 
-    void StartGame()
+    public void StartGame()
     {
         gameStarted = true;
-        // countdownPanel.SetActive(false);
-        // pressButtonObject.SetActive(false);
-        // game.setCanMove(true);
+        game.setCanMove(true);
         game.endTutorial();
         tutorialAnimator.SetBool("Ready To Start", false);
     }

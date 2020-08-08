@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.Video;
 using UnityEngine.SceneManagement;
 
-public class LoadSceneTutorialVideoEnd : MonoBehaviour
+public class LoadSceneFirstVideoEnd : MonoBehaviour
 {
     public VideoPlayer VideoPlayer; // Drag & Drop the GameObject holding the VideoPlayer component
+    public LevelManager lvlr;
 
     void Start()
     {
@@ -15,13 +16,14 @@ public class LoadSceneTutorialVideoEnd : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.E))
+        if (Input.GetButtonUp("Fire1"))
+
         {
-            SceneManager.LoadScene("Game");
+            lvlr.LoadGameWithTutorial();
         }
     }
     void LoadScene(VideoPlayer vp)
     {
-        SceneManager.LoadScene("Game");
+        lvlr.LoadGameWithTutorial();
     }
 }
