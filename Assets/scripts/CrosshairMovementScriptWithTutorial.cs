@@ -23,7 +23,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // UI variables
     TextMeshProUGUI scoreUI;
     TextMeshProUGUI starText;
-    GameObject blackBox;
+    // GameObject blackBox;
     GameObject textBox;
     private int currentScore = 0;
     public int scoreIncrement = 1000;
@@ -83,9 +83,9 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         scoreUI = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
         scoreUI.text = "00000";
         // set up star name box variables
-        blackBox = this.transform.GetChild(0).gameObject;
-        starText = this.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
-        textBox = this.transform.GetChild(2).gameObject;
+        // blackBox = this.transform.GetChild(0).gameObject;
+        starText = this.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        textBox = this.transform.GetChild(1).gameObject;
         // grab level manager and targetStar scripts
         lvlr = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         targetScript = GameObject.Find("TargetStarHandler").GetComponent<TargetStar>();
@@ -363,7 +363,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         if (star != "Main Camera" && star != "Button" && !gameOver)
         {
             textBox.gameObject.SetActive(true);
-            blackBox.gameObject.SetActive(true);
+            // blackBox.gameObject.SetActive(true);
             starText.text = star;
         }
     }
@@ -372,7 +372,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public void hideBox()
     {
         textBox.gameObject.SetActive(false);
-        blackBox.gameObject.SetActive(false);
+        // blackBox.gameObject.SetActive(false);
         starText.text = "";
     }
 
