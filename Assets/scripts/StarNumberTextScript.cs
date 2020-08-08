@@ -19,10 +19,10 @@ public class StarNumberTextScript : MonoBehaviour
         Debug.Log("Stars found = " + stars);
         if (stars == 1)
         {
-            return "And Found 1 Star!";
+            return "And Found <#FFB000>1</color> Star!";
         } else
         {
-            return "And Found "+ stars.ToString() +" Stars!";
+            return "And Found <#FFB000>"+ stars.ToString() +"</color> Stars!";
         }
     }
 }

@@ -39,9 +39,9 @@ public class StarListScript : MonoBehaviour
             for (int x = 0; x < starsFound; x++)
             {
                 string getString = "Star_" + (x).ToString();
-                starsFoundText += "     ";
+                starsFoundText += "     <#FFB000>";
                 starsFoundText += PlayerPrefs.GetString(getString);
-                starsFoundText += "     |";
+                starsFoundText += "</color>     |";
 
             }
         }
