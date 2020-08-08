@@ -27,7 +27,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     GameObject textBox;
     private int currentScore = 0;
     public int scoreIncrement = 1000;
-    public Animator tempUI;
+    public GameObject HUD;
     public Animation launchUI;
     public StarHandler starHandler;
 
@@ -102,7 +102,6 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         midSound = (AudioClip)Resources.Load("sounds/boopMid");
         farSound = (AudioClip)Resources.Load("sounds/boopFar");
         rapidSound = (AudioClip)Resources.Load("sounds/boopRapid");
-        // tutorial.gameObject.SetActive(false);
         // game state variable set up
         gameOver = false;
         launchButtonHovered = false;
@@ -147,11 +146,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             StartThirdHint();
         }
 
-        Debug.Log("Can move = " + canMove);
+        // Debug.Log("Can move = " + canMove);
         // crosshair movement
         if (canMove)
         {
-            Debug.Log("can move");
+            // Debug.Log("can move");
             float xTranslation = xTranslationRaw;
             float yTranslation = yTranslationRaw;
             if (xTranslation > 0 && crosshairRight)
@@ -672,27 +671,33 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     {
         if (getStars() >= 4)
         {
+            // end game
             endTutorial();
             ResetHints();
             gameOver = true;
-            starHandler.HideAllStars();
-            // tempUI.SetTrigger("GameOver");
-            GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
-            launchUI.Play();
             timer.stopTimer();
+            // hide hud
+            HUD.GetComponent<HUDHandler>().HideHUD();
+            starHandler.HideAllStars();
+            GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
             hideBox();
+            // show launch info
+            launchUI.Play();
             showLaunchInfo();
         }
         else
         {
+            // end game
             endTutorial();
             ResetHints();
             gameOver = true;
+            timer.stopTimer();
+            // hide and dim UI
+            HUD.GetComponent<HUDHandler>().DimHUD();
             starHandler.HideAllStars();
             GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
-            // launchUI.Play();
-            timer.stopTimer();
             hideBox();
+            // show lose info
             showLoseInfo();
         }
     }
