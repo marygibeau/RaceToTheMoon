@@ -10,8 +10,9 @@ public class TimerScriptWithTutorial : MonoBehaviour
     TextMeshProUGUI timerText;
     float originalTimeAmount = 20f;
     float gameTime;
-    Boolean gameOver = false;
     Boolean gameStarted = false;
+    Boolean gameOver = false;
+    float timeSinceGameOver;
     public GameObject countdownPanel;
     public GameObject pressButtonObject;
     public CrosshairMovementScriptWithTutorial game;
@@ -33,6 +34,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
         pieChartEmpty = this.transform.GetChild(0).gameObject.GetComponent<Image>();
         pieChartFull = this.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Image>();
         gameTime = originalTimeAmount;
+        timeSinceGameOver = 0.0f;
     }
 
     // Update is called once per frame
@@ -61,6 +63,17 @@ public class TimerScriptWithTutorial : MonoBehaviour
                 GameOverSequence();
                 gameOver = true;
             }
+        }
+
+        if (gameOver)
+        {
+            timeSinceGameOver += 1 * Time.deltaTime;
+            Debug.Log("time since game over = " + timeSinceGameOver);
+        }
+
+        if (timeSinceGameOver >= 30)
+        {
+            lvlr.LoadLevel("MainMenu");
         }
 
         pieChartFull.fillAmount = gameTime / originalTimeAmount;
@@ -111,6 +124,6 @@ public class TimerScriptWithTutorial : MonoBehaviour
         // get crosshair to show launch button
         CrosshairMovementScriptWithTutorial crosshair = GameObject.Find("crosshair").GetComponent<CrosshairMovementScriptWithTutorial>();
         crosshair.gameOverActivate();
-
+        gameOver = true;
     }
 }
