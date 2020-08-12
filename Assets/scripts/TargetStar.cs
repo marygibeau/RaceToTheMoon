@@ -18,7 +18,7 @@ public class TargetStar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("Target star script started");
+        // Debug.Log("Target star script started");
         starsToFind = new List<string> {
             "Menkar",
             "Rigel",

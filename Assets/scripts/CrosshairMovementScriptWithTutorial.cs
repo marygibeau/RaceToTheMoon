@@ -32,7 +32,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public StarHandler starHandler;
 
     // star clicking variables
-    bool canClick = true;
+    bool canClick = false;
     public float coolDown = 1.0f;
     TargetStar targetScript;
     GameObject targetStar;
@@ -114,7 +114,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         {
             Debug.Log("Starting game.....");
             timer.StartGame();
-            Debug.Log("Can move = " + canMove);
+            setCanClick(true);
         }
     }
 
@@ -662,6 +662,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         canMove = true;
         gameStarted = true;
         tutorial.gameObject.SetActive(false);
+        HUD.GetComponent<HUDHandler>().UndimHUD();
     }
 
     // begins end of game sequence
@@ -704,6 +705,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public void setCanMove(Boolean b)
     {
         canMove = b;
+    }
+
+    public void setCanClick(Boolean b)
+    {
+        canClick = b;
     }
 
 }
