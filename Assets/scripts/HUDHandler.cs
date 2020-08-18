@@ -9,6 +9,7 @@ public class HUDHandler : MonoBehaviour
     private GameObject targetStarBox;
     private GameObject starBar;
     private GameObject timerAndScoreBox;
+    private GameObject calibrationGraphic;
 
     private bool targetStarBoxDimmed, starBarDimmed, timerAndScoreBoxDimmed, calibrationGraphicDimmed;
 
@@ -17,6 +18,7 @@ public class HUDHandler : MonoBehaviour
         starBar = this.transform.GetChild(0).gameObject;
         timerAndScoreBox = this.transform.GetChild(1).gameObject;
         targetStarBox = this.transform.GetChild(2).gameObject;
+        calibrationGraphic = this.transform.GetChild(3).gameObject;
         targetStarBoxDimmed = false;
         starBarDimmed = false;
         timerAndScoreBoxDimmed = false;
@@ -225,8 +227,11 @@ public class HUDHandler : MonoBehaviour
     {
         if (!calibrationGraphicDimmed)
         {
-            // TODO
-            Debug.Log("Normally, I'd dim the calibration grpahic here");
+            var tempColor = calibrationGraphic.GetComponent<RawImage>().color;
+            tempColor.r = tempColor.r / 2.0f;
+            tempColor.g = tempColor.g / 2.0f;
+            tempColor.b = tempColor.b / 2.0f;
+            calibrationGraphic.GetComponent<RawImage>().color = tempColor;
             calibrationGraphicDimmed = true;
         }
     }
@@ -235,8 +240,11 @@ public class HUDHandler : MonoBehaviour
     {
         if (calibrationGraphicDimmed)
         {
-            // TODO
-            Debug.Log("Normally, I'd undim the calibration grpahic here");
+            var tempColor = calibrationGraphic.GetComponent<RawImage>().color;
+            tempColor.r = tempColor.r * 2.0f;
+            tempColor.g = tempColor.g * 2.0f;
+            tempColor.b = tempColor.b * 2.0f;
+            calibrationGraphic.GetComponent<RawImage>().color = tempColor;
             calibrationGraphicDimmed = false;
         }
     }
