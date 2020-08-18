@@ -12,6 +12,7 @@ public class LoadSceneAtVideoEnd : MonoBehaviour
     void Start()
     {
         VideoPlayer.loopPointReached += LoadScene;
+        lvlr = Object.FindObjectOfType<LevelManager>();
     }
 
     private void Update()
