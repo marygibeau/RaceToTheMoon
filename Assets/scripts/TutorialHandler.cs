@@ -8,6 +8,7 @@ public class TutorialHandler : MonoBehaviour
     private int state;
     private bool playTutorial;
     public GameObject tutorialStar;
+    public TextMeshProUGUI buttonText;
     public TimerScriptWithTutorial timer;
     public GameObject tutorialPanel;
     public HUDHandler HUD;
@@ -21,6 +22,7 @@ public class TutorialHandler : MonoBehaviour
         {
             HUD.DimStarBar();
             HUD.DimScoreAndTimerBox();
+            HUD.DimCalibrationGraphic();
         } else {
             timer.StartGame();
         }
@@ -50,7 +52,8 @@ public class TutorialHandler : MonoBehaviour
             case 2: // star bar and calibration graphic
                 HUD.DimScoreAndTimerBox();
                 HUD.UndimStarBar();
-                // HUD.UndimColibrationGraphic();
+                HUD.UndimCalibrationGraphic();
+                buttonText.text = "Press the Button to Start";
                 tutorialPanel.GetComponent<TextMeshProUGUI>().text = "Find enough stars to get into the <#648FFF>blue zone</color> and make it to the moon";
                 tutorialPanel.GetComponent<TextMeshProUGUI>().text += "\n\n";
                 tutorialPanel.GetComponent<TextMeshProUGUI>().text += "If not, your mission will be <#FFB000>aborted</color>";
