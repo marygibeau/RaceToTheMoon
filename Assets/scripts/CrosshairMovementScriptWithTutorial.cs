@@ -30,6 +30,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public GameObject HUD;
     public Animation launchUI;
     public StarHandler starHandler;
+    public CalibrationGraphicHandler calibrationGraphicHandler;
 
     // star clicking variables
     bool canClick = false;
@@ -355,6 +356,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         Invoke("CooledDown", coolDown);
         ResetHints();
         UpdateTargetStar();
+        calibrationGraphicHandler.UpdateGraphic();
     }
 
     // shows star name box

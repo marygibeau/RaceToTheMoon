@@ -78,7 +78,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
         game.setCanMove(true);
         game.setCanClick(true);
         game.endTutorial();
-        tutorialAnimator.SetBool("Ready To Start", false);
+        // tutorialAnimator.SetBool("Ready To Start", false);
         
     }
 
