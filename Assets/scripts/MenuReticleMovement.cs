@@ -112,7 +112,7 @@ public class MenuReticleMovement : MonoBehaviour
 
         if (Input.GetButtonUp("Fire1") && onRestartButton)
         {
-            lvlr.LoadLevel("GameWithTutorial");
+            lvlr.ReloadGameWithOutTutorial();
         }
 
         if (Input.GetButtonUp("Fire1") && onQuitButton)
