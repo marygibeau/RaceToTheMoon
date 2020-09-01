@@ -66,6 +66,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     //tutorial variables
     public GameObject tutorial;
     private bool playTutorial;
+    public GameObject ReadyGoText;
 
     // hint variables
     bool gameStarted = false;
@@ -113,10 +114,8 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         // hide tutorial
         playTutorial = (PlayerPrefs.GetString("Replay") == "true" ? false : true);
         if (!playTutorial)
-        {
-            Debug.Log("Starting game.....");
-            timer.StartGame();
-            setCanClick(true);
+        {            
+            tutorial.GetComponent<TutorialHandler>().ReadyGo();
         }
     }
 

@@ -11,6 +11,8 @@ public class TutorialHandler : MonoBehaviour
     public TextMeshProUGUI buttonText;
     public TimerScriptWithTutorial timer;
     public GameObject tutorialPanel;
+    public GameObject ReadyGoText;
+    private bool startingGame = false;
     public HUDHandler HUD;
 
     // Start is called before the first frame update
@@ -23,23 +25,39 @@ public class TutorialHandler : MonoBehaviour
             HUD.HideStarBar();
             HUD.HideScoreAndTimerBox();
             HUD.HideCalibrationGraphic();
+            ReadyGoText.SetActive(false);
             // tutorialPanel.GetComponent<Animator>().SetTrigger("State Change");
             // tutorialPanel.GetComponent<Animation>().Play("Tutorial Text Fade In");
         }
         else
         {
-            timer.StartGame();
+            Debug.Log("Starting game from tutorial handler");
+            ReadyGoText.SetActive(true);
+            ReadyGoText.GetComponent<Animator>().SetTrigger("PlayAnimation");
+            startingGame = true;
+            // timer.StartGame();
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonUp("Fire1") && playTutorial)
+        if (Input.GetButtonUp("Fire1") && playTutorial && !startingGame)
         {
             state++;
             ChangeState();
         }
+    }
+
+    public void ReadyGo()
+    {
+        tutorialStar.SetActive(false);
+        tutorialPanel.SetActive(false);
+        buttonText.text = "";
+        ReadyGoText.SetActive(true);
+        ReadyGoText.GetComponent<Animator>().SetTrigger("PlayAnimation");
+        timer.ImmobilizePlayer();
+        startingGame = true;
     }
 
     void ChangeState()
@@ -69,7 +87,8 @@ public class TutorialHandler : MonoBehaviour
             default:
                 // end tutorial
                 HUD.UndimHUD();
-                timer.StartGame();
+                // timer.StartGame();
+                ReadyGo();
                 break;
         }
     }

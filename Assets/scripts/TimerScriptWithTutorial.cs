@@ -82,6 +82,11 @@ public class TimerScriptWithTutorial : MonoBehaviour
         
     }
 
+    public void ImmobilizePlayer() {
+        game.setCanMove(false);
+        game.setCanClick(false);
+    }
+
     void generateTimerText()
     {
         int timeLeft = GetTimeLeft();
