@@ -58,6 +58,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     bool gameOver;
     bool launchButtonHovered;
     bool playAgainButtonHovered;
+    bool quitButtonHovered;
     TimerScriptWithTutorial timer;
     public GameObject backgroundUIImage;
     public VideoPlayer backrgoundUIVideo;
@@ -229,6 +230,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             lvlr.ReloadGameWithOutTutorial();
         }
 
+        if (Input.GetButtonUp("Fire1") && quitButtonHovered)
+        {
+            lvlr.LoadLevel("MainMenu");
+        }
+
         // DEBUG: load with final score
         if (Input.GetKeyDown(KeyCode.E) && !gameOver)
         {
@@ -309,6 +315,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
                 GameObject.Find("play again button").GetComponent<Image>().enabled = false;
                 GameObject.Find("play again button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                 break;
+            case "QuitButton":
+                quitButtonHovered = true;
+                GameObject.Find("QuitButton").GetComponent<Image>().enabled = false;
+                GameObject.Find("QuitButton").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
+                break;
             default:
                 showBox(other.gameObject.name);
                 break;
@@ -342,6 +353,11 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
                 playAgainButtonHovered = false;
                 GameObject.Find("play again button").GetComponent<Image>().enabled = true;
                 GameObject.Find("play again button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+                break;
+            case "QuitButton":
+                quitButtonHovered = false;
+                GameObject.Find("QuitButton").GetComponent<Image>().enabled = true;
+                GameObject.Find("QuitButton").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
                 break;
             default:
                 hideBox();
