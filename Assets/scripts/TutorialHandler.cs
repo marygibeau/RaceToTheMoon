@@ -20,9 +20,9 @@ public class TutorialHandler : MonoBehaviour
         playTutorial = (PlayerPrefs.GetString("Replay") == "true" ? false : true);
         if (playTutorial)
         {
-            HUD.DimStarBar();
-            HUD.DimScoreAndTimerBox();
-            HUD.DimCalibrationGraphic();
+            HUD.HideStarBar();
+            HUD.HideScoreAndTimerBox();
+            HUD.HideCalibrationGraphic();
         } else {
             timer.StartGame();
         }
@@ -45,14 +45,14 @@ public class TutorialHandler : MonoBehaviour
         {
             case 1: //timer and score
                 HUD.DimTargetStarBox();
-                HUD.UndimScoreAndTimerBox();
+                HUD.ShowScoreAndTimerBox();
                 tutorialStar.SetActive(false);
                 tutorialPanel.GetComponent<TextMeshProUGUI>().text = "You have 2 minutes to find all target stars and increase your score";
                 break;
             case 2: // star bar and calibration graphic
                 HUD.DimScoreAndTimerBox();
-                HUD.UndimStarBar();
-                HUD.UndimCalibrationGraphic();
+                HUD.ShowStarBar();
+                HUD.ShowCalibrationGraphic();
                 buttonText.text = "Press the Button to Start";
                 tutorialPanel.GetComponent<TextMeshProUGUI>().text = "Find enough stars to get into the <#648FFF>blue zone</color> and make it to the moon";
                 tutorialPanel.GetComponent<TextMeshProUGUI>().text += "\n\n";
@@ -60,6 +60,7 @@ public class TutorialHandler : MonoBehaviour
                 break;
             default:
                 // end tutorial
+                HUD.UndimHUD();
                 timer.StartGame();
                 break;
         }

@@ -11,7 +11,10 @@ public class HUDHandler : MonoBehaviour
     private GameObject timerAndScoreBox;
     private GameObject calibrationGraphic;
 
-    private bool targetStarBoxDimmed, starBarDimmed, timerAndScoreBoxDimmed, calibrationGraphicDimmed;
+    private float dimAmt = 3.0f;
+
+    private bool targetStarBoxDimmed, starBarDimmed, timerAndScoreBoxDimmed, calibrationGraphicDimmed,
+                 targetStarBoxHidden, starBarHidden, timerAndScoreBoxHidden, calibrationGraphicHidden;
 
     private void Awake()
     {
@@ -23,6 +26,10 @@ public class HUDHandler : MonoBehaviour
         starBarDimmed = false;
         timerAndScoreBoxDimmed = false;
         calibrationGraphicDimmed = false;
+        targetStarBoxHidden = false;
+        starBarHidden = false;
+        timerAndScoreBoxHidden = false;
+        calibrationGraphicHidden = false;
     }
 
     public void HideHUD()
@@ -56,17 +63,17 @@ public class HUDHandler : MonoBehaviour
                 if (child.gameObject.GetComponent<SpriteRenderer>() != null)
                 {
                     var tempColor = child.gameObject.GetComponent<SpriteRenderer>().color;
-                    tempColor.r = tempColor.r / 2.0f;
-                    tempColor.g = tempColor.g / 2.0f;
-                    tempColor.b = tempColor.b / 2.0f;
+                    tempColor.r = tempColor.r / dimAmt;
+                    tempColor.g = tempColor.g / dimAmt;
+                    tempColor.b = tempColor.b / dimAmt;
                     child.gameObject.GetComponent<SpriteRenderer>().color = tempColor;
                 }
                 else if (child.gameObject.GetComponent<TextMeshProUGUI>() != null)
                 {
                     var tempColor = child.gameObject.GetComponent<TextMeshProUGUI>().color;
-                    tempColor.r = tempColor.r / 2.0f;
-                    tempColor.g = tempColor.g / 2.0f;
-                    tempColor.b = tempColor.b / 2.0f;
+                    tempColor.r = tempColor.r / dimAmt;
+                    tempColor.g = tempColor.g / dimAmt;
+                    tempColor.b = tempColor.b / dimAmt;
                     child.gameObject.GetComponent<TextMeshProUGUI>().color = tempColor;
                 }
             }
@@ -84,21 +91,40 @@ public class HUDHandler : MonoBehaviour
                 if (child.gameObject.GetComponent<SpriteRenderer>() != null)
                 {
                     var tempColor = child.gameObject.GetComponent<SpriteRenderer>().color;
-                    tempColor.r = tempColor.r * 2.0f;
-                    tempColor.g = tempColor.g * 2.0f;
-                    tempColor.b = tempColor.b * 2.0f;
+                    tempColor.r = tempColor.r * dimAmt;
+                    tempColor.g = tempColor.g * dimAmt;
+                    tempColor.b = tempColor.b * dimAmt;
                     child.gameObject.GetComponent<SpriteRenderer>().color = tempColor;
                 }
                 else if (child.gameObject.GetComponent<TextMeshProUGUI>() != null)
                 {
                     var tempColor = child.gameObject.GetComponent<TextMeshProUGUI>().color;
-                    tempColor.r = tempColor.r * 2.0f;
-                    tempColor.g = tempColor.g * 2.0f;
-                    tempColor.b = tempColor.b * 2.0f;
+                    tempColor.r = tempColor.r * dimAmt;
+                    tempColor.g = tempColor.g * dimAmt;
+                    tempColor.b = tempColor.b * dimAmt;
                     child.gameObject.GetComponent<TextMeshProUGUI>().color = tempColor;
                 }
             }
             starBarDimmed = false;
+        }
+    }
+
+
+    public void HideStarBar()
+    {
+        if (!starBarHidden)
+        {
+            starBar.gameObject.SetActive(false);
+            starBarHidden = true;
+        }
+    }
+
+    public void ShowStarBar()
+    {
+        if (starBarHidden)
+        {
+            starBar.gameObject.SetActive(true);
+            starBarHidden = false;
         }
     }
 
@@ -112,25 +138,25 @@ public class HUDHandler : MonoBehaviour
             GameObject timer = timerAndScoreBox.transform.GetChild(1).gameObject;
             // dim score and score title
             var tempColor = score.GetComponent<TextMeshProUGUI>().color; // score text
-            tempColor.r = tempColor.r / 2.0f;
-            tempColor.g = tempColor.g / 2.0f;
-            tempColor.b = tempColor.b / 2.0f;
+            tempColor.r = tempColor.r / dimAmt;
+            tempColor.g = tempColor.g / dimAmt;
+            tempColor.b = tempColor.b / dimAmt;
             score.GetComponent<TextMeshProUGUI>().color = tempColor; // score text
             tempColor = score.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color; // score title
-            tempColor.r = tempColor.r / 2.0f;
-            tempColor.g = tempColor.g / 2.0f;
-            tempColor.b = tempColor.b / 2.0f;
+            tempColor.r = tempColor.r / dimAmt;
+            tempColor.g = tempColor.g / dimAmt;
+            tempColor.b = tempColor.b / dimAmt;
             score.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = tempColor; // score title
                                                                                                       // dim timer and piechart graphics
             tempColor = timer.GetComponent<TextMeshProUGUI>().color; // timer text
-            tempColor.r = tempColor.r / 2.0f;
-            tempColor.g = tempColor.g / 2.0f;
-            tempColor.b = tempColor.b / 2.0f;
+            tempColor.r = tempColor.r / dimAmt;
+            tempColor.g = tempColor.g / dimAmt;
+            tempColor.b = tempColor.b / dimAmt;
             timer.GetComponent<TextMeshProUGUI>().color = tempColor; // timer text
             tempColor = timer.transform.GetChild(0).gameObject.GetComponent<Image>().color; // empty pie
-            tempColor.r = tempColor.r / 2.0f;
-            tempColor.g = tempColor.g / 2.0f;
-            tempColor.b = tempColor.b / 2.0f;
+            tempColor.r = tempColor.r / dimAmt;
+            tempColor.g = tempColor.g / dimAmt;
+            tempColor.b = tempColor.b / dimAmt;
             timer.transform.GetChild(0).gameObject.GetComponent<Image>().color = tempColor; // empty pie
             timer.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Image>().color = tempColor; // full pie
             timerAndScoreBoxDimmed = true;
@@ -147,28 +173,47 @@ public class HUDHandler : MonoBehaviour
             GameObject timer = timerAndScoreBox.transform.GetChild(1).gameObject;
             // dim score and score title
             var tempColor = score.GetComponent<TextMeshProUGUI>().color; // score text
-            tempColor.r = tempColor.r * 2.0f;
-            tempColor.g = tempColor.g * 2.0f;
-            tempColor.b = tempColor.b * 2.0f;
+            tempColor.r = tempColor.r * dimAmt;
+            tempColor.g = tempColor.g * dimAmt;
+            tempColor.b = tempColor.b * dimAmt;
             score.GetComponent<TextMeshProUGUI>().color = tempColor; // score text
             tempColor = score.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color; // score title
-            tempColor.r = tempColor.r * 2.0f;
-            tempColor.g = tempColor.g * 2.0f;
-            tempColor.b = tempColor.b * 2.0f;
+            tempColor.r = tempColor.r * dimAmt;
+            tempColor.g = tempColor.g * dimAmt;
+            tempColor.b = tempColor.b * dimAmt;
             score.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>().color = tempColor; // score title
                                                                                                       // dim timer and piechart graphics
             tempColor = timer.GetComponent<TextMeshProUGUI>().color; // timer text
-            tempColor.r = tempColor.r * 2.0f;
-            tempColor.g = tempColor.g * 2.0f;
-            tempColor.b = tempColor.b * 2.0f;
+            tempColor.r = tempColor.r * dimAmt;
+            tempColor.g = tempColor.g * dimAmt;
+            tempColor.b = tempColor.b * dimAmt;
             timer.GetComponent<TextMeshProUGUI>().color = tempColor; // timer text
             tempColor = timer.transform.GetChild(0).gameObject.GetComponent<Image>().color; // empty pie
-            tempColor.r = tempColor.r * 2.0f;
-            tempColor.g = tempColor.g * 2.0f;
-            tempColor.b = tempColor.b * 2.0f;
+            tempColor.r = tempColor.r * dimAmt;
+            tempColor.g = tempColor.g * dimAmt;
+            tempColor.b = tempColor.b * dimAmt;
             timer.transform.GetChild(0).gameObject.GetComponent<Image>().color = tempColor; // empty pie
             timer.transform.GetChild(0).transform.GetChild(0).gameObject.GetComponent<Image>().color = tempColor; // full pie
             timerAndScoreBoxDimmed = false;
+        }
+    }
+
+
+    public void HideScoreAndTimerBox()
+    {
+        if (!timerAndScoreBoxHidden)
+        {
+            timerAndScoreBox.gameObject.SetActive(false);
+            timerAndScoreBoxHidden = true;
+        }
+    }
+
+    public void ShowScoreAndTimerBox()
+    {
+        if (timerAndScoreBoxHidden)
+        {
+            timerAndScoreBox.gameObject.SetActive(true);
+            timerAndScoreBoxHidden = false;
         }
     }
 
@@ -177,18 +222,18 @@ public class HUDHandler : MonoBehaviour
         if (!targetStarBoxDimmed)
         {
             var tempColor = targetStarBox.GetComponent<SpriteRenderer>().color;
-            tempColor.r = tempColor.r / 2.0f;
-            tempColor.g = tempColor.g / 2.0f;
-            tempColor.b = tempColor.b / 2.0f;
+            tempColor.r = tempColor.r / dimAmt;
+            tempColor.g = tempColor.g / dimAmt;
+            tempColor.b = tempColor.b / dimAmt;
             targetStarBox.GetComponent<SpriteRenderer>().color = tempColor;
             foreach (Transform child in targetStarBox.transform)
             {
                 if (child.gameObject.GetComponent<TextMeshProUGUI>() != null)
                 {
                     tempColor = child.gameObject.GetComponent<TextMeshProUGUI>().color;
-                    tempColor.r = tempColor.r / 2.0f;
-                    tempColor.g = tempColor.g / 2.0f;
-                    tempColor.b = tempColor.b / 2.0f;
+                    tempColor.r = tempColor.r / dimAmt;
+                    tempColor.g = tempColor.g / dimAmt;
+                    tempColor.b = tempColor.b / dimAmt;
                     child.gameObject.GetComponent<TextMeshProUGUI>().color = tempColor;
 
                 }
@@ -202,18 +247,18 @@ public class HUDHandler : MonoBehaviour
         if (targetStarBoxDimmed)
         {
             var tempColor = targetStarBox.GetComponent<SpriteRenderer>().color;
-            tempColor.r = tempColor.r * 2.0f;
-            tempColor.g = tempColor.g * 2.0f;
-            tempColor.b = tempColor.b * 2.0f;
+            tempColor.r = tempColor.r * dimAmt;
+            tempColor.g = tempColor.g * dimAmt;
+            tempColor.b = tempColor.b * dimAmt;
             targetStarBox.GetComponent<SpriteRenderer>().color = tempColor;
             foreach (Transform child in targetStarBox.transform)
             {
                 if (child.gameObject.GetComponent<TextMeshProUGUI>() != null)
                 {
                     tempColor = child.gameObject.GetComponent<TextMeshProUGUI>().color;
-                    tempColor.r = tempColor.r * 2.0f;
-                    tempColor.g = tempColor.g * 2.0f;
-                    tempColor.b = tempColor.b * 2.0f;
+                    tempColor.r = tempColor.r * dimAmt;
+                    tempColor.g = tempColor.g * dimAmt;
+                    tempColor.b = tempColor.b * dimAmt;
                     child.gameObject.GetComponent<TextMeshProUGUI>().color = tempColor;
 
                 }
@@ -223,14 +268,32 @@ public class HUDHandler : MonoBehaviour
 
     }
 
+    public void HideTargetStarBox()
+    {
+        if (!targetStarBoxHidden)
+        {
+            targetStarBox.gameObject.SetActive(false);
+            targetStarBoxHidden = true;
+        }
+    }
+
+    public void ShowTargetStarBox()
+    {
+        if (targetStarBoxHidden)
+        {
+            targetStarBox.gameObject.SetActive(true);
+            targetStarBoxHidden = false;
+        }
+    }
+
     public void DimCalibrationGraphic()
     {
         if (!calibrationGraphicDimmed)
         {
             var tempColor = calibrationGraphic.GetComponent<RawImage>().color;
-            tempColor.r = tempColor.r / 2.0f;
-            tempColor.g = tempColor.g / 2.0f;
-            tempColor.b = tempColor.b / 2.0f;
+            tempColor.r = tempColor.r / dimAmt;
+            tempColor.g = tempColor.g / dimAmt;
+            tempColor.b = tempColor.b / dimAmt;
             calibrationGraphic.GetComponent<RawImage>().color = tempColor;
             calibrationGraphicDimmed = true;
         }
@@ -241,11 +304,29 @@ public class HUDHandler : MonoBehaviour
         if (calibrationGraphicDimmed)
         {
             var tempColor = calibrationGraphic.GetComponent<RawImage>().color;
-            tempColor.r = tempColor.r * 2.0f;
-            tempColor.g = tempColor.g * 2.0f;
-            tempColor.b = tempColor.b * 2.0f;
+            tempColor.r = tempColor.r * dimAmt;
+            tempColor.g = tempColor.g * dimAmt;
+            tempColor.b = tempColor.b * dimAmt;
             calibrationGraphic.GetComponent<RawImage>().color = tempColor;
             calibrationGraphicDimmed = false;
+        }
+    }
+
+    public void HideCalibrationGraphic()
+    {
+        if (!calibrationGraphicHidden)
+        {
+            calibrationGraphic.gameObject.SetActive(false);
+            calibrationGraphicHidden = true;
+        }
+    }
+
+    public void ShowCalibrationGraphic()
+    {
+        if (calibrationGraphicHidden)
+        {
+            calibrationGraphic.gameObject.SetActive(true);
+            calibrationGraphicHidden = false;
         }
     }
 }
