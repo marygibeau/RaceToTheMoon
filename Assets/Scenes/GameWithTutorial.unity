@@ -2344,7 +2344,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 623015925}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: e8da74bc3d8e05a42af5b93e911cd313, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 6dcacbf62cdc3994a91e72eb62cdb204, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -7523,7 +7523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   calibrationVideoPlayer: {fileID: 623015926}
   calibrationClips:
-  - {fileID: 32900000, guid: 78fbfaa5dc3a9e743b83defb85036319, type: 3}
+  - {fileID: 32900000, guid: 6dcacbf62cdc3994a91e72eb62cdb204, type: 3}
   - {fileID: 32900000, guid: 94c18c9fec8b51c4eafde24f6ace5ec6, type: 3}
   - {fileID: 32900000, guid: 355b033cbca1e734fb1a05f83517b0e7, type: 3}
   - {fileID: 32900000, guid: 0586ee3044615bf4d8c606feea3e9a85, type: 3}
