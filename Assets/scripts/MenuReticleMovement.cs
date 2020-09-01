@@ -61,24 +61,28 @@ public class MenuReticleMovement : MonoBehaviour
         {
             button.GetComponent<Image>().enabled = true;
             button.transform.GetChild(0).GetComponent<Image>().enabled = false;
+            button.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(255, 176, 0, 255);
         }
 
         if (!onQuitButton)
         {
             button2.GetComponent<Image>().enabled = true;
             button2.transform.GetChild(0).GetComponent<Image>().enabled = false;
+            button2.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(255, 176, 0, 255);
         }
 
         if (onPlayButton || onRestartButton)
         {
             button.GetComponent<Image>().enabled = false;
             button.transform.GetChild(0).GetComponent<Image>().enabled = true;
+            button.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(100, 143, 255, 255);
         }
 
         if (onQuitButton)
         {
             button2.GetComponent<Image>().enabled = false;
             button2.transform.GetChild(0).GetComponent<Image>().enabled = true;
+            button2.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(100, 143, 255, 255);
         }
 
         float xTranslation = xTranslationRaw;

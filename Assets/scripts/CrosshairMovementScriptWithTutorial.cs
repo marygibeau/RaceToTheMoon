@@ -23,6 +23,9 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // UI variables
     TextMeshProUGUI scoreUI;
     TextMeshProUGUI starText;
+    public GameObject launchButton;
+    public GameObject playAgainButton;
+    public GameObject quitButton;
     // GameObject blackBox;
     GameObject textBox;
     private int currentScore = 0;
@@ -114,7 +117,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         // hide tutorial
         playTutorial = (PlayerPrefs.GetString("Replay") == "true" ? false : true);
         if (!playTutorial)
-        {            
+        {
             tutorial.GetComponent<TutorialHandler>().ReadyGo();
         }
     }
@@ -283,6 +286,46 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
                 scaleChange = -scaleChange;
             }
         }
+
+        if (launchButtonHovered)
+        {
+            launchButton.GetComponent<Image>().enabled = false;
+            launchButton.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
+            launchButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(100, 143, 255, 255);
+        }
+        else
+        {
+            launchButton.GetComponent<Image>().enabled = true;
+            launchButton.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+            launchButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(255, 176, 0, 255);
+        }
+
+        if (playAgainButtonHovered)
+        {
+            playAgainButton.GetComponent<Image>().enabled = false;
+            playAgainButton.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
+            playAgainButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(100, 143, 255, 255);
+        }
+        else
+        {
+            playAgainButton.GetComponent<Image>().enabled = true;
+            playAgainButton.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+            playAgainButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(255, 176, 0, 255);
+
+        }
+
+        if (quitButtonHovered)
+        {
+            quitButton.GetComponent<Image>().enabled = false;
+            quitButton.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
+            quitButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(100, 143, 255, 255);
+        }
+        else
+        {
+            quitButton.GetComponent<Image>().enabled = true;
+            quitButton.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+            quitButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(255, 176, 0, 255);
+        }
     }
 
 
@@ -306,18 +349,12 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
                 break;
             case "launch button": // launch button hover behavior
                 launchButtonHovered = true;
-                GameObject.Find("launch button").GetComponent<Image>().enabled = false;
-                GameObject.Find("launch button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                 break;
             case "play again button":
                 playAgainButtonHovered = true;
-                GameObject.Find("play again button").GetComponent<Image>().enabled = false;
-                GameObject.Find("play again button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                 break;
             case "QuitButton":
                 quitButtonHovered = true;
-                GameObject.Find("QuitButton").GetComponent<Image>().enabled = false;
-                GameObject.Find("QuitButton").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
                 break;
             default:
                 showBox(other.gameObject.name);
@@ -345,18 +382,12 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
                 break;
             case "launch button": // launch button hover behavior
                 launchButtonHovered = false;
-                GameObject.Find("launch button").GetComponent<Image>().enabled = true;
-                GameObject.Find("launch button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
                 break;
             case "play again button":
                 playAgainButtonHovered = false;
-                GameObject.Find("play again button").GetComponent<Image>().enabled = true;
-                GameObject.Find("play again button").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
                 break;
             case "QuitButton":
                 quitButtonHovered = false;
-                GameObject.Find("QuitButton").GetComponent<Image>().enabled = true;
-                GameObject.Find("QuitButton").transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
                 break;
             default:
                 hideBox();
