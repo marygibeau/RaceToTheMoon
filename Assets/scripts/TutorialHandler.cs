@@ -23,7 +23,11 @@ public class TutorialHandler : MonoBehaviour
             HUD.HideStarBar();
             HUD.HideScoreAndTimerBox();
             HUD.HideCalibrationGraphic();
-        } else {
+            // tutorialPanel.GetComponent<Animator>().SetTrigger("State Change");
+            // tutorialPanel.GetComponent<Animation>().Play("Tutorial Text Fade In");
+        }
+        else
+        {
             timer.StartGame();
         }
     }
@@ -47,12 +51,16 @@ public class TutorialHandler : MonoBehaviour
                 HUD.DimTargetStarBox();
                 HUD.ShowScoreAndTimerBox();
                 tutorialStar.SetActive(false);
+                tutorialPanel.GetComponent<Animator>().SetTrigger("State Change");
+                // tutorialPanel.GetComponent<Animation>().Play("Tutorial Text Fade In");
                 tutorialPanel.GetComponent<TextMeshProUGUI>().text = "You have 2 minutes to find all target stars and increase your score";
                 break;
             case 2: // star bar and calibration graphic
                 HUD.DimScoreAndTimerBox();
                 HUD.ShowStarBar();
                 HUD.ShowCalibrationGraphic();
+                tutorialPanel.GetComponent<Animator>().SetTrigger("State Change");
+                // tutorialPanel.GetComponent<Animation>().Play("Tutorial Text Fade In");
                 buttonText.text = "Press the Button to Start";
                 tutorialPanel.GetComponent<TextMeshProUGUI>().text = "Find enough stars to get into the <#648FFF>blue zone</color> and make it to the moon";
                 tutorialPanel.GetComponent<TextMeshProUGUI>().text += "\n\n";
