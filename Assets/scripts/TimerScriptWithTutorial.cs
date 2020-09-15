@@ -10,8 +10,9 @@ public class TimerScriptWithTutorial : MonoBehaviour
     TextMeshProUGUI timerText;
     float originalTimeAmount = 120f;
     float gameTime;
-    Boolean gameStarted = false;
-    Boolean gameOver = false;
+    bool gameStarted = false;
+    bool gameOver = false;
+    bool hasWon = false;
     float timeSinceGameOver;
     public GameObject countdownPanel;
     public GameObject pressButtonObject;
@@ -62,7 +63,7 @@ public class TimerScriptWithTutorial : MonoBehaviour
             Debug.Log("time since game over = " + timeSinceGameOver);
         }
 
-        if (timeSinceGameOver >= 30)
+        if ((!hasWon && timeSinceGameOver >= 30) || (hasWon && timeSinceGameOver >= 60))
         {
             lvlr.LoadLevel("MainMenu");
         }
@@ -107,9 +108,11 @@ public class TimerScriptWithTutorial : MonoBehaviour
         }
     }
 
-    public void stopTimer()
+    public void stopTimer(bool won)
     {
+        Debug.Log("Won = " + won);
         gameOver = true;
+        hasWon = won;
     }
 
     public int GetTimeLeft()
@@ -122,6 +125,5 @@ public class TimerScriptWithTutorial : MonoBehaviour
         // get crosshair to show launch button
         CrosshairMovementScriptWithTutorial crosshair = GameObject.Find("crosshair").GetComponent<CrosshairMovementScriptWithTutorial>();
         crosshair.gameOverActivate();
-        gameOver = true;
     }
 }

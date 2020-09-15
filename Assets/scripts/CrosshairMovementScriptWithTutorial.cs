@@ -221,10 +221,6 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             {
                 lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
             }
-            else
-            {
-                lvlr.LoadLoseWithInfo(getStarsCollectedList());
-            }
         }
 
         if (Input.GetButtonUp("Fire1") && playAgainButtonHovered)
@@ -722,14 +718,14 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             endTutorial();
             ResetHints();
             gameOver = true;
-            timer.stopTimer();
+            timer.stopTimer(true);
             // hide hud
             HUD.GetComponent<HUDHandler>().HideHUD();
             starHandler.HideAllStars();
             GameObject.Find("terminalReticleSimpleGreen").gameObject.SetActive(false);
             hideBox();
             // show launch info
-            launchUI.Play();
+            // launchUI.Play();
             showLaunchInfo();
         }
         else
@@ -738,7 +734,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             endTutorial();
             ResetHints();
             gameOver = true;
-            timer.stopTimer();
+            timer.stopTimer(false);
             // hide and dim UI
             HUD.GetComponent<HUDHandler>().DimHUD();
             starHandler.HideAllStars();
