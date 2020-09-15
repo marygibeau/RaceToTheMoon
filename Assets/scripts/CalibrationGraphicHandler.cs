@@ -5,7 +5,7 @@ using UnityEngine;
 public class CalibrationGraphicHandler : MonoBehaviour
 {
     public UnityEngine.Video.VideoPlayer calibrationVideoPlayer;
-    public UnityEngine.Video.VideoClip[] calibrationClips = new UnityEngine.Video.VideoClip[11];
+    public UnityEngine.Video.VideoClip[] calibrationClips = new UnityEngine.Video.VideoClip[9];
     private int currentClip = 0;
     private bool inTransition = false;
 
