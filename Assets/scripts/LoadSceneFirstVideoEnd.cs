@@ -16,11 +16,11 @@ public class LoadSceneFirstVideoEnd : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonUp("Fire1"))
+        // if (Input.GetButtonUp("Fire1"))
 
-        {
-            lvlr.LoadGameWithTutorial();
-        }
+        // {
+        //     lvlr.LoadGameWithTutorial();
+        // }
     }
     void LoadScene(VideoPlayer vp)
     {

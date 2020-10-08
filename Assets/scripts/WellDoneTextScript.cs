@@ -18,16 +18,16 @@ public class WellDoneTextScript : MonoBehaviour
         int currentScore = PlayerPrefs.GetInt("finalScore");
         if(currentScore < 3000)
         {
-            return "Well Done <#FFB000>Astronaut! </color>" + '\n' + "You Scored";
+            return "Well Done <#FFB000>Cadet! </color>" + '\n' + "You Scored";
         } else if (currentScore >= 3000 && currentScore < 6000)
         {
-            return "Well Done <#FFB000>Master Chief!</color>" + '\n' + "You Scored";
+            return "Well Done <#FFB000>Astronaut!</color>" + '\n' + "You Scored";
         } else if (currentScore >= 6000 && currentScore < 9000)
         {
             return "Well Done <#FFB000>Super Space Trooper!</color>" + '\n' + "You Scored";
         } else if (currentScore >= 9000 && currentScore < 12000)
         {
-            return "Well Done <#FFB000>Ultimate Jedi Master!</color>" + '\n' + "You Scored";
+            return "Well Done <#FFB000>Space Captain!</color>" + '\n' + "You Scored";
         } else
         {
             return "Well Done <#FFB000>Star Commander!</color>" + '\n' + "You Scored";

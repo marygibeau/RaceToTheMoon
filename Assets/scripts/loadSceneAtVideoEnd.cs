@@ -17,10 +17,10 @@ public class LoadSceneAtVideoEnd : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonUp("Fire1"))
-        {
-            lvlr.LoadNextLevel();
-        }
+        // if (Input.GetButtonUp("Fire1"))
+        // {
+        //     lvlr.LoadNextLevel();
+        // }
     }
     void LoadScene(VideoPlayer vp)
     {
