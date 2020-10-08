@@ -5273,7 +5273,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -35, y: -41}
+  m_AnchoredPosition: {x: -37, y: -52.949997}
   m_SizeDelta: {x: 116.6, y: 40.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1261928062
@@ -5294,7 +5294,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: SYSTEM CALIBRATION
+  m_text: GUIDANCE SYSTEM
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b1de3550c1aa91e46a2d76335c62105f, type: 2}
   m_sharedMaterial: {fileID: 7195167389721702486, guid: b1de3550c1aa91e46a2d76335c62105f,
@@ -5340,7 +5340,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 7
+  m_firstOverflowCharacterIndex: 9
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -5364,7 +5364,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1261928062}
-    characterCount: 18
+    characterCount: 15
     spriteCount: 0
     spaceCount: 1
     wordCount: 2
@@ -7698,7 +7698,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -297, y: -151.8}
+  m_AnchoredPosition: {x: -297, y: -148}
   m_SizeDelta: {x: 146.6, y: 146.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2119089752
