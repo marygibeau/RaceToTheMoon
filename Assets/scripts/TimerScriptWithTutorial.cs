@@ -8,7 +8,7 @@ using TMPro;
 public class TimerScriptWithTutorial : MonoBehaviour
 {
     TextMeshProUGUI timerText;
-    float originalTimeAmount = 120f;
+    float originalTimeAmount = 90f;
     float gameTime;
     bool gameStarted = false;
     bool gameOver = false;
