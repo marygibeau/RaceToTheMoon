@@ -712,7 +712,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     // begins end of game sequence
     public void gameOverActivate()
     {
-        if (getStars() >= 4)
+        if (getStars() >= 7) //win scenario
         {
             // end game
             endTutorial();
@@ -728,7 +728,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             // launchUI.Play();
             showLaunchInfo();
         }
-        else
+        else // lose scenario
         {
             // end game
             endTutorial();
