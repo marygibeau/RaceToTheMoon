@@ -5,7 +5,7 @@ using UnityEngine;
 public class CalibrationGraphicHandler : MonoBehaviour
 {
     public UnityEngine.Video.VideoPlayer calibrationVideoPlayer;
-    public UnityEngine.Video.VideoClip[] calibrationClips = new UnityEngine.Video.VideoClip[9];
+    public UnityEngine.Video.VideoClip[] calibrationClips = new UnityEngine.Video.VideoClip[25];
     private int currentClip = 0;
     private bool inTransition = false;
 
@@ -17,7 +17,7 @@ public class CalibrationGraphicHandler : MonoBehaviour
 
     public void UpdateGraphic()
     {
-        if (currentClip < 7)
+        if (currentClip < calibrationClips.Length - 2)
         {
             Debug.Log("UPDATING GRAPHIC TO CLIP #" + (currentClip + 1));
             calibrationVideoPlayer.loopPointReached += StartTransition;
@@ -35,7 +35,7 @@ public class CalibrationGraphicHandler : MonoBehaviour
 
     private void EndTransition(UnityEngine.Video.VideoPlayer vp)
     {
-        Debug.Log("UPDATING GRAPHIC TO CLIP #" + (currentClip + 1));
+        Debug.Log("UPDATED GRAPHIC TO CLIP #" + (currentClip + 1));
         inTransition = (++currentClip) % 2 == 1;
         vp.clip = calibrationClips[currentClip];
         vp.isLooping = true;
