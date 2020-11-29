@@ -12,7 +12,7 @@ public class MenuReticleMovement : MonoBehaviour
     private bool downBoundary = false;
     private bool leftBoundary = false;
     private bool rightBoundary = false;
-    private bool hasMoved = false;
+    private float timeSinceLastMove = 0.0f;
     private bool onPlayButton = false;
     private bool onRestartButton = false;
     private bool onQuitButton = false;
@@ -21,9 +21,9 @@ public class MenuReticleMovement : MonoBehaviour
     TextMeshProUGUI starText;
     GameObject blackBox;
     GameObject textBox;
-    string PlayButtonHint = "Press Enter to Play!";
+    string PlayButtonHint = "Press Joystick Button to Play";
     string RestartButtonHint = "Press Enter to Restart the Game";
-    string initialHint = "Use WASD or Arrow Keys to Move";
+    string moveHint = "Use Joystick to Move";
     public GameObject button;
     public GameObject button2;
 
@@ -40,9 +40,8 @@ public class MenuReticleMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        blackBox = this.transform.GetChild(0).gameObject;
-        starText = this.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>();
-        textBox = this.transform.GetChild(2).gameObject;
+        starText = this.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+        textBox = this.transform.GetChild(1).gameObject;
         // videoPlayer.SetActive(false);
         //selectionSound = gameObject.GetComponents<AudioSource>()[1];
         //hintSound = gameObject.GetComponents<AudioSource>()[0];
@@ -105,7 +104,29 @@ public class MenuReticleMovement : MonoBehaviour
             yTranslation = 0;
         }
 
-        this.transform.Translate(xTranslation, yTranslation, 0);
+        if (xTranslation == 0 && yTranslation == 0)
+        {
+            timeSinceLastMove += Time.deltaTime;
+        }
+        else
+        {
+            this.transform.Translate(xTranslation, yTranslation, 0);
+            timeSinceLastMove = 0.0f;
+            hideBox();
+        }
+
+        if (timeSinceLastMove >= 6)
+        {
+            if (onPlayButton)
+            {
+                showBox(PlayButtonHint);
+            }
+            else
+            {
+                showBox(moveHint);
+            }
+        }
+
 
         if (Input.GetButtonUp("Fire1") && onPlayButton)
         {
@@ -191,7 +212,7 @@ public class MenuReticleMovement : MonoBehaviour
         if (star != "Main Camera")
         {
             textBox.gameObject.SetActive(true);
-            blackBox.gameObject.SetActive(true);
+            // blackBox.gameObject.SetActive(true);
             starText.text = star;
         }
     }
@@ -199,7 +220,7 @@ public class MenuReticleMovement : MonoBehaviour
     public void hideBox()
     {
         textBox.gameObject.SetActive(false);
-        blackBox.gameObject.SetActive(false);
+        // blackBox.gameObject.SetActive(false);
         starText.text = "";
     }
 
