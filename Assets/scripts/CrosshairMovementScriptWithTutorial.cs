@@ -215,13 +215,13 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
         }
 
         // save score and load next screen when launch button pressed at end of game
-        if (Input.GetButtonUp("Fire1") && launchButtonHovered)
-        {
-            if (getStars() >= 3)
-            {
-                lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
-            }
-        }
+        // if (Input.GetButtonUp("Fire1") && launchButtonHovered)
+        // {
+        //     if (getStars() >= 3)
+        //     {
+        //         lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
+        //     }
+        // }
 
         if (Input.GetButtonUp("Fire1") && playAgainButtonHovered)
         {
@@ -689,6 +689,7 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
     public void showLaunchInfo()
     {
         launchObject.gameObject.SetActive(true);
+        launchObject.transform.GetChild(0).gameObject.GetComponent<Animator>().SetTrigger("PlayAnimation");
         backrgoundUIVideo.clip = (VideoClip)Resources.Load("RTTM_Overlay_Go");
         backgroundUIImage.gameObject.SetActive(true);
     }
@@ -743,6 +744,10 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             // show lose info
             showLoseInfo();
         }
+    }
+
+    public void Launch() {
+        lvlr.LoadNextLevelWithFinalInfo(currentScore, getStarsCollectedList(), timer.GetTimeLeft());
     }
 
     // setter for can move
