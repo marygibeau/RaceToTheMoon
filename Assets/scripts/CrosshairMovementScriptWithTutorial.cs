@@ -283,19 +283,6 @@ public class CrosshairMovementScriptWithTutorial : MonoBehaviour
             }
         }
 
-        if (launchButtonHovered)
-        {
-            launchButton.GetComponent<Image>().enabled = false;
-            launchButton.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = true;
-            launchButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(100, 143, 255, 255);
-        }
-        else
-        {
-            launchButton.GetComponent<Image>().enabled = true;
-            launchButton.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
-            launchButton.transform.GetChild(1).GetComponent<TextMeshProUGUI>().color = new Color32(255, 176, 0, 255);
-        }
-
         if (playAgainButtonHovered)
         {
             playAgainButton.GetComponent<Image>().enabled = false;
